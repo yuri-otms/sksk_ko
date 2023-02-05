@@ -22,16 +22,17 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                   <a class="nav-link" href="{{url_for('pg.about')}}">ABOUT</a>
-              </ul>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="{{url_for('pg.howto')}}">使い方</a>
-            </ul>
-
-            <ul class="navbar-nav ms-auto">
+                </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('pg.howto')}}">ログイン</a>
-              </ul>
+                <a class="nav-link" href="{{url_for('pg.howto')}}">使い方</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('auth.signup')}}">ユーザー登録</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('auth.signup')}}">ログイン</a>
+                </li>
+            </ul>
           </div>
         </div>
     </nav>
