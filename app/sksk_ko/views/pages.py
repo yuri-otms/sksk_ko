@@ -1,12 +1,13 @@
 from flask import Blueprint, redirect, url_for, render_template
-from sksk_ko import app
+from sksk_ko.models.questions import Grade
 
 pg = Blueprint('pg', __name__)
 
 
 @pg.route('/')
 def toppage():
-    return render_template("index.html")
+    grades = Grade.query.order_by(Grade.id.asc()).all()
+    return render_template("index.html", grades=grades)
 
 @pg.route('/howto')
 def howto():
