@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, flash, url_for, redirect
-from sksk_ko import app
 from datetime import datetime
-from sksk_ko import db
-from sksk_ko.models.questions import User
+from sksk_app import db
+from sksk_app.models.questions import User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth', __name__)
@@ -14,8 +13,8 @@ def signup():
 
 @auth.route('/signup', methods=['post'])
 def signup_post():
-    name = request.form['email']
-    email = request.form['name']
+    name = request.form['name']
+    email = request.form['email']
     password = request.form['password']
     regiestered_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -34,6 +33,9 @@ def signup_post():
     
     db.session.add(new_user)
     db.session.commit()
+
+
+    flash('ユーザー登録を行いました。')
 
     return redirect(url_for('auth.login'))
 

@@ -8,9 +8,9 @@ FROM python:alpine
 
 # CMD ["python", "index.py"]
 
-WORKDIR /sksk_ko
+WORKDIR /sksk
 
-COPY ./sksk_ko /sksk_ko/
+COPY ./sksk /sksk/
 
 RUN pip install Flask
 
