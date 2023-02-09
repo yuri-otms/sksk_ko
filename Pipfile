@@ -8,6 +8,8 @@ flask = "*"
 mysql-connector-python = "*"
 flask-sqlalchemy = "*"
 flask-login = "*"
+pytest = "*"
+coverage = "*"
 
 [dev-packages]
 

@@ -1,4 +1,4 @@
-from sksk_ko import db
+from sksk_app import db
 from flask_login import UserMixin
 
 class Grade(db.Model):
@@ -25,10 +25,11 @@ class User(UserMixin, db.Model):
     edit = db.Column(db.Integer, nullable=False,default=0)
     check = db.Column(db.Integer, nullable=False,default=0)
     approve = db.Column(db.Integer, nullable=False,default=0)
+    admin = db.Column(db.Integer, nullable=False,default=0)
     registered_at = db.Column(db.DateTime, nullable=False)
 
 
-    def __init__(self, name=None, email=None, password=None, target_grade=None, edit=None, check=None, approve=None, registered_at=None):
+    def __init__(self, name=None, email=None, password=None, target_grade=None, edit=None, check=None, approve=None, admin=None, registered_at=None):
         self.name = name
         self.email = email
         self.password = password
@@ -36,7 +37,8 @@ class User(UserMixin, db.Model):
         self.edit = edit
         self.check = check
         self.approve = approve
+        self.admin = admin
         self.registered_at = registered_at
     
     def __repr__(self):
-        return '<User id:{} name:{} password:{}>'.format(self.id, self.name, self.email, self.password, self.target_grade, self.edit, self.check, self.approve, self.registered_at)
+        return '<User id:{} name:{} password:{}>'.format(self.id, self.name, self.email, self.password, self.target_grade, self.edit, self.check, self.approve, self.admin, self.registered_at)
