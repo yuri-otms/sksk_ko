@@ -8,7 +8,7 @@ SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://{user}:{password}@{host}:23306
     'db_name': 'sksk_ko'
 })
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-SQLALCHEMY_ECHO = True
+# SQLALCHEMY_ECHO = True
 
 SECRET_KEY = 'e3f5564f36d0600cc0052d36349bc341e3759c1ed160dc2b59cd4ce8aa0e3d0d'
 
