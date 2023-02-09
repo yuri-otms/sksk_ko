@@ -11,6 +11,7 @@ def signup():
     page_title = 'ユーザー登録'
     return render_template('auth/signup.html', page_title=page_title)
 
+# RPGデータ登録
 @auth.route('/signup', methods=['post'])
 def signup_post():
     name = request.form['name']
@@ -34,10 +35,16 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
 
+    return redirect(url_for('auth.signup_done'))
+
+# RPG画面表示
+@auth.route("/signup_done")
+def signup_done():
 
     flash('ユーザー登録を行いました。')
 
     return redirect(url_for('auth.login'))
+
 
 @auth.route('/login', methods=['GET','POST'])
 def login():
