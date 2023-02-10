@@ -17,7 +17,7 @@ def load_logged_in_user():
     else:
         user = db.session.get(User, user_id)
         user_list = {
-            'email':user.id,
+            'email':user.email,
             'name':user.name,
             'password':user.password
         }
