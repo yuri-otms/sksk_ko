@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, flash, url_for, redirect,session, g
+from flask import Blueprint, render_template, request, \
+    flash, url_for, redirect,session, g
 from flask_login import login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -8,20 +9,20 @@ from sksk_app.models.questions import User
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-@auth.before_app_request
-def load_logged_in_user():
-    user_id = session.get('user_id')
+# @auth.before_app_request
+# def load_logged_in_user():
+#     user_id = session.get('user_id')
 
-    if user_id is None:
-        g.user = None
-    else:
-        user = db.session.get(User, user_id)
-        user_list = {
-            'email':user.email,
-            'name':user.name,
-            'password':user.password
-        }
-        g.user = user_list
+#     if user_id is None:
+#         g.user = None
+#     else:
+#         user = db.session.get(User, user_id)
+#         user_list = {
+#             'email':user.email,
+#             'name':user.name,
+#             'password':user.password
+#         }
+#         g.user = user_list
 
 @auth.route('/signup')
 def signup():

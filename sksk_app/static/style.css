@@ -26,6 +26,9 @@ table {
     color:#ffffff !important;
     background-color: var(--dark);
 }
+.nav-item {
+    color:#FFFFFF;
+}
 
 .btn {
     padding:14px 18px;
