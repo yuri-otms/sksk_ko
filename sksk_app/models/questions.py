@@ -59,16 +59,18 @@ class Level(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     level = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(100))
+    position = db.Column(db.Integer)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, level=None, description=None, released=None):
+    def __init__(self, level=None, description=None, position=None, released=None):
         self.level = level
         self.description = description
+        self.position = position
         self.released = released
     
     def __repr__(self):
-        return '<level id:{} level:{} description:{} released:{}>'.format(self.id, self.level, self.description, self.released)
+        return '<level id:{} level:{} description:{} posision:{} released:{}>'.format(self.id, self.level, self.description, self.position, self.released)
 
 class E_Group(db.Model):
     __tablename__ = 'e_group'
@@ -76,16 +78,18 @@ class E_Group(db.Model):
     level = db.Column(db.Integer, db.ForeignKey('level.id'))
     e_group = db.Column(db.String(100))
     description = db.Column(db.String(100))
+    position = db.Column(db.Integer)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
-    def __init__(self, level=None, e_group=None, description=None, released=None):
+    def __init__(self, level=None, e_group=None, description=None, position=None,released=None):
         self.level = level
         self.e_group = e_group
         self.description = description
+        self.position = position
         self.released = released
     
     def __repr__(self):
-        return '<Group id:{} level:{} e_group:{} description:{} released:{}>'.format(self.id, self.level, self.e_group, self.description, self.released)
+        return '<Group id:{} level:{} e_group:{} description:{} position:{} released:{}>'.format(self.id, self.level, self.e_group, self.description, self.position, self.released)
 
 class Element(db.Model):
     __tablename__ = 'element'
@@ -94,18 +98,20 @@ class Element(db.Model):
     no = db.Column(db.Integer, unique=True)
     element = db.Column(db.String(40))
     description = db.Column(db.String(100))
+    position = db.Column(db.Integer)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, e_group=None, no=None,element=None, description=None, released=None):
+    def __init__(self, e_group=None, no=None,element=None, description=None, position=None, released=None):
         self.e_group = e_group
         self.no = no
         self.element = element
         self.description = description
+        self.position = position
         self.released = released
     
     def __repr__(self):
-        return '<Element id:{} group:{} no:{} element:{} description:{} released:{}>'.format(self.id, self.level, self.group, self.no,  self.element, self.description, self.released)
+        return '<Element id:{} group:{} no:{} element:{} description:{} position:{} released:{}>'.format(self.id, self.level, self.group, self.no,  self.element, self.description, self.position, self.released)
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -114,18 +120,20 @@ class Question(db.Model):
     japanese = db.Column(db.String(100))
     foreign_l = db.Column(db.String(100))
     style = db.Column(db.Integer, db.ForeignKey('style.id'))
+    position = db.Column(db.Integer)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, element=None, japanese=None,foreign_l=None, style=None, released=None):
+    def __init__(self, element=None, japanese=None,foreign_l=None, style=None, position=None, released=None):
         self.element = element
         self.japanese = japanese
         self.foreign_l = foreign_l
         self.style = style
+        self.position = position
         self.released = released
     
     def __repr__(self):
-        return '<Element id:{} element:{} japanese:{} foreign:{} style:{} released:{}>'.format(self.id, self.element, self.japanese, self.foreign_l, self.style, self.released)
+        return '<Element id:{} element:{} japanese:{} foreign:{} style:{} position:{} released:{}>'.format(self.id, self.element, self.japanese, self.foreign_l, self.style, self.position, self.released)
 
 
 class Word(db.Model):

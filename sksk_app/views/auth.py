@@ -6,6 +6,7 @@ from datetime import datetime
 
 from sksk_app import db
 from sksk_app.models.questions import User
+from sksk_app.utils.auth import ManageUser
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -43,15 +44,17 @@ def signup_post():
         flash('メールアドレスが既に登録されています。')
         return redirect(url_for('auth.signup'))
 
-    new_user = User(
-        name = name,
-        email = email,
-        password = generate_password_hash(password, method='sha256'),
-        registered_at = regiestered_at      
-        )
+    ManageUser.register_user(name, email, password)
+
+    # new_user = User(
+    #     name = name,
+    #     email = email,
+    #     password = generate_password_hash(password, method='sha256'),
+    #     registered_at = regiestered_at      
+    #     )
     
-    db.session.add(new_user)
-    db.session.commit()
+    # db.session.add(new_user)
+    # db.session.commit()
 
     return redirect(url_for('auth.signup_done'))
 
@@ -80,6 +83,7 @@ def login():
         login_user(user)
         session['user_id'] = user.id
         session['user_name'] = user.name
+        session['edit'] = user.edit
         return redirect(url_for('pg.toppage'))
 
     page_title = 'ログイン'
