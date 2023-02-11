@@ -1,3 +1,5 @@
+from sqlalchemy import ColumnDefault
+
 from sksk_app import db
 from flask_login import UserMixin
 
@@ -8,14 +10,16 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     target_level = db.Column(db.Integer, db.ForeignKey('level.id'), nullable=False, default=1)
-    edit = db.Column(db.Boolean, nullable=False,default=0)
-    check = db.Column(db.Boolean, nullable=False,default=0)
-    approve = db.Column(db.Boolean, nullable=False,default=0)
-    admin = db.Column(db.Boolean, nullable=False,default=0)
-    registered_at = db.Column(db.DateTime, nullable=False)
+    edit = db.Column(db.Boolean, nullable=False, default=False)
+    check = db.Column(db.Boolean, nullable=False, default=False)
+    approve = db.Column(db.Boolean, nullable=False, default=False)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
+    registered_at = db.Column(db.DateTime, nullable=False, default=False)
 
 
-    def __init__(self, name=None, email=None, password=None, target_level=None, edit=None, check=None, approve=None, admin=None, registered_at=None):
+    def __init__(self, name=None, email=None, password=None,
+        target_level=None, edit=None, check=None, approve=None,
+        admin=None, registered_at=None):
         self.name = name
         self.email = email
         self.password = password

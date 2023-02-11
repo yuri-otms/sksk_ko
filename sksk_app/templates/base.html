@@ -20,6 +20,12 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                {% if not current_user.is_authenticated %}
+                {%else%}
+                <li class="nav-item">
+                <span class="nav-link">{{session["user_name"]}}さん</span>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                   <a class="nav-link" href="{{url_for('pg.about')}}">ABOUT</a>
                 </li>
@@ -32,12 +38,12 @@
                 <a class="nav-link" href="{{url_for('auth.login')}}">ログイン</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="{{url_for('auth.signup')}}">ユーザー登録</a>
+                    <a class="nav-link" href="{{url_for('auth.signup')}}">ユーザー登録</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('auth.logout')}}">ログアウト</a>
-                    </li>
+                </li>
                 {% endif %}
 
 
