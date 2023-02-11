@@ -57,4 +57,26 @@ def init():
     
     db.session.add(new_user)
     db.session.commit()
+
+    db.session.add(new_user)
+    db.session.commit()
+    
+    name = 'testE'
+    email = 'testE@test.com'
+    password = '1234'
+    edit = 1
+    regiestered_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    new_user = User(
+    name = name,
+    email = email,
+    password = generate_password_hash(password, method='sha256'),
+    edit = edit,
+    registered_at = regiestered_at      
+    )
+    
+    db.session.add(new_user)
+    db.session.commit()
+
+
     print("Insert User Data ")

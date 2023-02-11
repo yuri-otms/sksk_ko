@@ -1,0 +1,53 @@
+{%extends "base.html" %}
+{% block body %}
+
+<!-- edit_toppage -->
+
+<p><a href="{{url_for('edit.index')}}">編集トップページ</a></p>
+
+<h2>レベル</h2>
+
+<table>
+    <tr>
+        <th>レベル</th>
+        <th>説明</th>
+        <th>項番</th>
+        <th>編集</th>
+    </tr>
+    {% for level in levels %}
+    <tr>
+        <td>{{level.level}}</td>
+        <td>{{level.description}}</td>
+        <td>{{level.position}}</td>
+        <td>編集</td>
+        
+    </tr>
+    {% endfor %}
+    <tr>
+        <form action="{{url_for('edit.add_level')}}" method="post">
+            <td>
+            <input type="text" name="level_name">
+            </td>
+            <td>
+            <input type="text" name="level_desc">
+            </td>
+            <td></td>
+            <td>
+            <button type="submit">追加</button>
+            </td>
+        </form>
+    </tr>
+</table>
+
+<h2>項目グループ</h2>
+
+
+
+<h2>項目</h2>
+
+
+
+<p><a href="{{url_for('edit.index')}}">編集トップページ</a></p>
+
+
+{%endblock%}
