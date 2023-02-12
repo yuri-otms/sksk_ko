@@ -1,7 +1,27 @@
-from sqlalchemy import ColumnDefault
+from sqlalchemy import Column, Integer, String, Boolean
+# from sksk_app.database import Base
+from flask_login import UserMixin
+from flask import current_app
 
 from sksk_app import db
-from flask_login import UserMixin
+
+# class Level(Base):
+#     __tablename__ = 'level'
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     level = Column(String(30), unique=True)
+#     description = Column(String(100))
+#     position = Column(Integer)
+#     released = Column(Boolean, nullable=False,default=0)
+
+
+#     def __init__(self, level=None, description=None, position=None, released=None):
+#         self.level = level
+#         self.description = description
+#         self.position = position
+#         self.released = released
+    
+#     def __repr__(self):
+#         return '<level id:{} level:{} description:{} posision:{} released:{}>'.format(self.id, self.level, self.description, self.position, self.released)
 
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
@@ -59,7 +79,7 @@ class Level(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     level = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(100))
-    position = db.Column(db.Integer)
+    position = db.Column(db.Integer, default=1)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
@@ -78,7 +98,7 @@ class E_Group(db.Model):
     level = db.Column(db.Integer, db.ForeignKey('level.id'))
     e_group = db.Column(db.String(100))
     description = db.Column(db.String(100))
-    position = db.Column(db.Integer)
+    position = db.Column(db.Integer, default=1)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
     def __init__(self, level=None, e_group=None, description=None, position=None,released=None):
@@ -98,7 +118,7 @@ class Element(db.Model):
     no = db.Column(db.Integer, unique=True)
     element = db.Column(db.String(40))
     description = db.Column(db.String(100))
-    position = db.Column(db.Integer)
+    position = db.Column(db.Integer, default=1)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
@@ -120,7 +140,7 @@ class Question(db.Model):
     japanese = db.Column(db.String(100))
     foreign_l = db.Column(db.String(100))
     style = db.Column(db.Integer, db.ForeignKey('style.id'))
-    position = db.Column(db.Integer)
+    position = db.Column(db.Integer, default=1)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 

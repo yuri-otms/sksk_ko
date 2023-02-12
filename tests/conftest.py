@@ -1,19 +1,19 @@
 import pytest
+
+from flask import Flask
+
+import sksk_app 
 from sksk_app import create_app, db
-from sksk_app.models.questions import User, Level
+from sksk_app.models import User, Level
 from sksk_app.utils.auth import ManageUser
+from sksk_app.utils.questions import QuestionManager
 
 @pytest.fixture()
 def app():
-    # database_uri = 'sqlite://'
-    database_uri = 'mysql+mysqlconnector://{user}:{password}@{host}:23306/{db_name}?charset=utf8'.format(**{
-    'user': 'sksk_ko_test',
-    'password': 'teks3A2v',
-    'host': '127.0.0.1',
-    'db_name': 'sksk_ko_test'
+    app = create_app({
+        'TESTING': True
     })
-    app = create_app(database_uri)
-    app.config['TESTING'] = True
+
 
     with app.app_context():
         db.create_all()
@@ -36,9 +36,8 @@ def app():
             email = 'test@test.com'
             password = '1234'
             ManageUser.register_user(name, email, password)
-
-
-
+        
+        db.session.begin_nested()
 
     yield app
 
@@ -62,3 +61,16 @@ class AuthActions(object):
 @pytest.fixture
 def auth(client):
     return AuthActions(client)
+
+@pytest.fixture(scope='function', autouse=True)
+def session(app):
+    yield 
+    with app.app_context():
+        db.session.rollback()
+
+@pytest.fixture(scope='function', autouse=True)
+def scope_function(app):
+    yield 
+    with app.app_context():
+        QuestionManager.delete_testing_levels()
+

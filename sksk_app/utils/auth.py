@@ -5,7 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
 from sksk_app import db
-from sksk_app.models.questions import User
+from sksk_app.models import User
+
 
 class ManageUser:
 
