@@ -5,12 +5,12 @@ def test_signup_post(client, app):
     assert client.get('/auth/signup').status_code == 200
     
     response = client.post(
-        '/auth/signup', data={'name':'testA','email': 'testA@test.com', 'password': '1234'}
+        '/auth/signup', data={'name':'test','email': 'test@test.com', 'password': '1234'}
     )
     assert response.headers["Location"] == "/auth/signup"
 
     with app.app_context():
-        user = User.query.filter_by(email='testA@test.com').first()
+        user = User.query.filter_by(email='test@test.com').first()
         assert user is not None
 
 def test_login(client, auth):

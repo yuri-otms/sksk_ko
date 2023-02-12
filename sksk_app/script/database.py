@@ -7,6 +7,7 @@ from datetime import datetime
 from sksk_app import db
 from sksk_app.models import User, Level
 from sksk_app.utils.questions import QuestionManager
+from sksk_app.utils.auth import UserManager
 
 app = Flask(__name__)
 
@@ -35,38 +36,13 @@ def init():
     name = 'test'
     email = 'test@test.com'
     password = '1234'
-    regiestered_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    new_user = User(
-    name = name,
-    email = email,
-    password = generate_password_hash(password, method='sha256'),
-    registered_at = regiestered_at      
-    )
-    
-    db.session.add(new_user)
-    db.session.commit()
+    UserManager.register_user(name, email, password)
 
-    db.session.add(new_user)
-    db.session.commit()
-    
     name = 'testE'
     email = 'testE@test.com'
     password = '1234'
     edit = 1
-    regiestered_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    new_user = User(
-    name = name,
-    email = email,
-    password = generate_password_hash(password, method='sha256'),
-    edit = edit,
-    registered_at = regiestered_at      
-    )
-    
-    db.session.add(new_user)
-    db.session.commit()
-
+    UserManager.register_user(name, email, password)
 
     print("Insert User Data ")
 

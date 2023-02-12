@@ -2,8 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
-# from sksk_app.utils.tests import SQLAlchemyWithOption, TestSession
-
 db = SQLAlchemy()
 
 def create_app(test_config=None):

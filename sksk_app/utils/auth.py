@@ -8,10 +8,10 @@ from sksk_app import db
 from sksk_app.models import User
 
 
-class ManageUser:
+class UserManager:
 
     def register_user(name, email, password):
-        regiestered_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        regiestered_at = datetime.now()
 
         new_user = User(
             name = name,
@@ -23,6 +23,13 @@ class ManageUser:
         db.session.add(new_user)
         db.session.commit()
 
+    def add_user_edit(id):
+
+        user = db.session.get(User, id)
+        user.edit = True
+
+        db.session.merge(user)
+        db.session.commit()
 
 
 

@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
 from sksk_app.models import db, User
-from sksk_app.utils.auth import ManageUser
+from sksk_app.utils.auth import UserManager
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
