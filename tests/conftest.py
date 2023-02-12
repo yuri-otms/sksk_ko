@@ -1,11 +1,8 @@
 import pytest
 
-from flask import Flask
-
-import sksk_app 
 from sksk_app import create_app, db
 from sksk_app.models import User, Level
-from sksk_app.utils.auth import ManageUser
+from sksk_app.utils.auth import UserManager
 from sksk_app.utils.questions import QuestionManager
 
 @pytest.fixture()
@@ -30,12 +27,12 @@ def app():
             
             db.session.add(new_level)
             db.session.commit()
-        test_user = db.session.query(User).filter(User.email=='test@test.com').first()
-        if not test_user:
-            name = 'test'
-            email = 'test@test.com'
-            password = '1234'
-            ManageUser.register_user(name, email, password)
+
+        name = 'test'
+        email = 'test@test.com'
+        password = '1234'
+        UserManager.register_user(name, email, password)
+        UserManager.add_user_edit(1)
         
         db.session.begin_nested()
 
