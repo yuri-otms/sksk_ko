@@ -1,12 +1,11 @@
 from flask import Blueprint, redirect, url_for, render_template
-from sksk_app.models.questions import Level
+from sksk_app.models import Level
 
 pg = Blueprint('pg', __name__)
 
 @pg.route('/')
 def toppage():
-    level = Level.query.order_by(Level.id.asc()).first()
-    return render_template("index.html", level = level)
+    return render_template("index.html")
 
 @pg.route('/howto')
 def howto():

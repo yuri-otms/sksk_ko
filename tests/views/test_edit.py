@@ -1,8 +1,7 @@
 from flask import session
 from sqlalchemy import func
 
-from sksk_app import db
-from sksk_app.models.questions import Level
+from sksk_app.models import db,Level
 
 def test_show(client, app):
     response = client.get('/edit/show')

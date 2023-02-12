@@ -1,6 +1,5 @@
 from flask import session
-from sksk_app import db
-from sksk_app.models.questions import User, Level
+from sksk_app.models import db, User, Level
 
 def test_signup_post(client, app):
     assert client.get('/auth/signup').status_code == 200

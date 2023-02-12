@@ -1,15 +1,17 @@
 # from flask.cli import with_appcontext
-from flask import current_app, Flask
+from flask import Flask
 from flask import Blueprint
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 
 from sksk_app import db
-from sksk_app.models.questions import User, Level
+from sksk_app.models import User, Level
+from sksk_app.utils.questions import QuestionManager
 
 app = Flask(__name__)
 
 qtdb = Blueprint('create', __name__)
+
 
 # コマンド機能の作成
 @qtdb.cli.command('all')
@@ -18,19 +20,6 @@ def create():
     print("Create All Tables ")
 
 app.cli.add_command(create)
-
-@qtdb.cli.command('level')
-def create():
-    level = 'ハン検5級'
-    
-    new_user = Level(
-    level = level
-    )
-    
-    db.session.add(new_user)
-    db.session.commit()
-    print("Insert User Data ")
-
 
 @qtdb.cli.command('init')
 def init():
@@ -80,3 +69,9 @@ def init():
 
 
     print("Insert User Data ")
+
+@qtdb.cli.command('delete_level')
+def delete_level():
+    QuestionManager.delete_testing_levels()
+
+    print("Delete Levels")

@@ -1,5 +1,6 @@
 .DS_Store
 .vscode
 .pytest_cache
-app/sksk_ko/config.py
+sksk_app/test_config.py
+sksk_app/config.py
 __pycache__/

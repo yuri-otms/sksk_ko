@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, request, \
-    flash, url_for, redirect,session, g
+    flash, url_for, redirect,session
 from flask_login import login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
-from sksk_app import db
-from sksk_app.models.questions import User
+from sksk_app.models import db, User
 from sksk_app.utils.auth import ManageUser
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')

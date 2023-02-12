@@ -3,7 +3,7 @@ from flask import Blueprint, redirect, url_for, render_template, request, \
 from sqlalchemy import func
 
 from sksk_app import db
-from sksk_app.models.questions import Level
+from sksk_app.models import Level
 
 edit = Blueprint('edit', __name__, url_prefix='/edit')
 
