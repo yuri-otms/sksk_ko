@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block body %}
 
-<h2>ユーザー編集</h2>
+<h2>ユーザーの編集</h2>
 
+<p>以下のユーザーを編集します。</p>
+
+
+<form action="{{url_for('admin.edit_user_check')}}" method="POST">
 <table>
     <tr>
         <th>id</th>
@@ -13,45 +17,66 @@
         <th>承認</th>
         <th>管理</th>
     </tr>
-    {% for user in users %}
     <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
         <td>
-            {% if user.admin %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id =1)}}">○</a>
-            {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id =1)}}">×</a>
-            {% endif %}
+            <input type="hidden" name="id" value="{{user.id}}">{{ user.id }}
         </td>
         <td>
+            <input type="text" name="name" value="{{ user.name }}">
+        </td>
+        <td>
+            <input type="text" name="email" value="{{ user.email }}">
+        </td>
+        <td>
+            <select name="edit">
+            {% if user.edit %}
+                <option value="1" selected>○</option>
+                <option value="0">×</option>
+            {% else %}
+                <option value="0" selected>×</option>
+                <option value="1">○</option>
+            {% endif %}
+            </select>
+        </td>
+        <td>
+            <select name="check">
             {% if user.check %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=2)}}">○</a>
+                <option value="1" selected>○</option>
+                <option value="0">×</option>
             {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=2)}}">×</a>
+                <option value="0" selected>×</option>
+                <option value="1">○</option>
             {% endif %}
+            </select>
         </td>
         <td>
+            <select name="approve">
             {% if user.approve %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=3)}}">○</a>
+                <option value="1" selected>○</option>
+                <option value="0">×</option>
             {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=3)}}">×</a>
+                <option value="0" selected>×</option>
+                <option value="1">○</option>
             {% endif %}
+            </select>
         </td>
         <td>
-            {% if user.admin %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=4)}}">○</a>
+            <select name="admin">
+            {% if user.admin %}  
+                <option value="1" selected>○</option>
+                <option value="0">×</option>
             {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=4)}}">×</a>
+                <option value="0" selected>×</option>
+                <option value="1">○</option>
             {% endif %}
+            </select>
         </td>
     </tr>
-    {% endfor %}
 </table>
+<button>確認</button>
+<button type="button" onclick="history.back()">戻る</button>
+</form>
 
-<h3></h3>
-
-<p><a href="{{url_for('admin.index')}}">管理画面</a></p>
+<p><a href="{{url_for('admin.show_user')}}">ユーザー編集</a></p>
 
 {%endblock%}

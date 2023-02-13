@@ -35,10 +35,8 @@ def signup_post():
     name = request.form['name']
     email = request.form['email']
     password = request.form['password']
-    regiestered_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     user = User.query.filter_by(email=email).first()
-
     if user:
         flash('メールアドレスが既に登録されています。')
         return redirect(url_for('auth.signup'))

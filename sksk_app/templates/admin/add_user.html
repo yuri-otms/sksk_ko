@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>ユーザーの追加</h2>
+
+<p>以下のユーザーを追加してよろしいですか？</p>
+
+<table>
+    <tr>
+        <th>ユーザー名</th>
+        <th>Email</th>
+        <th>編集</th>
+        <th>確認</th>
+        <th>承認</th>
+        <th>管理</th>
+    </tr>
+    <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+            {% if user.edit %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.check %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.approve %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.admin %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<form action="{{url_for('admin.add_user_execute')}}" method="post">
+    <input type="hidden" name="name" value="{{user.name}}">
+    <input type="hidden" name="email" value="{{user.email}}">
+    <input type="hidden" name="password" value="{{user.password}}">
+    <input type="hidden" name="edit" value="{{user.edit}}">
+    <input type="hidden" name="check" value="{{user.check}}">
+    <input type="hidden" name="approve" value="{{user.approve}}">
+    <input type="hidden" name="admin" value="{{user.admin}}">
+    <button>作成</button>
+    <button type="button" onclick="history.back()">戻る</button>
+</form>
+
+
+<p><a href="{{url_for('admin.show_user')}}">ユーザー編集</a></p>
+
+{%endblock%}
