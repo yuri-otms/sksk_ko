@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, url_for, render_template, request, \
-    flash
+    flash, session
 from flask_login import login_required
 from sqlalchemy import func
 
@@ -7,6 +7,14 @@ from sksk_app import db
 from sksk_app.models import Level
 
 edit = Blueprint('edit', __name__, url_prefix='/edit')
+
+@edit.before_request
+def load_logged_in_user():
+    edit = session.get('edit')
+
+    if not edit:
+        flash('アクセスが許可されていません')
+        return redirect(url_for('pg.toppage'))
 
 
 @edit.route('/index')
