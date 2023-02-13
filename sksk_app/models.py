@@ -5,24 +5,6 @@ from flask import current_app
 
 from sksk_app import db
 
-# class Level(Base):
-#     __tablename__ = 'level'
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     level = Column(String(30), unique=True)
-#     description = Column(String(100))
-#     position = Column(Integer)
-#     released = Column(Boolean, nullable=False,default=0)
-
-
-#     def __init__(self, level=None, description=None, position=None, released=None):
-#         self.level = level
-#         self.description = description
-#         self.position = position
-#         self.released = released
-    
-#     def __repr__(self):
-#         return '<level id:{} level:{} description:{} posision:{} released:{}>'.format(self.id, self.level, self.description, self.position, self.released)
-
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -52,6 +34,17 @@ class User(UserMixin, db.Model):
     
     def __repr__(self):
         return '<User id:{} name:{} password:{}>'.format(self.id, self.name, self.email, self.password, self.target_level, self.edit, self.check, self.approve, self.admin, self.registered_at)
+
+class Process(db.Model):
+    __tablename__ = 'process'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    process = db.Column(db.String(10))
+
+    def __init__(self, process=True):
+        self.process = process
+    
+    def __repr__(self):
+        return '<Process id:{} process:{}>'.format(self.id, self.process)
 
 
 class Score(db.Model):

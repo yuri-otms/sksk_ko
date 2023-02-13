@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>ユーザー権限管理</h2>
+
+<p>以下のユーザーに{{ process.process }}権限を付与しますか？</p>
+
+
+{{process.id}}
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>ユーザー名</th>
+        <th>Email</th>
+        <th>編集</th>
+        <th>確認</th>
+        <th>承認</th>
+        <th>管理</th>
+    </tr>
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+        {% if user.admin %}
+        ○
+        {% else %}
+        ×
+        {% endif %}
+        </td>
+        <td>
+        {% if user.check %}
+        ○
+        {% else %}
+        ×
+        {% endif %}
+        </td>
+        <td>
+        {% if user.approve %}
+        ○
+        {% else %}
+        ×
+        {% endif %}
+        </td>
+        <td>
+        {% if user.admin %}
+        ○
+        {% else %}
+        ×
+        {% endif %}
+        </td>
+    </tr>
+</table>
+
+<p>
+<a href="{{url_for('admin.add_privilege_execute', user_id=user.id, process_id=process.id)}}">付与する</a>
+<a href="{{url_for('admin.show_user')}}">キャンセル</a>
+</p>
+
+<p><a href="{{url_for('admin.show_user')}}">ユーザー編集</a></p>
+
+{%endblock%}

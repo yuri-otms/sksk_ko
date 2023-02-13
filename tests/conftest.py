@@ -10,23 +10,13 @@ def app():
     app = create_app({
         'TESTING': True
     })
-
-
+    
     with app.app_context():
         db.create_all()
-        level = db.session.query(Level).first()
-        if not level:
-            level = 'ハン検5級'
-            description = '입니다, 암다'
-            position = 1
-            new_level = Level(
-                level = level,
-                description = description,
-                position = position
-            )
-            
-            db.session.add(new_level)
-            db.session.commit()
+        level = 'ハン検5級'
+        description = '입니다, 암다'
+        position = 1
+        QuestionManager.insert_level(level, description, position)
 
         name = 'test'
         email = 'test@test.com'
@@ -65,9 +55,9 @@ def session(app):
     with app.app_context():
         db.session.rollback()
 
-@pytest.fixture(scope='function', autouse=True)
-def scope_function(app):
-    yield 
-    with app.app_context():
-        QuestionManager.delete_testing_levels()
+# @pytest.fixture(scope='function', autouse=True)
+# def scope_function(app):
+#     yield 
+#     with app.app_context():
+#         QuestionManager.delete_testing_levels()
 

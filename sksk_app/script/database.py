@@ -1,18 +1,15 @@
 # from flask.cli import with_appcontext
 from flask import Flask
 from flask import Blueprint
-from werkzeug.security import generate_password_hash
-from datetime import datetime
 
 from sksk_app import db
-from sksk_app.models import User, Level
+from sksk_app.models import User, Level, Process
 from sksk_app.utils.questions import QuestionManager
 from sksk_app.utils.auth import UserManager
 
 app = Flask(__name__)
 
 qtdb = Blueprint('create', __name__)
-
 
 # コマンド機能の作成
 @qtdb.cli.command('all')
@@ -26,25 +23,26 @@ app.cli.add_command(create)
 def init():
     level = 'ハン検5級'
     
-    new_user = Level(
-    level = level
-    )
-    
-    db.session.add(new_user)
-    db.session.commit()
+    QuestionManager.insert_level(level,None,None)
     
     name = 'test'
     email = 'test@test.com'
     password = '1234'
     UserManager.register_user(name, email, password)
-
-    name = 'testE'
-    email = 'testE@test.com'
-    password = '1234'
-    edit = 1
-    UserManager.register_user(name, email, password)
+    UserManager.add_privilege(1, 1)
+    UserManager.add_privilege(1, 4)
 
     print("Insert User Data ")
+
+    UserManager.register_process()
+
+@qtdb.cli.command('temp')
+def delete_level():
+    user = db.session.get(User, 1)
+    user.check = False
+    db.session.merge(user)
+    db.session.commit()
+    print("Execute temp")
 
 @qtdb.cli.command('delete_level')
 def delete_level():

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>ユーザー編集</h2>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>ユーザー名</th>
+        <th>Email</th>
+        <th>編集</th>
+        <th>確認</th>
+        <th>承認</th>
+        <th>管理</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+            {% if user.admin %}
+            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id =1)}}">○</a>
+            {% else %}
+            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id =1)}}">×</a>
+            {% endif %}
+        </td>
+        <td>
+            {% if user.check %}
+            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=2)}}">○</a>
+            {% else %}
+            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=2)}}">×</a>
+            {% endif %}
+        </td>
+        <td>
+            {% if user.approve %}
+            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=3)}}">○</a>
+            {% else %}
+            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=3)}}">×</a>
+            {% endif %}
+        </td>
+        <td>
+            {% if user.admin %}
+            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=4)}}">○</a>
+            {% else %}
+            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=4)}}">×</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3></h3>
+
+<p><a href="{{url_for('admin.index')}}">管理画面</a></p>
+
+{%endblock%}
