@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>ユーザーの削除</h2>
+
+<p>以下のユーザーを削除してよろしいですか？</p>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>ユーザー名</th>
+        <th>Email</th>
+        <th>パスワード</th>
+        <th>編集</th>
+        <th>確認</th>
+        <th>承認</th>
+        <th>管理</th>
+    </tr>
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>パスワード</td>
+        <td>
+            {% if user.edit %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.check %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.approve %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.admin %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<a href="{{url_for('admin.delete_user_execute', id=user.id)}}">削除</a>
+<a href="{{url_for('admin.show_user')}}">戻る</a>
+
+
+<p><a href="{{url_for('admin.show_user')}}">ユーザー編集</a></p>
+
+{%endblock%}

@@ -27,6 +27,7 @@ table{
 }
 td, th {
   text-align: center;
+  white-space: nowrap
 }
 
 input {
@@ -36,10 +37,22 @@ input {
   border-color: #808080;
   border-radius: 5px;
 }
+input::placeholder  {
+  text-align: center;
+
+}
 button {
   margin: 3px;
   padding: 7px;
   background-color: #f5deb3;
+  border-radius: 5px;
+  white-space: nowrap
+}
+select {
+  margin: 3px;
+  padding: 7px;
+  border:1px solid;
+  border-color: #808080;
   border-radius: 5px;
 }
 

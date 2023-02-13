@@ -1,7 +1,8 @@
 from flask import session
 from sqlalchemy import func
 
-from sksk_app.models import db,Level
+from sksk_app import db
+from sksk_app.models import Level
 
 def test_show(client, app):
     response = client.get('/edit/show')
@@ -15,6 +16,7 @@ def test_show(client, app):
 def test_add_level(client, app):
     response = client.post(
     '/edit/add/level', data={'level_name':'ハン検1級', 'level_desc':'ハン検1級の内容'})
+    assert response.headers["Location"] == "/edit/add/level/done"
 
     with app.app_context():
         max_position = db.session.query(

@@ -23,18 +23,38 @@ class UserManager:
         db.session.add(new_user)
         db.session.commit()
 
-    def add_user_edit(id):
+    def register_user_priv(name, email, password, edit, check, approve, admin):
+        regiestered_at = datetime.now()
 
-        user = db.session.get(User, id)
-        user.edit = True
-
-        db.session.merge(user)
+        new_user = User(
+            name = name,
+            email = email,
+            password = password,
+            edit = edit,
+            check = check,
+            approve = approve,
+            admin = admin,
+            registered_at = regiestered_at      
+            )
+    
+        db.session.add(new_user)
         db.session.commit()
 
-    def add_user_admin(id):
+    def delete_user(id):
+        user = db.session.get(User, id)
+        db.session.delete(user)
+        db.session.commit()
+
+    def edit_user(id, name, email, edit, check, approve, admin):
 
         user = db.session.get(User, id)
-        user.admin = True
+
+        user.name = name
+        user.email = email
+        user.edit = edit
+        user.check = check
+        user.approve = approve
+        user.admin = admin
 
         db.session.merge(user)
         db.session.commit()
@@ -54,7 +74,7 @@ class UserManager:
 
         db.session.merge(user)
         db.session.commit()
-
+    
     def delete_privilege(user, process):
 
         user = db.session.get(User, user)
@@ -70,7 +90,6 @@ class UserManager:
 
         db.session.merge(user)
         db.session.commit()
-
 
     def register_process():
 

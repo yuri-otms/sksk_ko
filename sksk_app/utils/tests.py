@@ -1,7 +1,3 @@
-# from flask_sqlalchemy import SQLAlchemy, current_app
-# from flask_sqlalchemy.session import Session
-
-
 # class TestSession(Session):
 #     def commit(self):
 #         self.flush()
