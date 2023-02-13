@@ -86,3 +86,7 @@ def logout():
 
     flash('ログアウトしました')
     return redirect(url_for('pg.toppage'))
+
+@auth.errorhandler(404)
+def non_existatnt_route(error):
+    return redirect(url_for('auth.login'))

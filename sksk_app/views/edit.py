@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, url_for, render_template, request, \
     flash
+from flask_login import login_required
 from sqlalchemy import func
 
 from sksk_app import db
@@ -9,15 +10,18 @@ edit = Blueprint('edit', __name__, url_prefix='/edit')
 
 
 @edit.route('/index')
+@login_required
 def index():
     return render_template('edit/index.html')
 
 @edit.route('/show')
+@login_required
 def show():
     levels = db.session.query(Level).all()
     return render_template('edit/show.html', levels = levels)
 
 @edit.route('/add/level', methods=['POST'])
+@login_required
 def add_level():
     level = request.form['level_name']
     description = request.form['level_desc']
@@ -40,6 +44,7 @@ def add_level():
     return redirect(url_for('edit.add_level_done'))
 
 @edit.route('/add/level/done')
+@login_required
 def add_level_done():
     flash('ユーザー登録を行いました。')
 
