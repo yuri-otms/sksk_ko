@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, url_for, render_template, \
-    request, flash
+    request, flash, session
 from flask_login import login_required
 from sqlalchemy import not_
 from sksk_app import db
@@ -8,6 +8,14 @@ from sksk_app.models import User, Process
 from sksk_app.utils.auth import UserManager
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
+
+@admin.before_request
+def load_logged_in_user():
+    admin = session.get('admin')
+
+    if not admin:
+        flash('アクセスが許可されていません')
+        return redirect(url_for('pg.toppage'))
 
 @admin.route('/')
 @login_required

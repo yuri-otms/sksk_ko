@@ -29,7 +29,7 @@ class UserManager:
         new_user = User(
             name = name,
             email = email,
-            password = password,
+            password = generate_password_hash(password, method='sha256'),
             edit = edit,
             check = check,
             approve = approve,

@@ -23,6 +23,9 @@ def app():
         password = '1234'
         UserManager.register_user(name, email, password)
         UserManager.add_privilege(1, 1)
+        UserManager.add_privilege(1, 2)
+        UserManager.add_privilege(1, 3)
+        UserManager.add_privilege(1, 4)
         
         db.session.begin_nested()
 

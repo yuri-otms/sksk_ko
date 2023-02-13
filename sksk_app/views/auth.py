@@ -9,21 +9,6 @@ from sksk_app.utils.auth import UserManager
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-# @auth.before_app_request
-# def load_logged_in_user():
-#     user_id = session.get('user_id')
-
-#     if user_id is None:
-#         g.user = None
-#     else:
-#         user = db.session.get(User, user_id)
-#         user_list = {
-#             'email':user.email,
-#             'name':user.name,
-#             'password':user.password
-#         }
-#         g.user = user_list
-
 @auth.route('/signup')
 def signup():
     page_title = 'ユーザー登録'
@@ -71,6 +56,8 @@ def login():
         session['user_id'] = user.id
         session['user_name'] = user.name
         session['edit'] = user.edit
+        session['check'] = user.check
+        session['approve'] = user.approve
         session['admin'] = user.admin
         return redirect(url_for('pg.toppage'))
 
