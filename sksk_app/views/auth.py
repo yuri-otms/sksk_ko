@@ -43,17 +43,7 @@ def signup_post():
         flash('メールアドレスが既に登録されています。')
         return redirect(url_for('auth.signup'))
 
-    ManageUser.register_user(name, email, password)
-
-    # new_user = User(
-    #     name = name,
-    #     email = email,
-    #     password = generate_password_hash(password, method='sha256'),
-    #     registered_at = regiestered_at      
-    #     )
-    
-    # db.session.add(new_user)
-    # db.session.commit()
+    UserManager.register_user(name, email, password)
 
     return redirect(url_for('auth.signup_done'))
 
@@ -83,6 +73,7 @@ def login():
         session['user_id'] = user.id
         session['user_name'] = user.name
         session['edit'] = user.edit
+        session['admin'] = user.admin
         return redirect(url_for('pg.toppage'))
 
     page_title = 'ログイン'
