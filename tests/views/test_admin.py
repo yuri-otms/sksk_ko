@@ -3,7 +3,6 @@ from flask import session
 from sksk_app import db
 from sksk_app.models import User, Level
 
-
 def test_index(client):
     assert client.get('/').status_code == 200
 
@@ -12,7 +11,8 @@ def test_user(app):
         user = User.query.all()
         assert user is not None
 
-def test_add_privilege(client):
+def test_add_privilege(client, auth):
+    auth.login()
     response = client.get('/admin/add_privilege?user_id=2&process_id=2')
     assert response.status_code == 200
 
