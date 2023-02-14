@@ -1,7 +1,4 @@
-from flask import Blueprint, render_template, request, \
-    flash, url_for, redirect,session, g
-from flask_login import login_user, logout_user
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from datetime import datetime
 
 from sksk_app import db

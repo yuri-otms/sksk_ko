@@ -41,6 +41,48 @@
 
 <h2>項目グループ</h2>
 
+<table>
+    <tr>
+        <th>レベル</th>
+        <th>グループ名</th>
+        <th>説明</th>
+        <th>項番</th>
+        <th>編集</th>
+    </tr>
+    {% for e_group in e_groups %}
+    <tr>
+        <td>{{e_group.level_name}}</td>
+        <td>{{e_group.e_group}}</td>
+        <td>{{e_group.description}}</td>
+        <td>{{e_group.position}}</td>
+        <td>編集</td>
+        
+    </tr>
+    {% endfor %}
+    <tr>
+        <form action="{{url_for('edit.add_e_group')}}" method="post">
+            <td>
+                <select name="level">
+                    {% for level in levels %}
+                    <option value="{{level.id}}">{{level.level}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>
+            <input type="text" name="e_group_name">
+            </td>
+            <td>
+            <input type="text" name="description">
+            </td>
+            <td>
+            <input type="text" name="position">
+            </td>
+            <td>
+            <button type="submit">追加</button>
+            </td>
+        </form>
+    </tr>
+</table>
 
 
 <h2>項目</h2>
