@@ -3,7 +3,7 @@ import pytest
 from sksk_app import create_app, db
 from sksk_app.models import User, Level
 from sksk_app.utils.auth import UserManager
-from sksk_app.utils.questions import QuestionManager
+import sksk_app.utils.edit as edit
 
 @pytest.fixture()
 def app():
@@ -14,9 +14,16 @@ def app():
     with app.app_context():
         db.create_all()
         level = 'ハン検5級'
-        description = '입니다, 암다'
+        description = '입니다, 고 십다'
         position = 1
-        QuestionManager.insert_level(level, description, position)
+        edit.LevelManager.add_level(level, description, position)
+
+        level = 1
+        e_group = 'グループ1'
+        description = '입니다, 있다'
+        position = 1
+        edit.E_GroupManager.add_e_group(level, e_group, description, position)
+        
 
         name = 'test'
         email = 'test@test.com'

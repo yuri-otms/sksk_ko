@@ -31,7 +31,9 @@
             <td>
             <input type="text" name="level_desc">
             </td>
-            <td></td>
+            <td>
+            <input type="text" name="position">
+            </td>
             <td>
             <button type="submit">追加</button>
             </td>
@@ -68,6 +70,7 @@
                     {% endfor %}
                 </select>
             </td>
+
             <td>
             <input type="text" name="e_group_name">
             </td>
@@ -87,6 +90,69 @@
 
 <h2>項目</h2>
 
+<p>レベル: {{level_name}} 項目グループ: {{e_group_name}}</p>
+
+<div class="flex">
+<form action="">
+    <select name="level">
+        {% for level in levels %}
+        <option value="{{level.id}}">{{level.level}}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<form action="">
+    <select name="e_group_id">
+        {% for e_group in e_groups %}
+        <option value="{{e_group.id}}">{{e_group.e_group}}</option>
+        {% endfor %}
+    </select>
+</form>
+</div>
+
+
+<table>
+    <tr>
+        <th>グループ名</th>
+        <th>項目</th>
+        <th>説明</th>
+        <th>項番</th>
+        <th>編集</th>
+    </tr>
+    {% for element in elements %}
+    <tr>
+        <td>{{element.e_group}}</td>
+        <td>{{element.element}}</td>
+        <td>{{element.description}}</td>
+        <td>{{element.position}}</td>
+        <td>編集</td>
+        
+    </tr>
+    {% endfor %}
+    <tr>
+        <form action="{{url_for('edit.add_element')}}" method="post">
+            <td>
+                <select name="e_group_id">
+                    {% for e_group in e_groups %}
+                    <option value="{{e_group.id}}">{{e_group.e_group}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>
+            <input type="text" name="element_name">
+            </td>
+            <td>
+            <input type="text" name="description">
+            </td>
+            <td>
+            <input type="text" name="position">
+            </td>
+            <td>
+            <button type="submit">追加</button>
+            </td>
+        </form>
+    </tr>
+</table>
 
 
 <p><a href="{{url_for('edit.index')}}">編集トップページ</a></p>
