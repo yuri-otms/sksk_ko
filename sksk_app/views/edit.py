@@ -25,8 +25,20 @@ def index():
 @edit.route('/show', methods=['GET'])
 @login_required
 def show():
+        #選択された項目グループの項目を表示
+    if request.args.get('l'):
+        level_id = request.args.get('l')
+    else:
+        level= Level.query.with_entities(func.min(Level.id).label('level_min')).first()
+        level_id = level.level_min
+    if request.args.get('g'):
+        e_group_id = request.args.get('g')
+    else:
+        e_group = E_Group.query.with_entities(E_Group.level, func.min(E_Group.id).label('e_group_min')).filter(E_Group.level==level_id).group_by(E_Group.level).one()
+        e_group_id = e_group.e_group_min
+
     levels = db.session.query(Level).all()
-    e_groups_raw = db.session.query(E_Group).all()
+    e_groups_raw = db.session.query(E_Group).filter(E_Group.level==level_id)
     # 項目グループの名称を追加
     e_groups = []
     for e_group in e_groups_raw:
@@ -41,20 +53,15 @@ def show():
             "released":e_group.released
         }
         e_groups.append(e_group_added)
-    #選択された項目グループの項目を表示
-    if request.args.get('g'):
-        e_group_id = request.args.get('g')
-    else:
-        e_group = E_Group.query.with_entities(E_Group.level, func.min(E_Group.id).label('e_group_min')).filter(E_Group.level==1).group_by(E_Group.level).one()
-        e_group_id = e_group.e_group_min
+
     e_group = db.session.get(E_Group, e_group_id)
     level = db.session.get(Level, e_group.level)
     elements = Element.query.filter(Element.e_group==e_group_id)
     level_name = level.level
     e_group_name = e_group.e_group
-    
+    e_group_position = db.session.get(E_Group, e_group_id).position
 
-    return render_template('edit/show.html', levels = levels, e_groups=e_groups, elements=elements,level_name=level_name, e_group_name=e_group_name)
+    return render_template('edit/show.html', levels = levels, e_groups=e_groups, elements=elements,level_name=level_name, level_id=level_id, e_group_position=e_group_position,e_group_name=e_group_name)
 
 @edit.route('/add/level', methods=['POST'])
 @login_required

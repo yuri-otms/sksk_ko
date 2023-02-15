@@ -41,7 +41,15 @@
     </tr>
 </table>
 
+<div class="space"><a name="e_group"></a></div>
+
 <h2>項目グループ</h2>
+
+<select name="level" id="level1" onchange="location.href=value">
+    {% for level in levels %}
+    <option value="{{url_for('edit.show', l=level.id)}}#e_group">{{level.level}}</option>
+    {% endfor %}
+</select>
 
 <table>
     <tr>
@@ -64,7 +72,7 @@
     <tr>
         <form action="{{url_for('edit.add_e_group')}}" method="post">
             <td>
-                <select name="level">
+                <select name="level" id="level3">
                     {% for level in levels %}
                     <option value="{{level.id}}">{{level.level}}</option>
                     {% endfor %}
@@ -88,26 +96,27 @@
 </table>
 
 
+<div class="space"><a name="element"></a></div>
+
 <h2>項目</h2>
 
-<p>レベル: {{level_name}} 項目グループ: {{e_group_name}}</p>
+
+<p>項目グループ: {{e_group_name}}</p>
 
 <div class="flex">
-<form action="">
-    <select name="level">
-        {% for level in levels %}
-        <option value="{{level.id}}">{{level.level}}</option>
-        {% endfor %}
-    </select>
-</form>
+<select name="level" id="level2" onchange="location.href=value">
+    {% for level in levels %}
+    <option value="{{url_for('edit.show', l=level.id)}}#element">{{level.level}}</option>
+    {% endfor %}
+</select>
 
-<form action="">
-    <select name="e_group_id">
-        {% for e_group in e_groups %}
-        <option value="{{e_group.id}}">{{e_group.e_group}}</option>
-        {% endfor %}
-    </select>
-</form>
+
+<select name="e_group_id" id="level4" onchange="location.href=value">
+    {% for e_group in e_groups %}
+    <option value="{{url_for('edit.show',l=level_id,g=e_group.id)}}#element">{{e_group.e_group}}</option>
+    {% endfor %}
+</select>
+
 </div>
 
 
@@ -154,8 +163,21 @@
     </tr>
 </table>
 
-
 <p><a href="{{url_for('edit.index')}}">編集トップページ</a></p>
 
+<script>
+
+
+    let selected_level = '{{level_id}}' - 1;
+    let selected_e_group = '{{e_group_position}}' -1;
+    // console.log(selected_e_group)
+    document.getElementById("level1").options[selected_level].setAttribute("selected", "selected");
+    document.getElementById("level2").options[selected_level].setAttribute("selected", "selected");
+    document.getElementById("level3").options[selected_level].setAttribute("selected", "selected");
+
+    document.getElementById("level4").options[selected_e_group].setAttribute("selected", "selected");
+
+</script>
 
 {%endblock%}
+
