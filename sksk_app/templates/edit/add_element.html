@@ -1,0 +1,34 @@
+{%extends "base.html" %}
+{% block body %}
+
+<h2>項目の追加</h2>
+
+<p>以下の項目を追加しますか？</p>
+
+<table>
+    <tr>
+        <th>項目グループ</th>
+        <th>項目</th>
+        <th>説明</th>
+        <th>項番</th>
+    </tr>
+    <tr>
+        <td>{{element.e_group.e_group}}</td>
+        <td>{{element.element}}</td>
+        <td>{{element.description}}</td>
+        <td>{{element.position}}</td>
+    </tr>
+</table>
+
+<form action="{{url_for('edit.add_element_execute')}}" method="POST">
+    <input type="hidden" name="e_group" value="{{element.e_group.id}}">
+    <input type="hidden" name="element_name" value="{{element.element}}">
+    <input type="hidden" name="description" value="{{element.description}}">
+    <input type="hidden" name="position" value="{{element.position}}">
+    <button>追加</button>
+    <button type="button" onclick="history.back()">戻る</button>
+</form>
+
+<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
+
+{% endblock %}

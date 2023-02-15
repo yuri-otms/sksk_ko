@@ -6,7 +6,7 @@ from sksk_app.models import Level
 
 def test_show(client, app, auth):
     auth.login()
-    response = client.get('/edit/show')
+    response = client.get('/edit/show?g=1')
     assert response.status_code == 200
     assert b"edit_toppage" in response.data
 
@@ -17,7 +17,7 @@ def test_show(client, app, auth):
 def test_add_level(client, app, auth):
     auth.login()
     response = client.post(
-    '/edit/add/level', data={'level_name':'ハン検1級', 'level_desc':'ハン検1級の内容'})
+    '/edit/add/level', data={'level_name':'ハン検1級', 'level_desc':'ハン検1級の内容', 'position':2})
     assert response.headers["Location"] == "/edit/add/level/done"
 
     with app.app_context():

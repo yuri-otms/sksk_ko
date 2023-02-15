@@ -108,7 +108,6 @@ class Element(db.Model):
     __tablename__ = 'element'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     e_group = db.Column(db.Integer, db.ForeignKey('e_group.id'))
-    no = db.Column(db.Integer, unique=True)
     element = db.Column(db.String(40))
     description = db.Column(db.String(100))
     position = db.Column(db.Integer, default=1)
