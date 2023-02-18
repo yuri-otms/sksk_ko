@@ -44,8 +44,9 @@ def test_add_question(app):
     foreign_l = '저는 학생입니다.'
     style = 1
     position = None
+    user = 1
     with app.app_context():
-        editor.QuestionManager.add_question(element, japanese, foreign_l, style, position)
+        editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
         question = Question.query.filter(Question.japanese==japanese)
 
     assert question is not None
