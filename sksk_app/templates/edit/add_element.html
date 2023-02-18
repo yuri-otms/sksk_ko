@@ -13,7 +13,7 @@
         <th>項番</th>
     </tr>
     <tr>
-        <td>{{element.e_group.e_group}}</td>
+        <td>{{e_group_name}}</td>
         <td>{{element.element}}</td>
         <td>{{element.description}}</td>
         <td>{{element.position}}</td>
@@ -21,7 +21,7 @@
 </table>
 
 <form action="{{url_for('edit.add_element_execute')}}" method="POST">
-    <input type="hidden" name="e_group" value="{{element.e_group.id}}">
+    <input type="hidden" name="e_group" value="{{element.e_group}}">
     <input type="hidden" name="element_name" value="{{element.element}}">
     <input type="hidden" name="description" value="{{element.description}}">
     <input type="hidden" name="position" value="{{element.position}}">
