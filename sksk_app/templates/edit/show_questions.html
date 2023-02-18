@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>問題文の登録</h2>
+
+
+<p><a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a></p>
+
+<div class="flex">
+    <select name="level" id="level" onchange="location.href=value">
+        {% for level in levels %}
+        <option value="{{url_for('edit.show_questions', l=level.id)}}">{{level.level}}</option>
+        {% endfor %}
+    </select> 
+    
+    <select name="e_group_id" id="e_group" onchange="location.href=value">
+        {% for e_group in e_groups %}
+        <option value="{{url_for('edit.show_questions',l=level_id,g=e_group.id)}}">{{e_group.e_group}}</option>
+        {% endfor %}
+    </select>
+
+    <select name="element_id" id="element">
+        {% for element in elements %}
+            <option value="{{url_for('edit.show_questions')}}">{{element.element}}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<form action="{{url_for('edit.add_question')}}" method="POST">
+<table>
+    <tr>
+        <th>id</th>
+        <th>日本語</th>
+        <th>外国語</th>
+        <th>文体</th>
+        <th>項番</th>
+        <th>編集</th>
+    </tr>
+    <tr>
+        <td>
+            新規
+        </td>
+        <td>
+            <input type="text" name="japanese1">
+        </td>
+        <td>
+            <input type="text" name="foreign_l1">
+        </td>
+        <td>
+            <select name="style">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <input type="text" name="position">
+        </td>
+        <td>
+            <input type="hidden" name="element_id" value="{{element.id}}">
+            <button>確認</button>
+        </td>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        <td>{{question.style}}</td>
+        <td>{{question.position}}</td>
+    </tr>
+
+    {% endfor %}
+</table>
+</form>
+
+
+<p><a href="{{url_for('edit.index')}}">編集トップページ</a></p>
+
+<script>
+    
+    let selected_level = '{{level_position}}' - 1;
+    let selected_e_group = '{{e_group_position}}' - 1;
+    // console.log(selected_e_group)
+    document.getElementById("level").options[selected_level].selected = true;
+
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+
+</script>
+{%endblock%}
