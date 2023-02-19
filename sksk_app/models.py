@@ -133,20 +133,46 @@ class Question(db.Model):
     foreign_l = db.Column(db.String(100))
     style = db.Column(db.Integer, db.ForeignKey('style.id'))
     position = db.Column(db.Integer, default=1)
+    created_at = db.Column(db.DateTime, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
+    checked = db.Column(db.Boolean, nullable=False, default=0)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, element=None, japanese=None,foreign_l=None, style=None, position=None, released=None):
+    def __init__(self, element=None, japanese=None,foreign_l=None, style=None, position=None, created_at=None, created_by=None, checked=None, released=None):
         self.element = element
         self.japanese = japanese
         self.foreign_l = foreign_l
         self.style = style
         self.position = position
+        self.created_at = created_at
+        self.created_by =created_by
+        self.checked = checked
         self.released = released
     
     def __repr__(self):
-        return '<Element id:{} element:{} japanese:{} foreign:{} style:{} position:{} released:{}>'.format(self.id, self.element, self.japanese, self.foreign_l, self.style, self.position, self.released)
+        return '<Element id:{} element:{} japanese:{} foreign:{} style:{} position:{} created_at:{} created_by:{} checked:{} released:{}>'.format(self.id, self.element, self.japanese, self.foreign_l, self.style, self.position, self.created_at, self.created_by, self.checked, self.released)
 
+class Question_Management(db.Model):
+    __tablename__  = 'question_management'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    question = db.Column(db.Integer, db.ForeignKey('question.id'))
+    process = db.Column(db.Integer, db.ForeignKey('process.id'))
+    result = db.Column(db.Boolean, default=0)
+    message = db.Column(db.Text)
+    executed_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, user=None, question=None, process=None, result=None, message=None, executed_at=None):
+        self.user = user
+        self.question = question
+        self.process = process
+        self.result = result
+        self.message = message
+        self.executed_at = executed_at
+
+    def __repr__(self):
+        return '<Question_Management id:{} user:{} question:{} process:{} result:{} message:{} executed_at:{}>'.format(self.id)
 
 class Word(db.Model):
     __tablename__ = 'word'

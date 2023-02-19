@@ -4,8 +4,9 @@ from flask_login import login_required
 from sqlalchemy import func
 
 from sksk_app import db
-from sksk_app.models import Level, E_Group, Element, Style, Question
+from sksk_app.models import Level, E_Group, Element, Style, Question, Hint, Word
 import sksk_app.utils.edit as editor
+import sksk_app.utils.api as api
 
 edit = Blueprint('edit', __name__, url_prefix='/edit')
 
@@ -96,6 +97,42 @@ def show_questions():
         questions.append(one_question)
 
     return render_template('edit/show_questions.html',level_id=level_id, level_position= level_position, e_group_position=e_group_position, levels=levels, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions)
+
+@edit.route('/show/hints', methods=['GET'])
+def show_hints():
+    if request.args.get('l'):
+        level_id = editor.EditManager.fetchLevel()
+        e_group_id = editor.EditManager.fetchE_Group(level_id)
+        element_id = editor.EditManager.fetchElement(e_group_id)
+    elif request.args.get('g'):
+        e_group_id = request.args.get('g')
+        level_id = db.session.get(E_Group, e_group_id).level
+        element_id = editor.EditManager.fetchElement(e_group_id)
+    elif request.args.get('e'):
+        element_id = request.args.get('e')
+        e_group_id = db.session.get(Element, element_id).e_group
+        level_id = db.session.get(E_Group, e_group_id).level
+    else:
+        level_id = editor.EditManager.fetchLevel()
+        e_group_id = editor.EditManager.fetchE_Group(level_id)
+        element_id = editor.EditManager.fetchElement(e_group_id)
+        
+    element = db.session.get(Element, element_id)
+
+    level = db.session.get(Level, level_id)
+    level_position = level.position
+
+    e_group_id = editor.EditManager.fetchE_Group(level_id)
+    e_group_position = db.session.get(E_Group, e_group_id).position
+    levels = Level.query.all()
+    e_groups = E_Group.query.filter(E_Group.level==level_id)
+    styles = Style.query.all()
+
+    elements = Element.query.filter(Element.e_group==e_group_id)
+
+    questions_with_hints = editor.QuestionManager.fetch_questions_with_hints(element.id)
+
+    return render_template('edit/show_hints.html',level_id=level_id, level_position= level_position, e_group_position=e_group_position, levels=levels, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints)
 
 
 @edit.route('/add/level', methods=['POST'])
@@ -247,13 +284,18 @@ def add_question():
     e_group = db.session.get(E_Group, element.e_group)
     level = db.session.get(Level, e_group.level)
 
+    ja_to_ko = api.Papago.ja_to_ko(japanese)
+    ko_to_ja = api.Papago.ko_to_ja(foreign_l)
+
     question = {
         "level":level.level,
         "e_group":e_group.e_group,
         "element_id":element.id,
         "element": element.element,
         "japanese": japanese,
+        "ja_to_ko": ja_to_ko,
         "foreign_l": foreign_l,
+        "ko_to_ja":ko_to_ja,
         "style_id": style.id,
         "style":style.style,
         "position": position,
@@ -269,8 +311,9 @@ def add_question_execute():
     foreign_l1 = request.form['foreign_l1']
     style = request.form['style']
     position = request.form['position']
+    user = session.get('user_id')
 
-    editor.QuestionManager.add_question(element, japanese1, foreign_l1, style, position)
+    editor.QuestionManager.add_question(element, japanese1, foreign_l1, style, position, user)
 
     return redirect(url_for('edit.add_question_done', e=element))
 
@@ -282,3 +325,64 @@ def add_question_done():
 
     return redirect(url_for('edit.show_questions', e=element))
 
+@edit.route('/confirm/hint/j', methods=['POST'])
+@login_required
+def confirm_hint_j():
+    question_id = request.form['question_id']
+    j_word = request.form['j_word']
+    question_with_hints = editor.QuestionManager.fetch_question_with_hints(question_id)
+
+    j_words = Word.query.filter(Word.japanese.like("%" + j_word + "%"))
+    translated_word = api.Papago.ja_to_ko(j_word)
+
+    words = editor.HintManager.fetch_word(question_id)
+    hint_existed = editor.HintManager.confirm_j_hint(question_id, j_word)
+
+    return render_template('edit/confirm_hint_j.html', question=question_with_hints, j_word=j_word, j_words=j_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
+
+@edit.route('/confirm/hint/f', methods=['POST'])
+@login_required
+def confirm_hint_f():
+    question_id = request.form['question_id']
+    f_word = request.form['f_word']
+    question_with_hints = editor.QuestionManager.fetch_question_with_hints(question_id)
+
+    f_words = Word.query.filter(Word.japanese.like("%" + f_word + "%"))
+    translated_word = api.Papago.ko_to_ja(f_word)
+
+    words = editor.HintManager.fetch_word(question_id)
+    hint_existed = editor.HintManager.confirm_f_hint(question_id, f_word)
+
+    return render_template('edit/confirm_hint_f.html', question=question_with_hints, f_word=f_word, f_words=f_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
+
+@edit.route('/add/word/hint', methods=['POST'])
+@login_required
+def add_word_hint():
+    question_id = request.form['question_id']
+    j_word = request.form['j_word']
+    f_word = request.form['f_word']
+    question_with_hints = editor.QuestionManager.fetch_question_with_hints(question_id)
+
+    return render_template('edit/add_hint.html', question = question_with_hints, j_word=j_word, f_word=f_word)
+
+@edit.route('/add/word/hint_addded', methods=['POST'])
+@login_required
+def add_word_hint_execute():
+    question_id = request.form['question_id']
+    j_word = request.form['j_word']
+    f_word = request.form['f_word']
+
+    editor.WordManager.add_word(j_word, f_word)
+    word_id = Word.query.filter(Word.japanese==j_word).filter(Word.foreign_l==f_word).first().id
+    editor.HintManager.add_hint(question_id, word_id)
+    question = db.session.get(Question, question_id)
+    element = db.session.get(Element, question.element)
+
+    return redirect(url_for('edit.add_word_hint_done', e=element.id))
+
+@edit.route('/add/word/hint_addded_done', methods=['GET'])
+@login_required
+def add_word_hint_done():
+    element = request.args.get('e')
+    flash('単語とヒントを追加しました')
+    return redirect(url_for('edit.show_hints', e=element))

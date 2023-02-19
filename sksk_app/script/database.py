@@ -24,8 +24,6 @@ app.cli.add_command(create)
 def init():
     level = 'ハン検5級'
     QuestionManager.insert_level(level,None,None)
-    level = 'ハン検4級'
-    QuestionManager.insert_level(level,None,None)
 
     style = 'ハムニダ体'
     editor.StyleManager.add_style(style)

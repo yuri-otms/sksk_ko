@@ -1,0 +1,117 @@
+{%extends "base.html" %}
+{% block body %}
+
+<h2>{{j_word}}</h2>
+
+<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
+
+<table>
+    <tr>
+        <th>日本語</th>
+        <th>韓国語(候補)</th>
+    </tr>
+    <tr>
+        <td>{{j_word}}</td>
+        <td>{{translated_word}}</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    <tr>
+        <td rowspan="2">{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+    <tr>
+        <td>
+            <div class="flex">
+            {% for word in question['word'] %}
+            <form action="{{url_for('edit.confirm_hint_j')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="j_word" value="{{word}}">
+                <button>{{word}}</button>
+            </form>
+            {% endfor %}
+            </div>
+        </td>
+        <td>
+            <div class="flex">
+            {% for foword in question['foword'] %}
+            {% if not foword == '.' %}
+            <form action="{{url_for('edit.add_word_hint')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="j_word" value="{{j_word}}"> 
+                <input type="hidden" name="f_word" value="{{foword}}">
+                <button>{{foword}}</button>
+            </form>
+            {% else %}
+            {% endif %}
+            {% endfor %}
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<h3>登録されているヒント</h3>
+
+{% if hint_existed %}
+<p style="color:red">登録されています。</p>
+{% endif %}
+
+<table>
+    <tr>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    {% for word in words %}
+    <tr>
+        {% if j_word == word['japanese'] %}
+        <td style="color:red">{{word['japanese']}}</td>
+        {% else %}
+        <td>{{word['japanese']}}</td>
+        {% endif %}
+        
+        <td>{{word['foreign_l']}}</td>
+    </tr>
+    {% endfor %}
+    {% if not words[0] %}
+    <tr>
+        <td colspan="2">登録ヒントなし</td>
+    </tr>
+    {% endif %}
+</table>
+
+<h3>登録されている単語</h3>
+<table>
+    <tr>
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        <th>操作</th>
+    </tr>
+{% for j_word in j_words %}
+<tr>
+    <td>{{j_word['id']}}</td>
+    <td>{{j_word['japanese']}}</td>
+    <td>{{j_word['foreign_l']}}</td>
+    <td>追加する</td>
+</tr>
+{% endfor %}
+{% if not j_words[0] %}
+<tr>
+    <td colspan="4">登録単語なし</td>
+</tr>
+{% endif %}
+</table>
+
+
+<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
+
+
+{% endblock %}

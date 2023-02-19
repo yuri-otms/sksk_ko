@@ -7,7 +7,7 @@
 
 
 <div class="flex">
-    <select name="l" id="level" onchange="location.href=value">
+    <select name="l" id="level1" onchange="location.href=value">
         {% for level in levels %}
         <option value="{{url_for('edit.index', l=level.id)}}">{{level.level}}</option>
         {% endfor %}
@@ -16,7 +16,7 @@
 <form action="{{url_for('edit.show_questions')}}" method="GET">
 
     
-    <select name="g" id="e_group">
+    <select name="g" id="e_group1">
         {% for e_group in e_groups %}
         <option value="{{e_group.id}}">{{e_group.e_group}}</option>
         {% endfor %}
@@ -25,10 +25,34 @@
 </div>
 </form>
 
+<div class="flex">
+    <select name="l" id="level2" onchange="location.href=value">
+        {% for level in levels %}
+        <option value="{{url_for('edit.index', l=level.id)}}">{{level.level}}</option>
+        {% endfor %}
+    </select> 
+
+<form action="{{url_for('edit.show_hints')}}" method="GET">
+
+    
+    <select name="g" id="e_group2">
+        {% for e_group in e_groups %}
+        <option value="{{e_group.id}}">{{e_group.e_group}}</option>
+        {% endfor %}
+    </select>
+    <button>ヒントの登録</button>
+</div>
+</form>
+<p>(少し時間がかかります。)</p>
+
+
+
+
 <script>
 
     let selected_level = '{{level_position}}' - 1;
-    document.getElementById("level").options[selected_level].selected = true;
+    document.getElementById("level1").options[selected_level].selected = true;
+    document.getElementById("level2").options[selected_level].selected = true;
 
 </script>
 
