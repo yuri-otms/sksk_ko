@@ -3,7 +3,7 @@ import pytest
 from sksk_app import create_app, db
 from sksk_app.models import User, Level
 from sksk_app.utils.auth import UserManager
-import sksk_app.utils.edit as edit
+import sksk_app.utils.edit as editor
 
 @pytest.fixture()
 def app():
@@ -16,14 +16,35 @@ def app():
         level = 'ハン検5級'
         description = '입니다, 고 십다'
         position = 1
-        edit.LevelManager.add_level(level, description, position)
+        editor.LevelManager.add_level(level, description, position)
 
         level = 1
-        e_group = 'グループ1'
-        description = '입니다, 있다'
+        e_group = '指示詞、存在詞、数詞'
+        description = '입니다, 있다, 하나'
         position = 1
-        edit.E_GroupManager.add_e_group(level, e_group, description, position)
+        editor.E_GroupManager.add_e_group(level, e_group, description, position)
         
+        e_group = 1
+        element_name = '指示詞'
+        description = '입니다'
+        position = 1
+        editor.ElementManager.add_element(e_group, element_name, description, position)
+
+        element = 1
+        japanese = '父は医者です。'
+        foreign_l = '아버지는 의사입니다.'
+        style = 1
+        position = None
+        user = 1
+        editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
+
+        j_word = '医者'
+        f_word = '의사'
+        editor.WordManager.add_word(j_word, f_word)
+
+        question = 1
+        word = 1
+        editor.HintManager.add_hint(question, word)
 
         name = 'test'
         email = 'test@test.com'
@@ -34,8 +55,6 @@ def app():
         UserManager.add_privilege(1, 3)
         UserManager.add_privilege(1, 4)
         
-        db.session.begin_nested()
-
     yield app
 
 @pytest.fixture()

@@ -19,9 +19,9 @@
         {% endfor %}
     </select>
 
-    <select name="element_id" id="element">
+    <select name="element_id" id="element" onchange="location.href=value">
         {% for element in elements %}
-            <option value="{{url_for('edit.show_questions')}}">{{element.element}}</option>
+            <option value="{{url_for('edit.show_questions', e=element.id)}}">{{element.element}}</option>
         {% endfor %}
     </select>
 </div>
@@ -81,10 +81,10 @@
     
     let selected_level = '{{level_position}}' - 1;
     let selected_e_group = '{{e_group_position}}' - 1;
-    // console.log(selected_e_group)
+    let selected_element = '{{element.position}}' - 1;
     document.getElementById("level").options[selected_level].selected = true;
-
     document.getElementById("e_group").options[selected_e_group].selected = true;
+    document.getElementById("element").options[selected_element].selected = true;
 
 </script>
 {%endblock%}

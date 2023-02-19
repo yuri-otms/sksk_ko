@@ -10,6 +10,8 @@ flask-sqlalchemy = "*"
 flask-login = "*"
 pytest = "*"
 coverage = "*"
+konlpy = "*"
+mecab-python3 = "*"
 
 [dev-packages]
 

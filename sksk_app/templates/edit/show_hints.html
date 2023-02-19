@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>ヒントの登録</h2>
+
+
+<p><a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a></p>
+
+<div class="flex">
+    <select name="level" id="level" onchange="location.href=value">
+        {% for level in levels %}
+        <option value="{{url_for('edit.show_hints', l=level.id)}}">{{level.level}}</option>
+        {% endfor %}
+    </select> 
+    
+    <select name="e_group_id" id="e_group" onchange="location.href=value">
+        {% for e_group in e_groups %}
+        <option value="{{url_for('edit.show_hints',l=level_id,g=e_group.id)}}">{{e_group.e_group}}</option>
+        {% endfor %}
+    </select>
+
+    <select name="element_id" id="element" onchange="location.href=value">
+        {% for element in elements %}
+            <option value="{{url_for('edit.show_hints', e=element.id)}}">{{element.element}}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>日本語</th>
+        <th>外国語</th>
+        <th>ヒント</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td rowspan="2">{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        <td rowspan="2">
+            {%for hint in question['hint'] %}
+                {{hint.japanese}}
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="flex">
+            {%for word in question['word'] %}
+            <form action="{{url_for('edit.confirm_hint_j')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="j_word" value="{{word}}">
+                <button>{{word}}</button>
+            </form>
+            {% endfor %}
+            </div>
+        </td>
+        <td>
+            <div class="flex">
+            {%for foword in question['foword'] %}
+            {% if not foword == '.' %}
+            <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="f_word" value="{{foword}}">
+                <button>{{foword}}</button>
+            </form>
+            {% else %}
+            {% endif %}
+            {% endfor %}
+            </div>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+<p><a href="{{url_for('edit.index')}}">編集トップページ</a></p>
+
+<script>
+    
+    let selected_level = '{{level_position}}' - 1;
+    let selected_e_group = '{{e_group_position}}' - 1;
+    let selected_element = '{{element.position}}' - 1;
+    document.getElementById("level").options[selected_level].selected = true;
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+    document.getElementById("element").options[selected_element].selected = true;
+
+</script>
+{%endblock%}

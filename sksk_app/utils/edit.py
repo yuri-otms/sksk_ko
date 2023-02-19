@@ -1,5 +1,9 @@
 from flask import request
 from sqlalchemy import func
+from datetime import datetime
+
+import MeCab
+from konlpy.tag import Okt
 
 from sksk_app import db
 from sksk_app.models import Level, E_Group, Element, Question, Word, Hint, Style
@@ -78,7 +82,7 @@ class StyleManager:
         db.session.commit()
 
 class QuestionManager:
-    def add_question(element, japanese, foreign_l, style, position):
+    def add_question(element, japanese, foreign_l, style, position, user):
 
         if not position:
             question_exist = Question.query.filter(Question.element==element).first()
@@ -88,17 +92,157 @@ class QuestionManager:
                 position = max + 1
             else:
                 position = 1
+
+        created_at = datetime.now()
         
         new_question = Question(
             element = element,
             japanese = japanese,
             foreign_l = foreign_l,
             style = style,
-            position = position
+            position = position,
+            created_at = created_at,
+            created_by = user
         )
 
         db.session.add(new_question)
         db.session.commit()
+
+    def fetch_questions_with_hints(element):
+        questions = Question.query.filter(Question.element==element)
+        questions_with_hints = []
+        i = 0
+        mecab = MeCab.Tagger()
+        for question in questions:
+            question_with_hints = {
+            'id': question.id,
+            'japanese':question.japanese,
+            'foreign_l':question.foreign_l,
+            'word':None,
+            'foword':None,
+            'hint':None
+            }
+            questions_with_hints.append(question_with_hints)
+
+            # 単語の候補
+            questions_with_hints[i]['word']= []
+            node = mecab.parseToNode(questions_with_hints[i]['japanese'])
+            while node:
+                p = node.feature.split(',')[0]
+                if p == '名詞' or p == '動詞' or p== '形容詞' or p =='副詞':
+                    questions_with_hints[i]['word'].append(node.feature.split(",")[6])
+                node = node.next
+
+            # 韓国語のそれぞれの単語
+            questions_with_hints[i]['foword'] = []
+            text = questions_with_hints[i]['foreign_l']
+            okt = Okt()
+            korean_w = okt.morphs(text, norm=True, stem=True)
+            for w in korean_w:
+                questions_with_hints[i]['foword'].append(w)
+
+
+            # 登録済みのヒント
+            hints = Hint.query.filter(Hint.question==question.id)
+            questions_with_hints[i]['hint']= []
+            for hint in hints:
+                word = db.session.get(Word, hint.word)
+                questions_with_hints[i]['hint'].append(word)
+            i += 1
+
+        return questions_with_hints
+    
+    def fetch_question_with_hints(question_id):
+        question = db.session.get(Question, question_id)
+        question_with_hints = {
+            'id': int(question.id),
+            'japanese':question.japanese,
+            'foreign_l':question.foreign_l,
+            'element':question.element,
+            'word':None,
+            'foword':None,
+            'hint':None
+        }
+        mecab = MeCab.Tagger()
+        # 単語の候補
+        question_with_hints['word']= []
+        node = mecab.parseToNode(question_with_hints['japanese'])
+        while node:
+            p = node.feature.split(',')[0]
+            if p == '名詞' or p == '動詞' or p== '形容詞' or p =='副詞':
+                question_with_hints['word'].append(node.feature.split(",")[6])
+            node = node.next
+
+        # 韓国語のそれぞれの単語
+        question_with_hints['foword'] = []
+        text = question_with_hints['foreign_l']
+        okt = Okt()
+        korean_w = okt.morphs(text, norm=True, stem=True)
+        for word in korean_w:
+            question_with_hints['foword'].append(word)
+
+
+        # 登録済みのヒント
+        hints = Hint.query.filter(Hint.question==question.id)
+        question_with_hints['hint']= []
+        for hint in hints:
+            word = db.session.get(Word, hint.word)
+            question_with_hints['hint'].append(word)
+
+        return question_with_hints
+    
+class WordManager:
+
+    def add_word(j_word, f_word):
+        new_word = Word(
+            japanese = j_word,
+            foreign_l = f_word
+        )
+
+        db.session.add(new_word)
+        db.session.commit()    
+
+class HintManager:
+
+    #該当の問題文の単語の日本語・外国語の取得
+    def fetch_word(question):
+
+        hints = Hint.query.filter(Hint.question==question)
+        words = []
+        for hint in hints:
+            word = db.session.get(Word, hint.word)
+            words.append(word)
+
+        return words
+
+    def confirm_j_hint(question, j_word):
+        hints = Hint.query.filter(Hint.question==question)
+        existed = 0
+        for hint in hints:
+            word = db.session.get(Word, hint.word)
+            if j_word in word.japanese:
+                existed += 1
+        
+        return existed
+    
+    def confirm_f_hint(question, f_word):
+        hints = Hint.query.filter(Hint.question==question)
+        existed = 0
+        for hint in hints:
+            word = db.session.get(Word, hint.word)
+            if f_word in word.foreign_l:
+                existed += 1
+        
+        return existed
+    
+    def add_hint(question, word):
+        new_hint = Hint(
+            question = question,
+            word = word
+        )
+
+        db.session.add(new_hint)
+        db.session.commit()        
 
 class EditManager:
     
