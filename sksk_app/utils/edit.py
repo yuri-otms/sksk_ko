@@ -277,6 +277,26 @@ class EditManager:
             else:
                 element_id = None
         return element_id
+    
+    def fetchAll():
+        if request.args.get('l'):
+            level_id = EditManager.fetchLevel()
+            e_group_id = EditManager.fetchE_Group(level_id)
+            element_id = EditManager.fetchElement(e_group_id)
+        elif request.args.get('g'):
+            e_group_id = request.args.get('g')
+            level_id = db.session.get(E_Group, e_group_id).level
+            element_id = EditManager.fetchElement(e_group_id)
+        elif request.args.get('e'):
+            element_id = request.args.get('e')
+            e_group_id = db.session.get(Element, element_id).e_group
+            level_id = db.session.get(E_Group, e_group_id).level
+        else:
+            level_id = EditManager.fetchLevel()
+            e_group_id = EditManager.fetchE_Group(level_id)
+            element_id = EditManager.fetchElement(e_group_id)
+
+        return level_id, e_group_id, element_id
 
     def addE_GroupName(level_id):
         e_groups_raw = db.session.query(E_Group).filter(E_Group.level==level_id)

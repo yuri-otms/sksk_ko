@@ -40,8 +40,8 @@ def test_add_element(app):
 # QuestionManager
 def test_add_question(app):
     element = 1
-    japanese = '私は学生です。'
-    foreign_l = '저는 학생입니다.'
+    japanese = '私のカバンですか？'
+    foreign_l = '제 가방입니까?'
     style = 1
     position = None
     user = 1
@@ -49,7 +49,7 @@ def test_add_question(app):
         editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
         question = Question.query.filter(Question.japanese==japanese).first()
 
-    assert question.foreign_l == '저는 학생입니다.'
+    assert question.foreign_l == '제 가방입니까?'
 
 def test_fetch_questions_with_hints(app):
     element = 1

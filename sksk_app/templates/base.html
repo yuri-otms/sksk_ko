@@ -39,6 +39,11 @@
                     </li>
                     
                     {% endif %}
+                    {% if session['approve']: %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('approve.index')}}">承認</a>
+                    </li>
+                    {% endif %}
                     {% if session['admin']: %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('admin.index')}}">管理</a>

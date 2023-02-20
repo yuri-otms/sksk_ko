@@ -23,6 +23,7 @@ app.cli.add_command(create)
 @qtdb.cli.command('init')
 def init():
     level = 'ハン検5級'
+    description = '입니다, 고 싶다, ㄹ까요'
     QuestionManager.insert_level(level,None,None)
 
     style = 'ハムニダ体'

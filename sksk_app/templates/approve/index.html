@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>承認</h2>
+
+
+<p><a href="{{url_for('approve.level')}}">レベル</a></p>
+
+<p><a href="{{url_for('approve.e_group')}}">項目グループ</a></p>
+
+<p><a href="{{url_for('approve.element')}}">項目</a></p>
+
+<p><a href="{{url_for('approve.question')}}">質問</a></p>
+
+{% endblock %}
