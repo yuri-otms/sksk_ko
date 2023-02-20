@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1>レベル</h1>
+
+<p><a href="{{url_for('approve.index')}}">承認トップページ</a></p>
+
+<table>
+    <tr>
+        <th>レベル</th>
+        <th>説明</th>
+        <th>公開設定</th>
+    </tr>
+    {% for level in levels %}
+    <tr>
+        <td>{{level.level}}</td>
+        <td>{{level.description}}</td>
+        <td>
+            {% if level.released %}
+            <a href="{{url_for('approve.change_level', l=level.id, r=1)}}">○</a> 
+            {% else %}
+            <a href="{{url_for('approve.change_level', l=level.id, r=0)}}">×</a>
+            {% endif %}
+
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -38,6 +38,24 @@ def app():
         user = 1
         editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
 
+        element = 1
+        japanese = '私は学生です。'
+        foreign_l = '저는 학생입니다.'
+        style = 1
+        position = None
+        user = 1
+        editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
+
+
+        element = 1
+        japanese = '母は公務員です。'
+        foreign_l = '어머니는 공무원입니다.'
+        style = 1
+        position = None
+        user = 1
+        editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
+
+
         j_word = '医者'
         f_word = '의사'
         editor.WordManager.add_word(j_word, f_word)

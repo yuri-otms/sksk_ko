@@ -24,6 +24,8 @@ def create_app(test_config=None):
     app.register_blueprint(auth)
     from sksk_app.views.edit import edit
     app.register_blueprint(edit)
+    from sksk_app.views.approve import approve
+    app.register_blueprint(approve)
     from sksk_app.views.admin import admin
     app.register_blueprint(admin)
     from sksk_app.views.questions import qt

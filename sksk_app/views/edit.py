@@ -53,22 +53,10 @@ def show():
 
 @edit.route('/show/questions', methods=['GET'])
 def show_questions():
-    if request.args.get('l'):
-        level_id = editor.EditManager.fetchLevel()
-        e_group_id = editor.EditManager.fetchE_Group(level_id)
-        element_id = editor.EditManager.fetchElement(e_group_id)
-    elif request.args.get('g'):
-        e_group_id = request.args.get('g')
-        level_id = db.session.get(E_Group, e_group_id).level
-        element_id = editor.EditManager.fetchElement(e_group_id)
-    elif request.args.get('e'):
-        element_id = request.args.get('e')
-        e_group_id = db.session.get(Element, element_id).e_group
-        level_id = db.session.get(E_Group, e_group_id).level
-    else:
-        level_id = editor.EditManager.fetchLevel()
-        e_group_id = editor.EditManager.fetchE_Group(level_id)
-        element_id = editor.EditManager.fetchElement(e_group_id)
+    result = editor.EditManager.fetchAll()
+    level_id = result[0]
+    e_group_id = result[1]
+    element_id = result[2]
         
     element = db.session.get(Element, element_id)
 
@@ -100,22 +88,10 @@ def show_questions():
 
 @edit.route('/show/hints', methods=['GET'])
 def show_hints():
-    if request.args.get('l'):
-        level_id = editor.EditManager.fetchLevel()
-        e_group_id = editor.EditManager.fetchE_Group(level_id)
-        element_id = editor.EditManager.fetchElement(e_group_id)
-    elif request.args.get('g'):
-        e_group_id = request.args.get('g')
-        level_id = db.session.get(E_Group, e_group_id).level
-        element_id = editor.EditManager.fetchElement(e_group_id)
-    elif request.args.get('e'):
-        element_id = request.args.get('e')
-        e_group_id = db.session.get(Element, element_id).e_group
-        level_id = db.session.get(E_Group, e_group_id).level
-    else:
-        level_id = editor.EditManager.fetchLevel()
-        e_group_id = editor.EditManager.fetchE_Group(level_id)
-        element_id = editor.EditManager.fetchElement(e_group_id)
+    result = editor.EditManager.fetchAll()
+    level_id = result[0]
+    e_group_id = result[1]
+    element_id = result[2]
         
     element = db.session.get(Element, element_id)
 
