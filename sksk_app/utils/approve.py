@@ -1,5 +1,9 @@
+from flask import session
+from datetime import datetime
+
 from sksk_app import db
 from sksk_app.models import Level, E_Group, Element, Question
+import sksk_app.utils.edit as editor
 
 class ReleaseManager:
 
@@ -48,35 +52,55 @@ class ReleaseManager:
             db.session.merge(element)
             db.session.commit()
 
-    def change_question_settings(question_id):
+    def change_question_settings(user, question_id):
 
         question = db.session.get(Question, question_id)
+        executed_at = datetime.now()
+        message= 'なし'
 
         if question.released:
             question.released = False
 
             db.session.merge(question)
             db.session.commit()
+
+            editor.QuestionManager.record_process(user, question_id, 3, 0, message, executed_at)
+
         else:
             question.released = True
 
             db.session.merge(question)
             db.session.commit()
 
-    def release_questions(questions):
+            editor.QuestionManager.record_process(user, question_id, 3, 1, message, executed_at)
+
+        
+
+    def release_questions(user, questions):
+        executed_at = datetime.now()
+        message= 'なし'
+
 
         for question_id in questions:
             question = db.session.get(Question, question_id)
             question.released = True
             db.session.merge(question)
-        db.session.commit()
+            db.session.commit()
 
-    def unrelease_questions(questions):
+            editor.QuestionManager.record_process(user, question_id, 3, 1, message, executed_at)
+
+
+    def unrelease_questions(user, questions):
+        executed_at = datetime.now()
+        message= 'なし'
+
 
         for question_id in questions:
             question = db.session.get(Question, question_id)
             question.released = False
             db.session.merge(question)
-        db.session.commit()
+            db.session.commit()
+
+            editor.QuestionManager.record_process(user, question_id, 3, 0, message, executed_at)
 
         

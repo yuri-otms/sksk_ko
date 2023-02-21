@@ -6,7 +6,7 @@ import MeCab
 from konlpy.tag import Okt
 
 from sksk_app import db
-from sksk_app.models import Level, E_Group, Element, Question, Word, Hint, Style
+from sksk_app.models import Level, E_Group, Element, Question, Word, Hint, Style, Record
 
 class LevelManager:
     def add_level(level, description, position):
@@ -106,6 +106,23 @@ class QuestionManager:
         )
 
         db.session.add(new_question)
+        db.session.commit()
+
+        question_id = Question.query.with_entities(func.max(Question.id).label('max_id')).one().max_id
+
+        message = 'なし'
+        QuestionManager.record_process(user, question_id, 1, 1,message, created_at)
+
+    def record_process(user, question, process, result, message, time):
+        new_record = Record(
+            user = user,
+            question = question,
+            process = process,
+            result = result,
+            message = message,
+            executed_at = time
+        )
+        db.session.add(new_record)
         db.session.commit()
 
     def fetch_questions_with_hints(element):

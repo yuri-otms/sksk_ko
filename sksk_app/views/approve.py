@@ -161,7 +161,8 @@ def change_question():
 @login_required
 def change_question_execute():
     question_id = request.args.get('q')
-    approval.ReleaseManager.change_question_settings(question_id)
+    user_id = session.get('user_id')
+    approval.ReleaseManager.change_question_settings(user_id,question_id)
 
     question = db.session.get(Question, question_id)
     element_id = question.element
@@ -195,7 +196,8 @@ def release_questions():
 def release_questions_execute():
     element_id = request.args.get('element_id')
     releases = request.args.getlist('releases')
-    approval.ReleaseManager.release_questions(releases)
+    user_id = session.get('user_id')
+    approval.ReleaseManager.release_questions(user_id,releases)
 
     return redirect(url_for('approve.release_questions_done', e=element_id))
 
@@ -228,7 +230,8 @@ def unrelease_questions():
 def unrelease_questions_execute():
     element_id = request.args.get('e')
     releases = request.args.getlist('releases')
-    approval.ReleaseManager.unrelease_questions(releases)
+    user_id = session.get('user_id')
+    approval.ReleaseManager.unrelease_questions(user_id, releases)
 
     return redirect(url_for('approve.unrelease_questions_done', e=element_id))
 
