@@ -153,8 +153,8 @@ class Question(db.Model):
     def __repr__(self):
         return '<Element id:{} element:{} japanese:{} foreign:{} style:{} position:{} created_at:{} created_by:{} checked:{} released:{}>'.format(self.id, self.element, self.japanese, self.foreign_l, self.style, self.position, self.created_at, self.created_by, self.checked, self.released)
 
-class Question_Management(db.Model):
-    __tablename__  = 'question_management'
+class Record(db.Model):
+    __tablename__  = 'record'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     question = db.Column(db.Integer, db.ForeignKey('question.id'))
