@@ -7,9 +7,9 @@
 
 
 <div class="flex">
-    <select name="l" id="level1" onchange="location.href=value">
-        {% for level in levels %}
-        <option value="{{url_for('edit.index', l=level.id)}}">{{level.level}}</option>
+    <select name="l" id="grade1" onchange="location.href=value">
+        {% for grade in grades %}
+        <option value="{{url_for('edit.index', l=grade.id)}}">{{grade.grade}}</option>
         {% endfor %}
     </select> 
 
@@ -26,9 +26,9 @@
 </form>
 
 <div class="flex">
-    <select name="l" id="level2" onchange="location.href=value">
-        {% for level in levels %}
-        <option value="{{url_for('edit.index', l=level.id)}}">{{level.level}}</option>
+    <select name="l" id="grade2" onchange="location.href=value">
+        {% for grade in grades %}
+        <option value="{{url_for('edit.index', l=grade.id)}}">{{grade.grade}}</option>
         {% endfor %}
     </select> 
 
@@ -50,9 +50,9 @@
 
 <script>
 
-    let selected_level = '{{level_position}}' - 1;
-    document.getElementById("level1").options[selected_level].selected = true;
-    document.getElementById("level2").options[selected_level].selected = true;
+    let selected_grade = '{{grade_position}}' - 1;
+    document.getElementById("grade1").options[selected_grade].selected = true;
+    document.getElementById("grade2").options[selected_grade].selected = true;
 
 </script>
 

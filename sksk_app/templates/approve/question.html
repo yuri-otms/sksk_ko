@@ -8,15 +8,15 @@
 <p><a href="{{url_for('approve.index')}}">承認トップページ</a></p>
 
 <div class="flex">
-    <select name="level" id="level" onchange="location.href=value">
-        {% for level in levels %}
-        <option value="{{url_for('approve.question', l=level.id)}}">{{level.level}}</option>
+    <select name="grade" id="grade" onchange="location.href=value">
+        {% for grade in grades %}
+        <option value="{{url_for('approve.question', l=grade.id)}}">{{grade.grade}}</option>
         {% endfor %}
     </select> 
     
     <select name="e_group_id" id="e_group" onchange="location.href=value">
         {% for e_group in e_groups %}
-        <option value="{{url_for('approve.question',l=level_id,g=e_group.id)}}">{{e_group.e_group}}</option>
+        <option value="{{url_for('approve.question',l=grade_id,g=e_group.id)}}">{{e_group.e_group}}</option>
         {% endfor %}
     </select>
 
@@ -64,11 +64,11 @@
 
 <script>
 
-    let selected_level = '{{level.position}}' - 1;
+    let selected_grade = '{{grade.position}}' - 1;
     let selected_e_group = '{{e_group.position}}' - 1;
     let selected_element = '{{element.position}}' - 1;
     // console.log(selected_e_group)
-    document.getElementById("level").options[selected_level].selected = true;
+    document.getElementById("grade").options[selected_grade].selected = true;
     document.getElementById("e_group").options[selected_e_group].selected = true;
     document.getElementById("element").options[selected_element].selected = true;
     //チェックボックスを全て選択、全て解除

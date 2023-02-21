@@ -4,7 +4,7 @@ from flask_login import login_required
 from sqlalchemy import func
 
 from sksk_app import db
-from sksk_app.models import Level, E_Group, Element, Style, Question, Hint, Word
+from sksk_app.models import Grade, E_Group, Element, Style, Question, Hint, Word
 import sksk_app.utils.edit as editor
 import sksk_app.utils.api as api
 
@@ -21,52 +21,52 @@ def load_logged_in_user():
 @edit.route('/index')
 @login_required
 def index():
-    level_id = editor.EditManager.fetchLevel()
-    level = db.session.get(Level, level_id)
-    level_position = level.position
-    levels = Level.query.all()
-    e_groups = E_Group.query.filter(E_Group.level==level_id)
-    return render_template('edit/index.html', level_id=level_id, levels=levels, e_groups=e_groups, level_position=level_position)
+    grade_id = editor.EditManager.fetch_grade()
+    grade = db.session.get(Grade, grade_id)
+    grade_position = grade.position
+    grades = Grade.query.all()
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
+    return render_template('edit/index.html', grade_id=grade_id, grades=grades, e_groups=e_groups, grade_position=grade_position)
 
 @edit.route('/show', methods=['GET'])
 @login_required
 def show():
     #選択された項目グループの項目を表示
-    level_id = editor.EditManager.fetchLevel()
-    e_group_id = editor.EditManager.fetchE_Group(level_id)
+    grade_id = editor.EditManager.fetch_grade()
+    e_group_id = editor.EditManager.fetchE_Group(grade_id)
 
-    levels = db.session.query(Level).all()
-    e_groups = editor.EditManager.addE_GroupName(level_id)
+    grades = db.session.query(Grade).all()
+    e_groups = editor.EditManager.addE_GroupName(grade_id)
 
     e_group = db.session.get(E_Group, e_group_id)
-    level_id = e_group.level
-    level = db.session.get(Level, level_id)
-    level_name = level.level
-    level_position = level.position
+    grade_id = e_group.grade
+    grade = db.session.get(Grade, grade_id)
+    grade_name = grade.grade
+    grade_position = grade.position
     elements = Element.query.filter(Element.e_group==e_group_id)
     e_group_name = e_group.e_group
     e_group_position = e_group.position
     e_group_id = e_group.id
 
 
-    return render_template('edit/show.html', levels = levels, e_groups=e_groups, elements=elements,level_name=level_name, level_id=level_id, level_position = level_position,e_group_position=e_group_position,e_group_name=e_group_name, e_group_id=e_group_id)
+    return render_template('edit/show.html', grades = grades, e_groups=e_groups, elements=elements,grade_name=grade_name, grade_id=grade_id, grade_position = grade_position,e_group_position=e_group_position,e_group_name=e_group_name, e_group_id=e_group_id)
 
 @edit.route('/show/questions', methods=['GET'])
 def show_questions():
     result = editor.EditManager.fetchAll()
-    level_id = result[0]
+    grade_id = result[0]
     e_group_id = result[1]
     element_id = result[2]
         
     element = db.session.get(Element, element_id)
 
-    level = db.session.get(Level, level_id)
-    level_position = level.position
+    grade = db.session.get(Grade, grade_id)
+    grade_position = grade.position
 
-    e_group_id = editor.EditManager.fetchE_Group(level_id)
+    e_group_id = editor.EditManager.fetchE_Group(grade_id)
     e_group_position = db.session.get(E_Group, e_group_id).position
-    levels = Level.query.all()
-    e_groups = E_Group.query.filter(E_Group.level==level_id)
+    grades = Grade.query.all()
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     styles = Style.query.all()
 
     elements = Element.query.filter(Element.e_group==e_group_id)
@@ -84,63 +84,63 @@ def show_questions():
         }
         questions.append(one_question)
 
-    return render_template('edit/show_questions.html',level_id=level_id, level_position= level_position, e_group_position=e_group_position, levels=levels, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions)
+    return render_template('edit/show_questions.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions)
 
 @edit.route('/show/hints', methods=['GET'])
 def show_hints():
     result = editor.EditManager.fetchAll()
-    level_id = result[0]
+    grade_id = result[0]
     e_group_id = result[1]
     element_id = result[2]
         
     element = db.session.get(Element, element_id)
 
-    level = db.session.get(Level, level_id)
-    level_position = level.position
+    grade = db.session.get(Grade, grade_id)
+    grade_position = grade.position
 
-    e_group_id = editor.EditManager.fetchE_Group(level_id)
+    e_group_id = editor.EditManager.fetchE_Group(grade_id)
     e_group_position = db.session.get(E_Group, e_group_id).position
-    levels = Level.query.all()
-    e_groups = E_Group.query.filter(E_Group.level==level_id)
+    grades = Grade.query.all()
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     styles = Style.query.all()
 
     elements = Element.query.filter(Element.e_group==e_group_id)
 
     questions_with_hints = editor.QuestionManager.fetch_questions_with_hints(element.id)
 
-    return render_template('edit/show_hints.html',level_id=level_id, level_position= level_position, e_group_position=e_group_position, levels=levels, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints)
+    return render_template('edit/show_hints.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints)
 
 
-@edit.route('/add/level', methods=['POST'])
+@edit.route('/add/grade', methods=['POST'])
 @login_required
-def add_level():
-    level_name = request.form['level']
+def add_grade():
+    grade_name = request.form['grade']
     description = request.form['description']
     position = request.form['position']
 
-    level = Level(
-        level = level_name,
+    grade = Grade(
+        grade = grade_name,
         description = description,
         position = position
     
     )
 
-    return render_template('edit/add_level.html', level = level)
+    return render_template('edit/add_grade.html', grade = grade)
 
 
-@edit.route('/add/level_added', methods=['POST'])
+@edit.route('/add/grade_added', methods=['POST'])
 @login_required
-def add_level_execute():
-    level = request.form['level']
+def add_grade_execute():
+    grade = request.form['grade']
     description = request.form['description']
     position = request.form['position']
-    editor.LevelManager.add_level(level, description, position)
+    editor.GradeManager.add_grade(grade, description, position)
     # レベルを追加すると同時にグループを1つ追加する。
-    level_id = Level.query.filter(Level.level== level).first().id
+    grade_id = Grade.query.filter(Grade.grade== grade).first().id
     e_group = '新規グループ'
     description = '新規グループ'
     position = 1
-    editor.E_GroupManager.add_e_group(level_id, e_group, description, position)
+    editor.E_GroupManager.add_e_group(grade_id, e_group, description, position)
     # 項目グループを追加すると同時に項目を1つ追加する。
     e_group_id = E_Group.query.filter(E_Group.e_group==e_group).first().id
     element = '新規項目'
@@ -149,13 +149,13 @@ def add_level_execute():
     editor.ElementManager.add_element(e_group_id, element, description, position)
     
 
-    return redirect(url_for('edit.add_level_done'))
+    return redirect(url_for('edit.add_grade_done'))
 
 
 
-@edit.route('/add/level/done')
+@edit.route('/add/grade/done')
 @login_required
-def add_level_done():
+def add_grade_done():
     flash('レベルを登録を行いました。')
 
     return redirect(url_for('edit.show'))
@@ -163,30 +163,30 @@ def add_level_done():
 @edit.route('/add/e_group', methods=['POST'])
 @login_required
 def add_e_group():
-    level_id = request.form['level']
+    grade_id = request.form['grade']
     e_group = request.form['e_group_name']
     description = request.form['description']
     position = request.form['position']
 
-    level = db.session.get(Level, level_id)
+    grade = db.session.get(Grade, grade_id)
     e_group = E_Group(
-        level = level,
+        grade = grade,
         e_group = e_group,
         description = description,
         position = position
     )
 
-    return render_template('edit/add_e_group.html', e_group=e_group, level_name=level.level)
+    return render_template('edit/add_e_group.html', e_group=e_group, grade_name=grade.grade)
 
 @edit.route('/add/e_groupe_added', methods=['POST'])
 @login_required
 def add_e_group_execute():
-    level_id = request.form['level']
+    grade_id = request.form['grade']
     e_group = request.form['e_group']
     description = request.form['description']
     position = request.form['position']
 
-    editor.E_GroupManager.add_e_group(level_id, e_group, description, position)
+    editor.E_GroupManager.add_e_group(grade_id, e_group, description, position)
     # 項目グループを追加すると同時に項目を1つ追加する。
     e_group_id = E_Group.query.filter(E_Group.e_group==e_group).first().id
     element = '項目1'
@@ -194,14 +194,14 @@ def add_e_group_execute():
     position = 1
     editor.ElementManager.add_element(e_group_id, element, description, position)
 
-    return redirect(url_for('edit.add_e_group_done', l=level_id))
+    return redirect(url_for('edit.add_e_group_done', l=grade_id))
 
 @edit.route('/add/e_group_added_done')
 @login_required
 def add_e_group_done():
-    level_id = request.args.get('l')
+    grade_id = request.args.get('l')
     flash('項目グループを登録しました')
-    return redirect(url_for('edit.show', l=level_id))
+    return redirect(url_for('edit.show', l=grade_id))
 
 
 # 項目の追加
@@ -234,17 +234,17 @@ def add_element_execute():
 
     editor.ElementManager.add_element(e_group_id, element_name, description, position)
 
-    level_id = db.session.get(E_Group, e_group_id).level
+    grade_id = db.session.get(E_Group, e_group_id).grade
 
-    return redirect(url_for('edit.add_element_done', l=level_id, g=e_group_id))
+    return redirect(url_for('edit.add_element_done', l=grade_id, g=e_group_id))
 
 @edit.route('/add/element_added_done')
 @login_required
 def add_element_done():
-    level_id = request.args.get('l')
+    grade_id = request.args.get('l')
     e_group_id = request.args.get('g')
     flash('項目を登録しました')
-    return redirect(url_for('edit.show', l=level_id, g=e_group_id))
+    return redirect(url_for('edit.show', l=grade_id, g=e_group_id))
 
 @edit.route('/add/question', methods=['POST'])
 @login_required
@@ -258,13 +258,13 @@ def add_question():
     style = db.session.get(Style, style_id)
     element = db.session.get(Element, element_id)
     e_group = db.session.get(E_Group, element.e_group)
-    level = db.session.get(Level, e_group.level)
+    grade = db.session.get(Grade, e_group.grade)
 
     ja_to_ko = api.Papago.ja_to_ko(japanese)
     ko_to_ja = api.Papago.ko_to_ja(foreign_l)
 
     question = {
-        "level":level.level,
+        "grade":grade.grade,
         "e_group":e_group.e_group,
         "element_id":element.id,
         "element": element.element,
@@ -283,13 +283,14 @@ def add_question():
 @login_required
 def add_question_execute():
     element = request.form['element']
+    level = 1
     japanese1 = request.form['japanese1']
     foreign_l1 = request.form['foreign_l1']
     style = request.form['style']
     position = request.form['position']
     user = session.get('user_id')
 
-    editor.QuestionManager.add_question(element, japanese1, foreign_l1, style, position, user)
+    editor.QuestionManager.add_question(element, level, japanese1, foreign_l1, style, position, user)
 
     return redirect(url_for('edit.add_question_done', e=element))
 

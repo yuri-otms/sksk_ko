@@ -3,7 +3,7 @@ from flask import Blueprint, redirect, url_for, render_template, \
 from flask_login import login_required
 
 from sksk_app import db
-from sksk_app.models import Level, E_Group, Element, Question
+from sksk_app.models import Grade, E_Group, Element, Question
 import sksk_app.utils.approve as approval
 import sksk_app.utils.edit as editor
 
@@ -22,45 +22,45 @@ def load_logged_in_user():
 def index():
     return render_template('approve/index.html')
 
-@approve.route('/level')
+@approve.route('/grade')
 @login_required
-def level():
-    levels = Level.query.all()
-    return render_template('approve/level.html', levels=levels)
+def grade():
+    grades = Grade.query.all()
+    return render_template('approve/grade.html', grades=grades)
 
-@approve.route('/change/level')
+@approve.route('/change/grade')
 @login_required
-def change_level():
-    level_id = request.args.get('l')
+def change_grade():
+    grade_id = request.args.get('l')
 
-    level = db.session.get(Level, level_id)
-    return render_template('approve/change_level.html', level=level)
+    grade = db.session.get(Grade, grade_id)
+    return render_template('approve/change_grade.html', grade=grade)
 
-@approve.route('/change/level_changed', methods=['GET'])
+@approve.route('/change/grade_changed', methods=['GET'])
 @login_required
-def change_level_execute():
-    level_id = request.args.get('l')
+def change_grade_execute():
+    grade_id = request.args.get('l')
 
-    approval.ReleaseManager.change_level_settings(level_id)
+    approval.ReleaseManager.change_grade_settings(grade_id)
 
-    return redirect(url_for('approve.change_level_done'))
+    return redirect(url_for('approve.change_grade_done'))
 
-@approve.route('/change/level_changed_done')
+@approve.route('/change/grade_changed_done')
 @login_required
-def change_level_done():
+def change_grade_done():
     flash('レベルの公開設定を変更しました')
 
-    return redirect(url_for('approve.level'))
+    return redirect(url_for('approve.grade'))
 
 
 @approve.route('/e_group')
 @login_required
 def e_group():
-    level_id = editor.EditManager.fetchLevel()
-    levels = Level.query.all()
-    level = db.session.get(Level, level_id)
-    e_groups = E_Group.query.filter(E_Group.level==level_id)
-    return render_template('approve/e_group.html', e_groups=e_groups, level = level, levels=levels)
+    grade_id = editor.EditManager.fetch_grade()
+    grades = Grade.query.all()
+    grade = db.session.get(Grade, grade_id)
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
+    return render_template('approve/e_group.html', e_groups=e_groups, grade = grade, grades=grades)
 
 @approve.route('/change/e_group')
 @login_required
@@ -76,31 +76,31 @@ def change_e_group_execute():
     approval.ReleaseManager.change_e_group_settings(e_group_id)
 
     e_group = db.session.get(E_Group, e_group_id)
-    level = e_group.level
-    return redirect(url_for('approve.change_e_group_done', l=level))
+    grade = e_group.grade
+    return redirect(url_for('approve.change_e_group_done', l=grade))
 
 @approve.route('/change/e_group_changed_done')
 @login_required
 def change_e_group_done():
-    level = request.args.get('l')
+    grade = request.args.get('l')
     flash('項目グループの公開設定を変更しました。')
-    return redirect(url_for('approve.e_group', l= level))
+    return redirect(url_for('approve.e_group', l= grade))
 
 @approve.route('/element')
 @login_required
 def element():
     result = editor.EditManager.fetchAll()
-    level_id = result[0]
+    grade_id = result[0]
     e_group_id = result[1]
 
-    level = db.session.get(Level, level_id)
+    grade = db.session.get(Grade, grade_id)
     e_group = db.session.get(E_Group, e_group_id)
-    levels = Level.query.all()
-    e_groups = E_Group.query.filter(E_Group.level==level_id)
+    grades = grade.query.all()
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     elements = Element.query.filter(Element.e_group==e_group_id)
 
 
-    return render_template('approve/element.html',  level=level, levels=levels, e_group=e_group, e_groups=e_groups, elements=elements)
+    return render_template('approve/element.html',  grade=grade, grades=grades, e_group=e_group, e_groups=e_groups, elements=elements)
 
 @approve.route('/change/element')
 @login_required
@@ -134,18 +134,18 @@ def change_element_done():
 @login_required
 def question():
     result = editor.EditManager.fetchAll()
-    level_id = result[0]
+    grade_id = result[0]
     e_group_id = result[1]
     element_id = result[2]
 
-    level = db.session.get(Level, level_id)
+    grade = db.session.get(Grade, grade_id)
     e_group = db.session.get(E_Group, e_group_id)
     element = db.session.get(Element, element_id)
-    levels = Level.query.all()
-    e_groups = E_Group.query.filter(E_Group.level==level_id)
+    grades = Grade.query.all()
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     elements = Element.query.filter(Element.e_group==e_group_id)
     questions = Question.query.filter(Question.element==element_id)
-    return render_template('approve/question.html', level= level, e_group=e_group, element=element, levels=levels, e_groups=e_groups, elements=elements, questions=questions)
+    return render_template('approve/question.html', grade= grade, e_group=e_group, element=element, grades=grades, e_groups=e_groups, elements=elements, questions=questions)
 
 
 

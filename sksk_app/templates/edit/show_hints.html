@@ -8,15 +8,15 @@
 <p><a href="{{url_for('edit.show_questions')}}">問題文の登録</a></p>
 
 <div class="flex">
-    <select name="level" id="level" onchange="location.href=value">
-        {% for level in levels %}
-        <option value="{{url_for('edit.show_hints', l=level.id)}}">{{level.level}}</option>
+    <select name="grade" id="grade" onchange="location.href=value">
+        {% for grade in grades %}
+        <option value="{{url_for('edit.show_hints', l=grade.id)}}">{{grade.grade}}</option>
         {% endfor %}
     </select> 
     
     <select name="e_group_id" id="e_group" onchange="location.href=value">
         {% for e_group in e_groups %}
-        <option value="{{url_for('edit.show_hints',l=level_id,g=e_group.id)}}">{{e_group.e_group}}</option>
+        <option value="{{url_for('edit.show_hints',l=grade_id,g=e_group.id)}}">{{e_group.e_group}}</option>
         {% endfor %}
     </select>
 
@@ -81,10 +81,10 @@
 
 <script>
     
-    let selected_level = '{{level_position}}' - 1;
+    let selected_grade = '{{grade_position}}' - 1;
     let selected_e_group = '{{e_group_position}}' - 1;
     let selected_element = '{{element.position}}' - 1;
-    document.getElementById("level").options[selected_level].selected = true;
+    document.getElementById("grade").options[selected_grade].selected = true;
     document.getElementById("e_group").options[selected_e_group].selected = true;
     document.getElementById("element").options[selected_element].selected = true;
 

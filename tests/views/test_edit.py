@@ -2,7 +2,7 @@ from flask import session
 from sqlalchemy import func
 
 from sksk_app import db
-from sksk_app.models import Level
+from sksk_app.models import Grade
 
 def test_show(client, app, auth):
     auth.login()
@@ -11,8 +11,8 @@ def test_show(client, app, auth):
     assert b"edit_toppage" in response.data
 
     with app.app_context():
-        level = db.session.query(Level).all()
-        assert level is not None
+        grade = db.session.query(Grade).all()
+        assert grade is not None
 
 
     

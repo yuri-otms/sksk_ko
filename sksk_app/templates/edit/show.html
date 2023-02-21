@@ -14,19 +14,19 @@
         <th>項番</th>
         <th>編集</th>
     </tr>
-    {% for level in levels %}
+    {% for grade in grades %}
     <tr>
-        <td>{{level.level}}</td>
-        <td>{{level.description}}</td>
-        <td>{{level.position}}</td>
+        <td>{{grade.grade}}</td>
+        <td>{{grade.description}}</td>
+        <td>{{grade.position}}</td>
         <td>編集</td>
         
     </tr>
     {% endfor %}
     <tr>
-        <form action="{{url_for('edit.add_level')}}" method="post">
+        <form action="{{url_for('edit.add_grade')}}" method="post">
             <td>
-            <input type="text" name="level">
+            <input type="text" name="grade">
             </td>
             <td>
             <input type="text" name="description">
@@ -45,9 +45,9 @@
 
 <h2>項目グループ</h2>
 
-<select name="level" id="level1" onchange="location.href=value">
-    {% for level in levels %}
-    <option value="{{url_for('edit.show', l=level.id)}}#e_group">{{level.level}}</option>
+<select name="grade" id="grade1" onchange="location.href=value">
+    {% for grade in grades %}
+    <option value="{{url_for('edit.show', l=grade.id)}}#e_group">{{grade.grade}}</option>
     {% endfor %}
 </select>
 
@@ -79,7 +79,7 @@
             <input type="text" name="position">
             </td>
             <td>
-            <input type="hidden" name="level" value="{{level_id}}">
+            <input type="hidden" name="grade" value="{{grade_id}}">
             <button type="submit">追加</button>
             </td>
         </form>
@@ -94,16 +94,16 @@
 
 
 <div class="flex">
-<select name="level" id="level2" onchange="location.href=value">
-    {% for level in levels %}
-    <option value="{{url_for('edit.show', l=level.id)}}#element">{{level.level}}</option>
+<select name="grade" id="grade2" onchange="location.href=value">
+    {% for grade in grades %}
+    <option value="{{url_for('edit.show', l=grade.id)}}#element">{{grade.grade}}</option>
     {% endfor %}
 </select>
 
 
 <select name="e_group_id" id="e_group" onchange="location.href=value">
     {% for e_group in e_groups %}
-    <option value="{{url_for('edit.show',l=level_id,g=e_group.id)}}#element">{{e_group.e_group}}</option>
+    <option value="{{url_for('edit.show',l=grade_id,g=e_group.id)}}#element">{{e_group.e_group}}</option>
     {% endfor %}
 </select>
 
@@ -150,11 +150,11 @@
 <script>
 
 
-    let selected_level = '{{level_position}}' - 1;
+    let selected_grade = '{{grade_position}}' - 1;
     let selected_e_group = '{{e_group_position}}' - 1;
     // console.log(selected_e_group)
-    document.getElementById("level1").options[selected_level].selected = true;
-    document.getElementById("level2").options[selected_level].selected = true;
+    document.getElementById("grade1").options[selected_grade].selected = true;
+    document.getElementById("grade2").options[selected_grade].selected = true;
 
     document.getElementById("e_group").options[selected_e_group].selected = true;
 

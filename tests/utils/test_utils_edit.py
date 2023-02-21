@@ -1,26 +1,26 @@
 from sksk_app import db
-from sksk_app.models import Level, E_Group, Element, Question, Word, Hint
+from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint
 import sksk_app.utils.edit as editor
 
-# LevelManager
-def test_add_level(app):
-    level_name = 'ハン検4級'
+# gradeManager
+def test_add_grade(app):
+    grade_name = 'ハン検4級'
     description = '거예요, 아서, 러'
     position = 3
     with app.app_context():
-        editor.LevelManager.add_level(level_name,description, position)
-        level = Level.query.filter(Level.level==level_name).first()
+        editor.GradeManager.add_grade(grade_name,description, position)
+        grade = Grade.query.filter(Grade.grade==grade_name).first()
     
-    assert level.description == '거예요, 아서, 러'
+    assert grade.description == '거예요, 아서, 러'
 
 # E_GroupManager
 def test_add_e_group(app):
-    level = 1
+    grade = 1
     e_group_name = "ハムニダ用言、助詞、否定"
     description = "갑니다,에서,지 않다"
     position = None
     with app.app_context():
-        editor.E_GroupManager.add_e_group(level, e_group_name, description, position)
+        editor.E_GroupManager.add_e_group(grade, e_group_name, description, position)
         e_group = E_Group.query.filter(E_Group.e_group==e_group_name).first()
 
     assert e_group.description == '갑니다,에서,지 않다'
@@ -40,13 +40,14 @@ def test_add_element(app):
 # QuestionManager
 def test_add_question(app):
     element = 1
+    level = 1
     japanese = '私のカバンですか？'
     foreign_l = '제 가방입니까?'
     style = 1
     position = None
     user = 1
     with app.app_context():
-        editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
         question = Question.query.filter(Question.japanese==japanese).first()
 
     assert question.foreign_l == '제 가방입니까?'

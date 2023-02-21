@@ -6,41 +6,41 @@ import MeCab
 from konlpy.tag import Okt
 
 from sksk_app import db
-from sksk_app.models import Level, E_Group, Element, Question, Word, Hint, Style, Record
+from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record
 
-class LevelManager:
-    def add_level(level, description, position):
+class GradeManager:
+    def add_grade(grade, description, position):
         if not position:
             max_position = db.session.query(
-                func.max(Level.position).label('level_max')).one()
-            max = int(max_position.level_max)
+                func.max(Grade.position).label('grade_max')).one()
+            max = int(max_position.grade_max)
             position = max + 1
 
-        new_level = Level(
-            level = level,
+        new_grade = Grade(
+            grade = grade,
             description = description,
             position = position
         )
         
-        db.session.add(new_level)
+        db.session.add(new_grade)
         db.session.commit()
 
 
         
 
 class E_GroupManager:
-    def add_e_group(level, e_group, description, position):
+    def add_e_group(grade, e_group, description, position):
         if not position:
-            e_group_exist = E_Group.query.filter(E_Group.level==level).first()
+            e_group_exist = E_Group.query.filter(E_Group.grade==grade).first()
             if e_group_exist:
-                max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.level==level).one()
+                max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.grade==grade).one()
                 max = int(max_position.e_group_max)
                 position = max + 1
             else:
                 position = 1
 
         new_e_group = E_Group(
-            level = level,
+            grade = grade,
             e_group = e_group,
             description = description,
             position = position
@@ -82,7 +82,7 @@ class StyleManager:
         db.session.commit()
 
 class QuestionManager:
-    def add_question(element, japanese, foreign_l, style, position, user):
+    def add_question(element, level,  japanese, foreign_l, style, position, user):
 
         if not position:
             question_exist = Question.query.filter(Question.element==element).first()
@@ -97,6 +97,7 @@ class QuestionManager:
         
         new_question = Question(
             element = element,
+            level = level,
             japanese = japanese,
             foreign_l = foreign_l,
             style = style,
@@ -263,21 +264,21 @@ class HintManager:
 
 class EditManager:
     
-    def fetchLevel():
+    def fetch_grade():
         if request.args.get('l'):
-            level_id = request.args.get('l')
+            grade_id = request.args.get('l')
         else:
-            level= Level.query.with_entities(func.min(Level.id).label('level_min')).first()
-            level_id = level.level_min
-        return level_id
+            grade= Grade.query.with_entities(func.min(Grade.id).label('grade_min')).first()
+            grade_id = grade.grade_min
+        return grade_id
 
-    def fetchE_Group(level_id):
+    def fetchE_Group(grade_id):
         if request.args.get('g'):
             e_group_id = request.args.get('g')
         else:
-            e_group = E_Group.query.filter(E_Group.level == level_id).first()
+            e_group = E_Group.query.filter(E_Group.grade == grade_id).first()
             if e_group:
-                e_group = E_Group.query.with_entities(E_Group.level, func.min(E_Group.id).label('e_group_min')).filter(E_Group.level==level_id).group_by(E_Group.level).one()
+                e_group = E_Group.query.with_entities(E_Group.grade, func.min(E_Group.id).label('e_group_min')).filter(E_Group.grade==grade_id).group_by(E_Group.grade).one()
                 e_group_id = e_group.e_group_min
             else:
                 e_group_id = None
@@ -297,33 +298,33 @@ class EditManager:
     
     def fetchAll():
         if request.args.get('l'):
-            level_id = EditManager.fetchLevel()
-            e_group_id = EditManager.fetchE_Group(level_id)
+            grade_id = EditManager.fetch_grade()
+            e_group_id = EditManager.fetchE_Group(grade_id)
             element_id = EditManager.fetchElement(e_group_id)
         elif request.args.get('g'):
             e_group_id = request.args.get('g')
-            level_id = db.session.get(E_Group, e_group_id).level
+            grade_id = db.session.get(E_Group, e_group_id).grade
             element_id = EditManager.fetchElement(e_group_id)
         elif request.args.get('e'):
             element_id = request.args.get('e')
             e_group_id = db.session.get(Element, element_id).e_group
-            level_id = db.session.get(E_Group, e_group_id).level
+            grade_id = db.session.get(E_Group, e_group_id).grade
         else:
-            level_id = EditManager.fetchLevel()
-            e_group_id = EditManager.fetchE_Group(level_id)
+            grade_id = EditManager.fetch_grade()
+            e_group_id = EditManager.fetchE_Group(grade_id)
             element_id = EditManager.fetchElement(e_group_id)
 
-        return level_id, e_group_id, element_id
+        return grade_id, e_group_id, element_id
 
-    def addE_GroupName(level_id):
-        e_groups_raw = db.session.query(E_Group).filter(E_Group.level==level_id)
+    def addE_GroupName(grade_id):
+        e_groups_raw = db.session.query(E_Group).filter(E_Group.grade==grade_id)
         e_groups = []
         for e_group in e_groups_raw:
-            level_name = db.session.get(Level, e_group.level)
+            grade_name = db.session.get(Grade, e_group.grade)
             e_group_added = {
                 "id":e_group.id,
-                "level":e_group.level,
-                "level_name":level_name.level,
+                "grade":e_group.grade,
+                "grade_name":grade_name.grade,
                 "e_group":e_group.e_group,
                 "description":e_group.description,
                 "position":e_group.position,
