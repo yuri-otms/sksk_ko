@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
-    target_level = db.Column(db.Integer, db.ForeignKey('level.id'), nullable=False, default=1)
+    target_grade = db.Column(db.Integer, db.ForeignKey('grade.id'), nullable=False, default=1)
     edit = db.Column(db.Boolean, nullable=False, default=False)
     check = db.Column(db.Boolean, nullable=False, default=False)
     approve = db.Column(db.Boolean, nullable=False, default=False)
@@ -20,12 +20,12 @@ class User(UserMixin, db.Model):
 
 
     def __init__(self, name=None, email=None, password=None,
-        target_level=None, edit=None, check=None, approve=None,
+        target_grade=None, edit=None, check=None, approve=None,
         admin=None, registered_at=None):
         self.name = name
         self.email = email
         self.password = password
-        self.target_level = target_level
+        self.target_grade = target_grade
         self.edit = edit
         self.check = check
         self.approve = approve
@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
         self.registered_at = registered_at
     
     def __repr__(self):
-        return '<User id:{} name:{} password:{}>'.format(self.id, self.name, self.email, self.password, self.target_level, self.edit, self.check, self.approve, self.admin, self.registered_at)
+        return '<User id:{} name:{} email:{} password:{} target_grade:{} edit:{} check:{} approve:{} admin:{} registered_at:{}>'.format(self.id, self.name, self.email, self.password, self.target_grade, self.edit, self.check, self.approve, self.admin, self.registered_at)
 
 class Process(db.Model):
     __tablename__ = 'process'
@@ -67,42 +67,42 @@ class Score(db.Model):
         return '<Score id:{} user:{} question:{} correct:{} answered_at:{}>'.format(self.id, self.user, self.question, self.correct, self.review, self.answered_at)
 
 
-class Level(db.Model):
-    __tablename__ = 'level'
+class Grade(db.Model):
+    __tablename__ = 'grade'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    level = db.Column(db.String(30), unique=True)
+    grade = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(100))
     position = db.Column(db.Integer, default=1)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, level=None, description=None, position=None, released=None):
-        self.level = level
+    def __init__(self, grade=None, description=None, position=None, released=None):
+        self.grade = grade
         self.description = description
         self.position = position
         self.released = released
     
     def __repr__(self):
-        return '<level id:{} level:{} description:{} posision:{} released:{}>'.format(self.id, self.level, self.description, self.position, self.released)
+        return '<grade id:{} grade:{} description:{} posision:{} released:{}>'.format(self.id, self.grade, self.description, self.position, self.released)
 
 class E_Group(db.Model):
     __tablename__ = 'e_group'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    level = db.Column(db.Integer, db.ForeignKey('level.id'))
+    grade = db.Column(db.Integer, db.ForeignKey('grade.id'))
     e_group = db.Column(db.String(100))
     description = db.Column(db.String(100))
     position = db.Column(db.Integer, default=1)
     released = db.Column(db.Boolean, nullable=False,default=0)
 
-    def __init__(self, level=None, e_group=None, description=None, position=None,released=None):
-        self.level = level
+    def __init__(self, grade=None, e_group=None, description=None, position=None,released=None):
+        self.grade = grade
         self.e_group = e_group
         self.description = description
         self.position = position
         self.released = released
     
     def __repr__(self):
-        return '<Group id:{} level:{} e_group:{} description:{} position:{} released:{}>'.format(self.id, self.level, self.e_group, self.description, self.position, self.released)
+        return '<Group id:{} grade:{} e_group:{} description:{} position:{} released:{}>'.format(self.id, self.grade, self.e_group, self.description, self.position, self.released)
 
 class Element(db.Model):
     __tablename__ = 'element'
@@ -123,15 +123,23 @@ class Element(db.Model):
         self.released = released
     
     def __repr__(self):
-        return '<Element id:{} group:{} no:{} element:{} description:{} position:{} released:{}>'.format(self.id, self.level, self.group, self.no,  self.element, self.description, self.position, self.released)
+        return '<Element id:{} group:{} no:{} element:{} description:{} position:{} released:{}>'.format(self.id, self.grade, self.group, self.no,  self.element, self.description, self.position, self.released)
+    
+class Level(db.Model):
+    __tablename__ = 'level'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    level = db.Column(db.Integer)
 
 class Question(db.Model):
     __tablename__ = 'question'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     element = db.Column(db.Integer, db.ForeignKey('element.id'))
+    level = db.Column(db.Integer, db.ForeignKey('level.id'))
     japanese = db.Column(db.String(100))
     foreign_l = db.Column(db.String(100))
     style = db.Column(db.Integer, db.ForeignKey('style.id'))
+    spoken = db.Column(db.Boolean, nullable=False, default=0)
+    sida = db.Column(db.Boolean, nullable=False, default=0)
     position = db.Column(db.Integer, default=1)
     created_at = db.Column(db.DateTime, nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -139,11 +147,14 @@ class Question(db.Model):
     released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, element=None, japanese=None,foreign_l=None, style=None, position=None, created_at=None, created_by=None, checked=None, released=None):
+    def __init__(self, element=None, level=None, japanese=None,foreign_l=None, style=None, spoken=None, sida=None, position=None, created_at=None, created_by=None, checked=None, released=None):
         self.element = element
+        self.level = level
         self.japanese = japanese
         self.foreign_l = foreign_l
         self.style = style
+        self.spoken = spoken
+        self.sida = sida
         self.position = position
         self.created_at = created_at
         self.created_by =created_by
@@ -151,7 +162,7 @@ class Question(db.Model):
         self.released = released
     
     def __repr__(self):
-        return '<Element id:{} element:{} japanese:{} foreign:{} style:{} position:{} created_at:{} created_by:{} checked:{} released:{}>'.format(self.id, self.element, self.japanese, self.foreign_l, self.style, self.position, self.created_at, self.created_by, self.checked, self.released)
+        return '<Element id:{} element:{} level:{} japanese:{} foreign:{} style:{} spoken:{} sida:{} position:{} created_at:{} created_by:{} checked:{} released:{}>'.format(self.id, self.element, self.level, self.japanese, self.foreign_l, self.style, self.spoken, self.sida, self.position, self.created_at, self.created_by, self.checked, self.released)
 
 class Record(db.Model):
     __tablename__  = 'record'

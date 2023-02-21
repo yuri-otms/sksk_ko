@@ -3,7 +3,7 @@ from flask import Flask
 from flask import Blueprint
 
 from sksk_app import db
-from sksk_app.models import User, Level, Process
+from sksk_app.models import User, Grade, Process, Level
 from sksk_app.utils.auth import UserManager
 import sksk_app.utils.edit as editor
 
@@ -21,10 +21,10 @@ app.cli.add_command(create)
 
 @qtdb.cli.command('init')
 def init():
-    level = 'ハン検5級'
+    grade = 'ハン検5級'
     description = '입니다, 고 싶다, ㄹ까요'
     position = 1
-    editor.LevelManager.add_level(level, description,position)
+    editor.GradeManager.add_grade(grade, description,position)
 
 
     name = 'test'
@@ -49,11 +49,11 @@ def init():
     style = 'ハオ体'
     editor.StyleManager.add_style(style)
 
-    level = 1
+    grade = 1
     e_group = '指示詞、存在詞、数詞'
     description = '입니다, 있다, 하나'
     position = 1
-    editor.E_GroupManager.add_e_group(level, e_group, description, position)
+    editor.E_GroupManager.add_e_group(grade, e_group, description, position)
 
     e_group = 1
     element = '指示詞'
@@ -61,13 +61,20 @@ def init():
     position = 1
     editor.ElementManager.add_element(e_group, element, description, position)
 
+    new_level = Level(
+        level = 1
+    )
+    db.session.add(new_level)
+    db.session.commit()
+
     element = 1
+    level = 1
     japanese = '父は医者です。'
     foreign_l = '아버지는 의사입니다.'
     style = 1
     position = None
     user = 1
-    editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, position, user)
 
     # element = 1
     # japanese = '私は学生です。'
@@ -94,31 +101,14 @@ def init():
     print("Insert User Data ")
 
 @qtdb.cli.command('temp')
-def delete_level():
-    level = 1
+def delete_grade():
+    grade = 1
     e_group = '指示詞、存在詞、数詞'
     description = '입니다, 있다, 하나'
     position = 1
-    editor.E_GroupManager.add_e_group(level, e_group, description, position)
+    editor.E_GroupManager.add_e_group(grade, e_group, description, position)
     # user = db.session.get(User, 1)
     # user.check = False
     # db.session.merge(user)
     # db.session.commit()
     print("Execute temp")
-
-@qtdb.cli.command('add_element')
-def delete_level():
-    e_group = 1
-    element = '指示詞'
-    description = '입니다'
-    position = 1
-    editor.ElementManager.add_e_group(e_group, element, description, position)
-    QuestionManager.delete_testing_levels()
-
-    print("Delete Levels")
-
-@qtdb.cli.command('delete_level')
-def delete_level():
-    QuestionManager.delete_testing_levels()
-
-    print("Delete Levels")

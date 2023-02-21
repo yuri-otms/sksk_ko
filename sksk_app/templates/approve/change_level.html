@@ -5,7 +5,7 @@
 <h1>レベル</h1>
 
 
-{% if level.released %}
+{% if grade.released %}
 <p>以下のレベルを非公開にしますか。</p>
 {% else %}
 <p>以下のレベルを公開しますか。</p>
@@ -18,10 +18,10 @@
         <th>公開設定</th>
     </tr>
     <tr>
-        <td>{{level.level}}</td>
-        <td>{{level.description}}</td>
+        <td>{{grade.grade}}</td>
+        <td>{{grade.description}}</td>
         <td>
-            {% if level.released %}
+            {% if grade.released %}
             ○
             {% else %}
             ×
@@ -31,10 +31,10 @@
     </tr>
 </table>
 
-{% if level.released %}
-<a href="{{url_for('approve.change_level_execute', l=level.id)}}">非公開にする</a>
+{% if grade.released %}
+<a href="{{url_for('approve.change_grade_execute', l=grade.id)}}">非公開にする</a>
 {% else %}
-<a href="{{url_for('approve.change_level_execute', l=level.id)}}">公開する</a>
+<a href="{{url_for('approve.change_grade_execute', l=grade.id)}}">公開する</a>
 {% endif %}
 
 

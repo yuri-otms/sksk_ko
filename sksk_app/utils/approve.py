@@ -2,24 +2,24 @@ from flask import session
 from datetime import datetime
 
 from sksk_app import db
-from sksk_app.models import Level, E_Group, Element, Question
+from sksk_app.models import Grade, E_Group, Element, Question
 import sksk_app.utils.edit as editor
 
 class ReleaseManager:
 
-    def change_level_settings(level_id):
+    def change_grade_settings(grade_id):
 
-        level = db.session.get(Level, level_id)
+        grade = db.session.get(Grade, grade_id)
 
-        if level.released:
-            level.released = False
+        if grade.released:
+            grade.released = False
 
-            db.session.merge(level)
+            db.session.merge(grade)
             db.session.commit()
         else:
-            level.released = True
+            grade.released = True
 
-            db.session.merge(level)
+            db.session.merge(grade)
             db.session.commit()
 
     def change_e_group_settings(e_group_id):

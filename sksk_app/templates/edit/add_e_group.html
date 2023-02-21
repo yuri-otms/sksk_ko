@@ -13,7 +13,7 @@
         <th>項番</th>
     </tr>
     <tr>
-        <td>{{level_name}}</td>
+        <td>{{grade_name}}</td>
         <td>{{e_group.e_group}}</td>
         <td>{{e_group.description}}</td>
         <td>{{e_group.position}}</td>
@@ -21,7 +21,7 @@
 </table>
 
 <form action="{{url_for('edit.add_e_group_execute')}}" method="POST">
-    <input type="hidden" name="level" value="{{e_group.level.id}}">
+    <input type="hidden" name="grade" value="{{e_group.grade.id}}">
     <input type="hidden" name="e_group" value="{{e_group.e_group}}">
     <input type="hidden" name="description" value="{{e_group.description}}">
     <input type="hidden" name="position" value="{{e_group.position}}">

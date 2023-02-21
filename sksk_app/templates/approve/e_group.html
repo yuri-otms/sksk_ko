@@ -7,9 +7,9 @@
 
 <p><a href="{{url_for('approve.index')}}">承認トップページ</a></p>
 
-<select name="level" id="level" onchange="location.href=value">
-    {% for level in levels %}
-    <option value="{{url_for('approve.e_group', l=level.id)}}#e_group">{{level.level}}</option>
+<select name="grade" id="grade" onchange="location.href=value">
+    {% for grade in grades %}
+    <option value="{{url_for('approve.e_group', l=grade.id)}}#e_group">{{grade.grade}}</option>
     {% endfor %}
 </select>
 
@@ -40,9 +40,9 @@
 <script>
 
 
-    let selected_level = '{{level.position}}' - 1;
+    let selected_grade = '{{grade.position}}' - 1;
     // console.log(selected_e_group)
-    document.getElementById("level").options[selected_level].selected = true;
+    document.getElementById("grade").options[selected_grade].selected = true;
 
 </script>
 

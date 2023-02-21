@@ -12,15 +12,15 @@
         <th>説明</th>
         <th>公開設定</th>
     </tr>
-    {% for level in levels %}
+    {% for grade in grades %}
     <tr>
-        <td>{{level.level}}</td>
-        <td>{{level.description}}</td>
+        <td>{{grade.grade}}</td>
+        <td>{{grade.description}}</td>
         <td>
-            {% if level.released %}
-            <a href="{{url_for('approve.change_level', l=level.id, r=1)}}">○</a> 
+            {% if grade.released %}
+            <a href="{{url_for('approve.change_grade', l=grade.id, r=1)}}">○</a> 
             {% else %}
-            <a href="{{url_for('approve.change_level', l=level.id, r=0)}}">×</a>
+            <a href="{{url_for('approve.change_grade', l=grade.id, r=0)}}">×</a>
             {% endif %}
 
         </td>

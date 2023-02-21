@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, url_for, render_template
-from sksk_app.models import Level
+from sksk_app.models import Grade
 
 pg = Blueprint('pg', __name__)
 
