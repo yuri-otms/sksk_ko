@@ -8,7 +8,6 @@ import sksk_app.utils.edit as editor
 
 guest = Blueprint('guest', __name__, url_prefix='/guest')
 
-
 @guest.route('/select_grade')
 def select_grade():
     grades = Grade.query.filter(Grade.released==1)
@@ -29,19 +28,22 @@ def select_element():
     grades = db.session.query(Grade).all()
     e_groups = editor.EditManager.addE_GroupName(grade_id)
 
-    e_group = db.session.get(E_Group, e_group_id)
     grade = db.session.get(Grade, grade_id)
+    e_group = db.session.get(E_Group, e_group_id)
     grade_position = grade.position
     e_group_position = e_group.position
 
     elements = Element.query.filter(Element.e_group==e_group_id)
-    
+
     return render_template('guest/element.html', grades=grades, e_groups=e_groups, elements=elements, grade_position=grade_position, e_group_position=e_group_position)
 
 # 問題文の表示
 @guest.route('/element/<int:id>', methods=['GET'])
 def show_first_question(id):
     no = 1
+
+
+
     questions_raw = Question.query.filter(Question.element==id).filter(Question.released==1).order_by(Question.position.asc()).limit(5).all()
     question = questions_raw[0]
     question = editor.QuestionManager.fetch_question_with_hints(question.id)
@@ -80,7 +82,7 @@ def show_question():
 
     return render_template('guest/question.html', question=question, no=no, attribute=attribute)
 
-@guest.route('question/', methods=['POST'])
+@guest.route('/question/finish', methods=['POST'])
 def finish():
     questions = session.get('questions')
     no = int(request.form['no'])

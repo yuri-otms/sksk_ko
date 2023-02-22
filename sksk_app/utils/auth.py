@@ -2,7 +2,7 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 
 from sksk_app import db
-from sksk_app.models import User, Process
+from sksk_app.models import User, Process, Score
 
 
 class UserManager:
@@ -100,4 +100,17 @@ class UserManager:
         db.session.commit()
 
 
+class ScoreManager:
 
+    def add_score(user, question, correct, review):
+        new_score = Score(
+            user = user,
+            question =  question,
+            correct = correct,
+            review = review,
+            answered_at = datetime.now()
+        )
+
+        db.session.add(new_score)
+        db.session.commit()
+        
