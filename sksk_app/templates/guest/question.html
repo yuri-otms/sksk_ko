@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>{{no}}問目</h2>
+
+<p>{{attribute.grade}}:  {{attribute.element}} ({{attribute.description}})</p>
+
+{{question.element}}
+
+<p>{{question.japanese}}</p>
+
+<p>ヒント</p>
+
+
+{%for hint in question['hint'] %}
+<p>{{hint.japanese}}</p>
+{% endfor %}
+
+<button type="button">答え合わせ</button>
+
+<p>{{question.foreign_l}}</p>
+
+
+<form action="{{url_for('guest.record_score')}}" method="POST">
+    <input type="hidden" name="no" value="{{no}}">
+    <button name="correct" value="1">正解</button>
+    <button name="correct" value="0">不正解</button>
+</form>
+
+
+
+
+<p><a href="{{url_for('pg.toppage')}}">トップページ</a></p>
+
+{% endblock %}

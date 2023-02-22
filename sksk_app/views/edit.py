@@ -32,6 +32,10 @@ def index():
 @login_required
 def show():
     #選択された項目グループの項目を表示
+    result = editor.EditManager.fetchAll()
+    grade_id = result[0]
+    e_group_id = result[1]
+    element_id = result[2]
     grade_id = editor.EditManager.fetch_grade()
     e_group_id = editor.EditManager.fetchE_Group(grade_id)
 
@@ -307,7 +311,7 @@ def add_question_done():
 def confirm_hint_j():
     question_id = request.form['question_id']
     j_word = request.form['j_word']
-    question_with_hints = editor.QuestionManager.fetch_question_with_hints(question_id)
+    question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
     j_words = Word.query.filter(Word.japanese.like("%" + j_word + "%"))
     translated_word = api.Papago.ja_to_ko(j_word)
@@ -322,7 +326,7 @@ def confirm_hint_j():
 def confirm_hint_f():
     question_id = request.form['question_id']
     f_word = request.form['f_word']
-    question_with_hints = editor.QuestionManager.fetch_question_with_hints(question_id)
+    question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
     f_words = Word.query.filter(Word.japanese.like("%" + f_word + "%"))
     translated_word = api.Papago.ko_to_ja(f_word)
@@ -338,7 +342,7 @@ def add_word_hint():
     question_id = request.form['question_id']
     j_word = request.form['j_word']
     f_word = request.form['f_word']
-    question_with_hints = editor.QuestionManager.fetch_question_with_hints(question_id)
+    question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
     return render_template('edit/add_hint.html', question = question_with_hints, j_word=j_word, f_word=f_word)
 
