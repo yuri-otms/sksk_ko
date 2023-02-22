@@ -6,7 +6,7 @@ import MeCab
 from konlpy.tag import Okt
 
 from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record
+from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record, Score
 
 class GradeManager:
     def add_grade(grade, description, position):
@@ -23,10 +23,7 @@ class GradeManager:
         )
         
         db.session.add(new_grade)
-        db.session.commit()
-
-
-        
+        db.session.commit()        
 
 class E_GroupManager:
     def add_e_group(grade, e_group, description, position):
@@ -158,7 +155,6 @@ class QuestionManager:
             korean_w = okt.morphs(text, norm=True, stem=True)
             for w in korean_w:
                 questions_with_hints[i]['foword'].append(w)
-
 
             # 登録済みのヒント
             hints = Hint.query.filter(Hint.question==question.id)
@@ -366,4 +362,3 @@ class EditManager:
             e_groups.append(e_group_added)
 
         return e_groups
-

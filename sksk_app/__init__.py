@@ -30,8 +30,8 @@ def create_app(test_config=None):
     app.register_blueprint(admin)
     from sksk_app.views.guest import guest
     app.register_blueprint(guest)
-    from sksk_app.views.questions import qt
-    app.register_blueprint(qt)
+    from sksk_app.views.question import question
+    app.register_blueprint(question)
 
     from sksk_app.models import User
 
