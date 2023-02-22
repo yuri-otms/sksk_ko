@@ -170,7 +170,7 @@ class QuestionManager:
 
         return questions_with_hints
     
-    def fetch_question_with_hints(question_id):
+    def fetch_question_with_components_hints(question_id):
         question = db.session.get(Question, question_id)
         question_with_hints = {
             'id': int(question.id),
@@ -208,6 +208,39 @@ class QuestionManager:
             question_with_hints['hint'].append(word)
 
         return question_with_hints
+    
+    def fetch_question_with_hints(question_id):
+        question = db.session.get(Question, question_id)
+        question_with_hints = {
+            'id': int(question.id),
+            'japanese':question.japanese,
+            'foreign_l':question.foreign_l,
+            'element':question.element,
+            'hint':None
+        }
+
+        # 登録済みのヒント
+        hints = Hint.query.filter(Hint.question==question.id)
+        question_with_hints['hint']= []
+        for hint in hints:
+            word = db.session.get(Word, hint.word)
+            question_with_hints['hint'].append(word)
+
+        return question_with_hints
+    
+    def fetch_attribute(element):
+        element = db.session.get(Element, element)
+        e_group = db.session.get(E_Group, element.e_group)
+        grade = db.session.get(Grade, e_group.grade)
+
+        attribute = {
+            "element":element.element,
+            "description":element.description,
+            "e_group":e_group.e_group,
+            "grade":grade.grade
+        }
+        return attribute
+
     
 class WordManager:
 

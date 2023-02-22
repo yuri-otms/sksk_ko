@@ -102,7 +102,7 @@ class E_Group(db.Model):
         self.released = released
     
     def __repr__(self):
-        return '<Group id:{} grade:{} e_group:{} description:{} position:{} released:{}>'.format(self.id, self.grade, self.e_group, self.description, self.position, self.released)
+        return '<E_Group id:{} grade:{} e_group:{} description:{} position:{} released:{}>'.format(self.id, self.grade, self.e_group, self.description, self.position, self.released)
 
 class Element(db.Model):
     __tablename__ = 'element'

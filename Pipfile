@@ -12,6 +12,7 @@ pytest = "*"
 coverage = "*"
 konlpy = "*"
 mecab-python3 = "*"
+numpy = "*"
 
 [dev-packages]
 

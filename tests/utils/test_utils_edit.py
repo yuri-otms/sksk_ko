@@ -59,12 +59,25 @@ def test_fetch_questions_with_hints(app):
     
     assert questions[0]['hint'][0].japanese == '医者'
 
+def test_fetch_question_with_components_hints(app):
+    question = 1
+    with app.app_context():
+        question = editor.QuestionManager.fetch_question_with_components_hints(question)
+
+    assert question['word'][0] == '父'
+
 def test_fetch_question_with_hints(app):
     question = 1
     with app.app_context():
         question = editor.QuestionManager.fetch_question_with_hints(question)
+    
+    assert question['hint'][0].foreign_l == '의사'
 
-    assert question['word'][0] == '父'
+def test_fetch_attribute(app):
+    element = 1
+    with app.app_context():
+        attribute = editor.QuestionManager.fetch_attribute(element)
+    assert attribute['description'] == '입니다'
 
 #WordManager
 def test_add_word(app):
