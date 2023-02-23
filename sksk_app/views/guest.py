@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, url_for, render_template, request,session
-import numpy
 import math
+from sqlalchemy import not_
 
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question, Hint, Word
@@ -95,6 +95,12 @@ def finish():
 
     correct_ratio = math.floor((correct_answer/no)*100)
 
-    return render_template('guest/finish.html', no=no, correct_answer=correct_answer, correct_ratio=correct_ratio)
+    question = db.session.get(Question, questions[0][0])
+    element = db.session.get(Element, question.element)
+
+
+    next_element = Element.query.join(Question).filter(Element.e_group==element.e_group).filter(Element.position > question.position).filter(not_(Element.id==question.element)).filter(Question.released==1).first()
+
+    return render_template('guest/finish.html', no=no, correct_answer=correct_answer, correct_ratio=correct_ratio, next_element=next_element)
 
 
