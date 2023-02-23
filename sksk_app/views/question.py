@@ -17,15 +17,15 @@ def select_element():
     grade_id = result[0]
     e_group_id = result[1]
 
-    grades = db.session.query(Grade).all()
-    e_groups = editor.EditManager.addE_GroupName(grade_id)
+    grades = Grade.query.join(E_Group).join(Element).join(Question).filter(Question.released==1)
+    e_groups = E_Group.query.join(Element).join(Question).filter(Question.released==1).filter(E_Group.grade==grade_id)
 
     grade = db.session.get(Grade, grade_id)
     e_group = db.session.get(E_Group, e_group_id)
     grade_position = grade.position
     e_group_position = e_group.position
 
-    elements = Element.query.filter(Element.e_group==e_group_id)
+    elements = Element.query.join(Question).filter(Element.e_group==e_group_id).filter(Question.released==1)
 
     return render_template('question/element.html', grades=grades, e_groups=e_groups, grade_position=grade_position, e_group_position=e_group_position, elements=elements)
 
