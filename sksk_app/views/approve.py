@@ -145,7 +145,7 @@ def question():
     e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     elements = Element.query.filter(Element.e_group==e_group_id)
     questions = Question.query.filter(Question.element==element_id)
-    return render_template('approve/question.html', grade= grade, e_group=e_group, element=element, grades=grades, e_groups=e_groups, elements=elements, questions=questions)
+    return render_template('approve/question.html', grade= grade, e_group=e_group, element=element, grades=grades, e_groups=e_groups, elements=elements, questions=questions, element_id=element_id)
 
 
 
@@ -191,6 +191,7 @@ def release_questions():
 
     return render_template('approve/release_questions.html', questions=questions, releases=releases, element_id=element_id)
 
+
 @approve.route('/release/questions_changed', methods=['GET'])
 @login_required
 def release_questions_execute():
@@ -228,7 +229,7 @@ def unrelease_questions():
 @approve.route('/unrelease/questions_changed', methods=['GET'])
 @login_required
 def unrelease_questions_execute():
-    element_id = request.args.get('e')
+    element_id = request.args.get('element_id')
     releases = request.args.getlist('releases')
     user_id = session.get('user_id')
     approval.ReleaseManager.unrelease_questions(user_id, releases)

@@ -2,7 +2,7 @@ import pytest
 
 from sksk_app import create_app, db
 from sksk_app.models import User, Grade
-from sksk_app.utils.auth import UserManager
+import sksk_app.utils.user as user_setting
 import sksk_app.utils.edit as editor
 
 @pytest.fixture()
@@ -70,11 +70,11 @@ def app():
         name = 'test'
         email = 'test@test.com'
         password = '1234'
-        UserManager.register_user(name, email, password)
-        UserManager.add_privilege(1, 1)
-        UserManager.add_privilege(1, 2)
-        UserManager.add_privilege(1, 3)
-        UserManager.add_privilege(1, 4)
+        user_setting.UserManager.register_user(name, email, password)
+        user_setting.UserManager.add_privilege(1, 1)
+        user_setting.UserManager.add_privilege(1, 2)
+        user_setting.UserManager.add_privilege(1, 3)
+        user_setting.UserManager.add_privilege(1, 4)
         
     yield app
 

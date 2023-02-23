@@ -2,7 +2,7 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 
 from sksk_app import db
-from sksk_app.models import User, Process, Score
+from sksk_app.models import User, Process, Score, Grade, E_Group, Element, Question
 
 
 class UserManager:
@@ -113,4 +113,28 @@ class ScoreManager:
 
         db.session.add(new_score)
         db.session.commit()
+
+    def culculate_ratio_each_grade(user):
+        grades = Grade.query.order_by(Grade.id.asc()).all()
+        grades_info = []
+        for grade in grades:
+            question_count = Question.query.join(Element).join(E_Group).filter(E_Group.grade==grade.id).count()
+            answered_count_all = Score.query.with_entities(Score.question).filter(Score.user==user).group_by(Score.question)
+            answered_count = Question.query.join(Element).join(E_Group).filter(E_Group.grade==grade.id).filter(Question.id.in_(answered_count_all)).count()
+
+            if answered_count==0 or question_count==0:
+                grade_ratio = {
+                    'id': grade.id,
+                    'grade': grade.grade,
+                    'ratio': 0
+                }
+            else:
+                grade_ratio = {
+                    'id': grade.id,
+                    'grade': grade.grade,
+                    'ratio': '{:.0%}'.format(answered_count/question_count)
+                }
+            grades_info.append(grade_ratio)
+
+        return grades_info
         

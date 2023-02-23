@@ -6,7 +6,7 @@ from sqlalchemy import not_, func
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question, Score
 import sksk_app.utils.edit as editor
-import sksk_app.utils.auth as auth
+import sksk_app.utils.user as user_setting
 
 question = Blueprint('question', __name__, url_prefix='/question')
 
@@ -64,7 +64,7 @@ def record_score():
     questions[index][1] = correct
     session['questions'] = questions
 
-    auth.ScoreManager.add_score(user_id, questions[index][0], correct, 0)
+    user_setting.ScoreManager.add_score(user_id, questions[index][0], correct, 0)
     
     if no < len(questions):
         return redirect(url_for('question.show_question', no=no), code=307)

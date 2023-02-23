@@ -22,7 +22,7 @@
             <ul class="navbar-nav ms-auto">
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                <span class="nav-link">{{session["user_name"]}}さん</span>
+                    <a class="nav-link" href="{{url_for('auth.account')}}">{{session["user_name"]}}さん</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">

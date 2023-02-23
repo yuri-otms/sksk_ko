@@ -54,7 +54,7 @@
     </tr>
     {% endfor %}
 </table>
-<input type="hidden" name="element_id" value="element.id">
+<input type="hidden" name="element_id" value="{{element.id}}">
 <button style="text-align:center" formaction="{{url_for('approve.release_questions')}}" formmethod="POST">まとめて公開</button>
 <button style="text-align:center" formaction="{{url_for('approve.unrelease_questions')}}" formmethod="POST">まとめて非公開</button>
 </form>
