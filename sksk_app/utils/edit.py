@@ -345,6 +345,7 @@ class EditManager:
 
         return grade_id, e_group_id, element_id
 
+    # 今後使わなければ削除
     def addE_GroupName(grade_id):
         e_groups_raw = db.session.query(E_Group).filter(E_Group.grade==grade_id)
         e_groups = []
