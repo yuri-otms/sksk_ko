@@ -357,8 +357,7 @@ class EditManager:
                 "grade_name":grade_name.grade,
                 "e_group":e_group.e_group,
                 "description":e_group.description,
-                "position":e_group.position,
-                "released":e_group.released
+                "position":e_group.position
             }
             e_groups.append(e_group_added)
 
