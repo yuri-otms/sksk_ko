@@ -73,17 +73,15 @@ class Grade(db.Model):
     grade = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(100))
     position = db.Column(db.Integer, default=1)
-    released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, grade=None, description=None, position=None, released=None):
+    def __init__(self, grade=None, description=None, position=None,):
         self.grade = grade
         self.description = description
         self.position = position
-        self.released = released
     
     def __repr__(self):
-        return '<grade id:{} grade:{} description:{} posision:{} released:{}>'.format(self.id, self.grade, self.description, self.position, self.released)
+        return '<grade id:{} grade:{} description:{} posision:{}>'.format(self.id, self.grade, self.description, self.position)
 
 class E_Group(db.Model):
     __tablename__ = 'e_group'
@@ -92,17 +90,15 @@ class E_Group(db.Model):
     e_group = db.Column(db.String(100))
     description = db.Column(db.String(100))
     position = db.Column(db.Integer, default=1)
-    released = db.Column(db.Boolean, nullable=False,default=0)
 
-    def __init__(self, grade=None, e_group=None, description=None, position=None,released=None):
+    def __init__(self, grade=None, e_group=None, description=None, position=None):
         self.grade = grade
         self.e_group = e_group
         self.description = description
         self.position = position
-        self.released = released
     
     def __repr__(self):
-        return '<E_Group id:{} grade:{} e_group:{} description:{} position:{} released:{}>'.format(self.id, self.grade, self.e_group, self.description, self.position, self.released)
+        return '<E_Group id:{} grade:{} e_group:{} description:{} position:{}>'.format(self.id, self.grade, self.e_group, self.description, self.position)
 
 class Element(db.Model):
     __tablename__ = 'element'
@@ -111,19 +107,17 @@ class Element(db.Model):
     element = db.Column(db.String(40))
     description = db.Column(db.String(100))
     position = db.Column(db.Integer, default=1)
-    released = db.Column(db.Boolean, nullable=False,default=0)
 
 
-    def __init__(self, e_group=None, no=None,element=None, description=None, position=None, released=None):
+    def __init__(self, e_group=None, no=None,element=None, description=None, position=None):
         self.e_group = e_group
         self.no = no
         self.element = element
         self.description = description
         self.position = position
-        self.released = released
     
     def __repr__(self):
-        return '<Element id:{} group:{} no:{} element:{} description:{} position:{} released:{}>'.format(self.id, self.grade, self.group, self.no,  self.element, self.description, self.position, self.released)
+        return '<Element id:{} group:{} no:{} element:{} description:{} position:{}>'.format(self.id, self.grade, self.group, self.no,  self.element, self.description, self.position)
     
 class Level(db.Model):
     __tablename__ = 'level'

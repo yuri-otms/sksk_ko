@@ -2,28 +2,6 @@ from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question
 import sksk_app.utils.approve as approval
 
-def test_change_grade_settings(app):
-    with app.app_context():
-        approval.ReleaseManager.change_grade_settings(1)
-        grade = db.session.get(Grade, 1)
-
-    assert grade.released == True
-
-
-def test_change_e_group_settings(app):
-    with app.app_context():
-        approval.ReleaseManager.change_e_group_settings(1)
-        e_group = db.session.get(E_Group, 1)
-
-    assert e_group.released == True
-
-def test_change_element_settings(app):
-    with app.app_context():
-        approval.ReleaseManager.change_element_settings(1)
-        element = db.session.get(Element, 1)
-
-    assert element.released == True
-
 def test_change_question_settings(app):
     user = 1
     with app.app_context():
