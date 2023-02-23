@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, request, \
     flash, url_for, redirect,session
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
-from sksk_app.models import User
-from sksk_app.utils.auth import UserManager
+from sksk_app import db
+from sksk_app.models import User, Score, Question
+import sksk_app.utils.user as user_setting
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -26,7 +27,7 @@ def signup_post():
         flash('メールアドレスが既に登録されています。')
         return redirect(url_for('auth.signup'))
 
-    UserManager.register_user(name, email, password)
+    user_setting.UserManager.register_user(name, email, password)
 
     return redirect(url_for('auth.signup_done'))
 
@@ -74,6 +75,25 @@ def logout():
     flash('ログアウトしました')
     return redirect(url_for('pg.toppage'))
 
+@auth.route('/account')
+@login_required
+def account():
+    user_id = session.get('user_id')
+
+    user = db.session.get(User, user_id)
+
+    # 今まで解いてきた問題数
+    all_count = Score.query.filter(Score.user==user_id).count()
+    correct_answers = Score.query.filter(Score.user==user_id).filter(Score.correct==1).count()
+    # 正答率
+    all_ratio = '{:.0%}'.format(correct_answers/all_count)
+    grades_info = user_setting.ScoreManager.culculate_ratio_each_grade(user_id)
+
+    return render_template('account.html', user=user, all_count=all_count,all_ratio=all_ratio, grades_info=grades_info)
+
+
 @auth.errorhandler(404)
 def non_existatnt_route(error):
     return redirect(url_for('auth.login'))
+
+

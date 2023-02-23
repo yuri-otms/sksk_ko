@@ -5,7 +5,7 @@ from sqlalchemy import not_
 from sksk_app import db
 from sksk_app.models import User, Process
 
-from sksk_app.utils.auth import UserManager
+import sksk_app.utils.user as user_setting
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -44,7 +44,7 @@ def add_privilege_execute():
     user_id = request.args.get('user_id')
     process_id = int(request.args.get('process_id'))
 
-    UserManager.add_privilege(user_id, process_id)
+    user_setting.UserManager.add_privilege(user_id, process_id)
 
     return redirect(url_for('admin.add_privilege_done'))
 
@@ -71,7 +71,7 @@ def delete_privilege_execute():
     user_id = request.args.get('user_id')
     process_id = int(request.args.get('process_id'))
 
-    UserManager.delete_privilege(user_id, process_id)
+    user_setting.UserManager.delete_privilege(user_id, process_id)
 
     return redirect(url_for('admin.delete_privilege_done'))
 
@@ -121,7 +121,7 @@ def add_user_execute():
     approve = int(request.form['approve'])
     admin = int(request.form['admin'])
 
-    UserManager.register_user_priv(name, email, password, edit, check, approve, admin)
+    user_setting.UserManager.register_user_priv(name, email, password, edit, check, approve, admin)
 
     return redirect(url_for('admin.add_user_done'))
 
@@ -149,7 +149,7 @@ def delete_user_execute():
     user_id = request.args.get('id')
 
 
-    UserManager.delete_user(user_id)
+    user_setting.UserManager.delete_user(user_id)
 
     return redirect(url_for('admin.add_user_done'))
 
@@ -209,7 +209,7 @@ def edit_user_execute():
     approve = int(request.form['approve'])
     admin = int(request.form['admin'])
 
-    UserManager.edit_user(id, name, email, edit, check, approve, admin)
+    user_setting.UserManager.edit_user(id, name, email, edit, check, approve, admin)
 
     return redirect(url_for('admin.edit_user_done'))
 
