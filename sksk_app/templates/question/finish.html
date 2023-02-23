@@ -3,13 +3,18 @@
 
 <h2>完了</h2>
 
+<p>guest {{guest}}</p>
+
 <p>{{no}}問中{{correct_answer}}問正解！</p>
 
 <p>{{correct_ratio}} ％</p>
 
 <p>トップページに戻る</p>
 
-<p>次の項目に進む</p>
+
+{% if next_element %}
+    <p><a href="{{url_for('question.show_first_question', e = next_element.id, guest=guest)}}">次の項目({{next_element.element}})に進む</a></p>
+{% endif %}
 
 
 

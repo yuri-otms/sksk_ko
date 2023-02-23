@@ -1,6 +1,6 @@
 import math
 from flask import Blueprint, redirect, url_for, render_template, session, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from sqlalchemy import not_, func
 
 from sksk_app import db
@@ -10,9 +10,34 @@ import sksk_app.utils.user as user_setting
 
 question = Blueprint('question', __name__, url_prefix='/question')
 
-@question.route('/select_element')
+@question.route('/check_login')
+def check_login():
+    if current_user.is_authenticated:
+        return redirect(url_for('question.confirm_login'))
+    else:
+        return redirect(url_for('question.login'))
+
+@question.route('/login', methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user_setting.LoginManager.login(email, password)
+
+        return redirect(url_for('question.check_login'))
+
+    page_title = 'ログイン'
+    return render_template('question/login.html', page_title=page_title)
+
+@question.route('/confirm_login')
 @login_required
+def confirm_login():
+    return redirect(url_for('question.select_element', guest=0))
+
+@question.route('/select_element')
 def select_element():
+    guest = int(request.args.get('guest'))
+
     result = editor.EditManager.fetchAll()
     grade_id = result[0]
     e_group_id = result[1]
@@ -27,20 +52,26 @@ def select_element():
 
     elements = Element.query.join(Question).filter(Element.e_group==e_group_id).filter(Question.released==1)
 
-    return render_template('question/element.html', grades=grades, e_groups=e_groups, grade_position=grade_position, e_group_position=e_group_position, elements=elements)
+    return render_template('question/element.html', grades=grades, e_groups=e_groups, grade_position=grade_position, e_group_position=e_group_position, elements=elements, guest=guest)
 
-@question.route('/element/<int:id>', methods=['GET'])
-@login_required
-def show_first_question(id):
-    user_id = session['user_id']
+@question.route('/element', methods=['GET'])
+def show_first_question():
+    element_id = request.args.get('e')
+    guest = int(request.args.get('guest'))
     no = 1
-    #1周目の問題の取得(5問)
-    answered_question = Score.query.with_entities(Score.question).filter(Score.user==user_id)
-    questions_raw = Question.query.filter(Question.element==id).filter(Question.id.not_in(answered_question)).order_by(Question.id.asc()).limit(5).all()
 
-    if not questions_raw:
-        #2周目以降の問題を取得(5問)
-        questions_raw = Score.query.with_entities(Question.id,func.count(Score.question).label('count')).join(Question).filter(Question.element==id).filter(Score.user==user_id).group_by(Score.question).order_by('count', func.lpad((Question.id), 6, 0)).limit(5).all()
+    if guest:
+        questions_raw = Question.query.filter(Question.element==element_id).filter(Question.released==1).order_by(Question.position.asc()).limit(5).all()
+
+    else:
+        user_id = session['user_id']
+        #1周目の問題の取得(5問)
+        answered_question = Score.query.with_entities(Score.question).filter(Score.user==user_id)
+        questions_raw = Question.query.filter(Question.element==element_id).filter(Question.id.not_in(answered_question)).order_by(Question.id.asc()).limit(5).all()
+
+        if not questions_raw:
+            #2周目以降の問題を取得(5問)
+            questions_raw = Score.query.with_entities(Question.id,func.count(Score.question).label('count')).join(Question).filter(Question.element==element_id).filter(Score.user==user_id).group_by(Score.question).order_by('count', func.lpad((Question.id), 6, 0)).limit(5).all()
 
     questions = []
     for question in questions_raw:
@@ -50,11 +81,28 @@ def show_first_question(id):
     question = editor.QuestionManager.fetch_question_with_hints(questions[0][0])
     attribute = editor.QuestionManager.fetch_attribute(question['element'])
 
-    return render_template('question/question.html', question=question, no=no, attribute=attribute)
+    return render_template('question/question.html', question=question, no=no, attribute=attribute, guest=guest)
+
+@question.route('/record_temp', methods=['POST'])
+def record_score_temp():
+    guest = int(request.form['guest'])
+    no = int(request.form['no'])
+    correct = int(request.form['correct'])
+    questions = session.get('questions')
+
+    index = no -1
+    questions[index][1] = correct
+    session['questions'] = questions
+
+    if no < len(questions):
+        return redirect(url_for('question.show_question', no=no, guest=guest), code=307)
+    else:
+        return redirect(url_for('question.finish', questions=questions, no=no, guest=guest), code=307)
 
 @question.route('/question/record', methods=['POST'])
 @login_required
 def record_score():
+    guest = int(request.form['guest'])
     no = int(request.form['no'])
     correct = int(request.form['correct'])
     questions = session.get('questions')
@@ -67,13 +115,13 @@ def record_score():
     user_setting.ScoreManager.add_score(user_id, questions[index][0], correct, 0)
     
     if no < len(questions):
-        return redirect(url_for('question.show_question', no=no), code=307)
+        return redirect(url_for('question.show_question', no=no, guest=guest), code=307)
     else:
-        return redirect(url_for('question.finish', questions=questions, no=no), code=307)
+        return redirect(url_for('question.finish', questions=questions, no=no, guest=guest), code=307)
     
 @question.route('/question', methods=['POST'])
-@login_required
 def show_question():
+    guest = int(request.form['guest'])
     no = int(request.form['no'])
     questions = session.get('questions')
     question = editor.QuestionManager.fetch_question_with_hints(questions[no][0])
@@ -81,11 +129,11 @@ def show_question():
 
     attribute = editor.QuestionManager.fetch_attribute(question['element'])
 
-    return render_template('question/question.html', question=question, no=no, attribute=attribute)
+    return render_template('question/question.html', question=question, no=no, attribute=attribute, guest=guest)
 
 @question.route('/question/finish', methods=['POST'])
-@login_required
 def finish():
+    guest = int(request.form['guest'])
     no = int(request.form['no'])
     questions = session.get('questions')
 
@@ -97,13 +145,11 @@ def finish():
 
     correct_ratio = math.floor((correct_answer/no)*100)
 
-    return render_template('question/finish.html', no=no, correct_answer=correct_answer, correct_ratio=correct_ratio) 
+    question = db.session.get(Question, questions[0][0])
+    element = db.session.get(Element, question.element)
 
+    next_element = Element.query.join(Question).filter(Element.e_group==element.e_group).filter(Element.position > question.position).filter(not_(Element.id==question.element)).filter(Question.released==1).first()
 
-
-
-
-        
-
+    return render_template('question/finish.html', no=no, correct_answer=correct_answer, correct_ratio=correct_ratio, guest=guest, next_element=next_element) 
 
 

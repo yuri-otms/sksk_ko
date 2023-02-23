@@ -3,6 +3,8 @@
 
 <h2>{{no}}問目</h2>
 
+<p>guest {{guest}}</p>
+
 <p>{{attribute.grade}}:  {{attribute.element}} ({{attribute.description}})</p>
 
 {{session['questions']}}
@@ -21,7 +23,12 @@
 <p>{{question.foreign_l}}</p>
 
 
+{% if guest %}
+<form action="{{url_for('question.record_score_temp')}}" method="POST">
+{% else %}
 <form action="{{url_for('question.record_score')}}" method="POST">
+{% endif %}
+    <input type="hidden" name="guest" value="{{guest}}">
     <input type="hidden" name="no" value="{{no}}">
     <button name="correct" value="1">正解</button>
     <button name="correct" value="0">不正解</button>

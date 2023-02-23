@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, \
     flash, url_for, redirect,session
-from flask_login import login_user, logout_user, login_required
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import logout_user, login_required
 from datetime import datetime
 
 from sksk_app import db
@@ -45,21 +44,7 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
-        user = User.query.filter_by(email=email).first()
-        
-        if not user or not check_password_hash(user.password, password):
-            flash('パスワードが異なります')
-            return redirect(url_for('auth.login'))
-
-        flash('ログインしました')
-        login_user(user)
-        session['user_id'] = user.id
-        session['user_name'] = user.name
-        session['edit'] = user.edit
-        session['check'] = user.check
-        session['approve'] = user.approve
-        session['admin'] = user.admin
+        user_setting.LoginManager.login(email, password)
         return redirect(url_for('pg.toppage'))
 
     page_title = 'ログイン'
