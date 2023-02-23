@@ -1,10 +1,12 @@
-from flask import Blueprint, redirect, url_for, render_template, request,session
 import math
+from flask import Blueprint, redirect, url_for, render_template, request,session
+
 from sqlalchemy import not_
 
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question, Hint, Word
 import sksk_app.utils.edit as editor
+
 
 guest = Blueprint('guest', __name__, url_prefix='/guest')
 
@@ -16,7 +18,6 @@ def select_element():
 
     grades = Grade.query.join(E_Group).join(Element).join(Question).filter(Question.released==1)
     e_groups = E_Group.query.join(Element).join(Question).filter(Question.released==1).filter(E_Group.grade==grade_id)
-    # e_groups = editor.EditManager.addE_GroupName(grade_id)
 
     grade = db.session.get(Grade, grade_id)
     e_group = db.session.get(E_Group, e_group_id)
@@ -31,8 +32,6 @@ def select_element():
 @guest.route('/element/<int:id>', methods=['GET'])
 def show_first_question(id):
     no = 1
-
-
 
     questions_raw = Question.query.filter(Question.element==id).filter(Question.released==1).order_by(Question.position.asc()).limit(5).all()
     question = questions_raw[0]

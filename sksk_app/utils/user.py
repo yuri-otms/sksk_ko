@@ -1,9 +1,31 @@
-from werkzeug.security import generate_password_hash
+from flask import session, flash, redirect, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from flask_login import login_user
 
 from sksk_app import db
 from sksk_app.models import User, Process, Score, Grade, E_Group, Element, Question
 
+
+class LoginManager:
+    def login(email, password):
+
+        user = User.query.filter_by(email=email).first()
+        
+        if not user or not check_password_hash(user.password, password):
+            flash('パスワードが異なります')
+            return redirect(url_for('question.login'))
+
+        flash('ログインしました')
+        login_user(user)
+        session['user_id'] = user.id
+        session['user_name'] = user.name
+        session['edit'] = user.edit
+        session['check'] = user.check
+        session['approve'] = user.approve
+        session['admin'] = user.admin
+
+        return user
 
 class UserManager:
 

@@ -4,23 +4,23 @@
 
 <h2>項目の選択</h2>
 
-
+<p>guest {{guest}}</p>
 
 <select name="grade" id="grade" onchange="location.href=value">
     {% for grade in grades %}
-    <option value="{{url_for('question.select_element', l=grade.id)}}">{{grade.grade}}</option>
+    <option value="{{url_for('question.select_element', l=grade.id, guest=guest)}}">{{grade.grade}}</option>
     {% endfor %}
 </select>
 <br>
 
 <select name="e_group_id" id="e_group" onchange="location.href=value">
     {% for e_group in e_groups %}
-    <option value="{{url_for('question.select_element',l=grade_id,g=e_group.id)}}">{{e_group.e_group}}</option>
+    <option value="{{url_for('question.select_element',l=grade_id,g=e_group.id, guest=guest)}}">{{e_group.e_group}}</option>
     {% endfor %}
 </select>
 
 {% for element in elements %}
-<p><a href="{{url_for('question.show_first_question', id=element.id)}}">{{element.element}}</a></p>
+<p><a href="{{url_for('question.show_first_question', e=element.id, guest=guest)}}">{{element.element}}</a></p>
 {% endfor %}
 
 <p><a href="{{url_for('pg.toppage')}}">トップページ</a></p>
