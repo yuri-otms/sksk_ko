@@ -9,7 +9,9 @@
 
 <p>トップページに戻る</p>
 
-<p>次の項目に進む</p>
+{% if next_element %}
+    <p><a href="{{url_for('guest.show_first_question', id = next_element.id)}}">次の項目({{next_element.element}})に進む</a></p>
+{% endif %}
 
 
 
