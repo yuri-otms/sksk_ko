@@ -367,3 +367,28 @@ def add_word_hint_done():
     element = request.args.get('e')
     flash('単語とヒントを追加しました')
     return redirect(url_for('edit.show_hints', e=element))
+
+@edit.route('/delete/question/<int:id>')
+@login_required
+def delete_question(id):
+
+    question = editor.QuestionManager.fetch_question_with_attribute(id)
+
+    return render_template('edit/delete_question.html', question=question)
+
+@edit.route('/delete/question_deleted', methods=['POST'])
+@login_required
+def delete_question_execute():
+    element_id = request.form['element_id']
+    question_id = request.form['question_id']
+
+    editor.QuestionManager.delete_question(question_id)
+
+    return redirect(url_for('edit.delete_question_done', e=element_id))
+
+@edit.route('/delete/question_deleted_done')
+@login_required
+def delete_question_done():
+    element_id = request.args.get('e')
+    flash('問題文を削除しました。')
+    return redirect(url_for('edit.show_questions', e=element_id))

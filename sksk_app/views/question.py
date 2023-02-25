@@ -148,7 +148,7 @@ def finish():
     question = db.session.get(Question, questions[0][0])
     element = db.session.get(Element, question.element)
 
-    next_element = Element.query.join(Question).filter(Element.e_group==element.e_group).filter(Element.position > question.position).filter(not_(Element.id==question.element)).filter(Question.released==1).first()
+    next_element = Element.query.join(Question).filter(Element.e_group==element.e_group).filter(Element.position > element.position).filter(not_(Element.id==question.element)).filter(Question.released==1).first()
 
     return render_template('question/finish.html', no=no, correct_answer=correct_answer, correct_ratio=correct_ratio, guest=guest, next_element=next_element) 
 

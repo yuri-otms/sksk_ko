@@ -51,7 +51,7 @@ class Score(db.Model):
     __tablename__ = 'score'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    question = db.Column(db.Integer, db.ForeignKey('question.id'))
+    question = db.Column(db.Integer, db.ForeignKey('question.id', ondelete="CASCADE"))
     correct = db.Column(db.Boolean, nullable=False)
     review = db.Column(db.Boolean, nullable=False)
     answered_at = db.Column(db.DateTime, nullable=False)
@@ -139,6 +139,9 @@ class Question(db.Model):
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
     checked = db.Column(db.Boolean, nullable=False, default=0)
     released = db.Column(db.Boolean, nullable=False,default=0)
+    scores = db.relationship("Score", backref='question_score')
+    records = db.relationship("Record", backref='question_record')
+    hints = db.relationship("Hint", backref='question_hint')
 
 
     def __init__(self, element=None, level=None, japanese=None,foreign_l=None, style=None, spoken=None, sida=None, position=None, created_at=None, created_by=None, checked=None, released=None):
@@ -162,7 +165,7 @@ class Record(db.Model):
     __tablename__  = 'record'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    question = db.Column(db.Integer, db.ForeignKey('question.id'))
+    question = db.Column(db.Integer, db.ForeignKey('question.id', ondelete="CASCADE"))
     process = db.Column(db.Integer, db.ForeignKey('process.id'))
     result = db.Column(db.Boolean, default=0)
     message = db.Column(db.Text)
@@ -195,7 +198,7 @@ class Word(db.Model):
 class Hint(db.Model):
     __tablename__ = 'hint'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    question = db.Column(db.Integer, db.ForeignKey('question.id'))
+    question = db.Column(db.Integer, db.ForeignKey('question.id', ondelete="CASCADE"))
     word = db.Column(db.Integer, db.ForeignKey('word.id'))
 
 

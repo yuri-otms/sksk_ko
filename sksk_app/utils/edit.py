@@ -236,8 +236,46 @@ class QuestionManager:
             "grade":grade.grade
         }
         return attribute
-
     
+    def fetch_question_with_attribute(question_id):
+
+        question = db.session.get(Question, question_id)
+
+        style = db.session.get(Style, question.style)
+        element = db.session.get(Element, question.element)
+        e_group = db.session.get(E_Group, element.e_group)
+        grade = db.session.get(Grade, e_group.grade)
+        
+        question_added = {
+            "id":question.id,
+            "grade":grade.grade,
+            "e_group":e_group.e_group,
+            "element_id":element.id,
+            "element": element.element,
+            "japanese": question.japanese,
+            "foreign_l": question.foreign_l,
+            "style_id": style.id,
+            "style":style.style,
+            "position": question.position,
+        }
+
+        return question_added
+    
+    def delete_question(question_id):
+
+        question = db.session.get(Question, question_id)
+        position = question.position
+        element = question.element
+        db.session.delete(question)
+        db.session.commit()
+
+        next_question = Question.query.filter(Question.element==element).filter(Question.position > position).first()
+        while(next_question):
+            next_question.position -= 1
+            db.session.merge(next_question)
+            db.session.commit()
+            next_question = Question.query.filter(Question.element==element).filter(Question.position > next_question.position).first()
+
 class WordManager:
 
     def add_word(j_word, f_word):

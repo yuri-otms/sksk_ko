@@ -69,6 +69,10 @@
         <td>{{question.foreign_l}}</td>
         <td>{{question.style}}</td>
         <td>{{question.position}}</td>
+        <td>
+             編集
+            <a href="{{url_for('edit.delete_question', id=question.id)}}">削除</a>
+        </td>
     </tr>
 
     {% endfor %}
