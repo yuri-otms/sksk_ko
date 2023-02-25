@@ -7,8 +7,13 @@
 
 <p>{{attribute.grade}}:  {{attribute.element}} ({{attribute.description}})</p>
 
-{{session['questions']}}
+<p>session questions: {{session['questions']}}</p>
 
+<p>review: {{review}}
+
+{% if review %}
+【復習モード】
+{% endif %}</p>
 <p>{{question.japanese}}</p>
 
 <p>ヒント</p>
@@ -30,6 +35,7 @@
 {% endif %}
     <input type="hidden" name="guest" value="{{guest}}">
     <input type="hidden" name="no" value="{{no}}">
+    <input type="hidden" name="review" value="{{review}}">
     <button name="correct" value="1">正解</button>
     <button name="correct" value="0">不正解</button>
 </form>
