@@ -1,0 +1,30 @@
+{%extends "base.html" %}
+{% block body %}
+
+<h2>項目グループの削除</h2>
+
+<p>以下の項目グループを削除しますか？</p>
+
+<form action="{{url_for('edit.delete_e_group_execute')}}" method="POST">
+<table>
+    <tr>
+        <th>レベル</th>
+        <th>項目グループ</th>
+        <th>説明</th>
+    </tr>
+    <tr>
+        <td>{{grade.grade}}</td>
+        <td>{{e_group.e_group}}</td>
+        <td>{{e_group.description}}</td>
+    </tr>
+</table>
+    <input type="hidden" name="e_group" value="{{e_group.id}}">
+    <button>削除</button>
+    <button type="button" onclick="history.back()">戻る</button>
+</form>
+
+
+
+<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
+
+{% endblock %}

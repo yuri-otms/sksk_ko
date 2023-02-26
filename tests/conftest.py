@@ -22,7 +22,7 @@ def app():
         e_group = '指示詞、存在詞、数詞'
         description = '입니다, 있다, 하나'
         position = 1
-        editor.E_GroupManager.add_e_group(grade, e_group, description, position)
+        editor.E_GroupManager.add_e_group(grade, e_group, description)
         
         e_group = 1
         element_name = '指示詞'

@@ -45,24 +45,68 @@ class GradeManager:
 
 
 class E_GroupManager:
-    def add_e_group(grade, e_group, description, position):
-        if not position:
-            e_group_exist = E_Group.query.filter(E_Group.grade==grade).first()
-            if e_group_exist:
-                max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.grade==grade).one()
-                max = int(max_position.e_group_max)
-                position = max + 1
-            else:
-                position = 1
 
+    def calculate_position(grade):
+        e_group_exist = E_Group.query.filter(E_Group.grade==grade).first()
+        if e_group_exist:
+            max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.grade==grade).one()
+            max = int(max_position.e_group_max)
+            position = max + 1
+        else:
+            position = 1
+        
+        return position
+
+    # 削除した項目グループ以降の項目グループの項番の変更
+    def reduce_position(e_group_id):
+        e_group = db.session.get(E_Group, e_group_id)
+        grade = e_group.grade
+        position = e_group.position
+
+        next_e_group = E_Group.query.filter(E_Group.grade==grade).filter(E_Group.position>position).order_by(E_Group.position).first()
+        while(next_e_group):
+            next_e_group.position -= 1
+            position = next_e_group.position
+            db.session.merge(next_e_group)
+            db.session.commit()
+            next_e_group = E_Group.query.filter(E_Group.grade==grade).filter(E_Group.position>position).order_by(E_Group.position).first()
+
+    def add_e_group(grade, e_group, description):
+        position = E_GroupManager.calculate_position(grade)
         new_e_group = E_Group(
             grade = grade,
             e_group = e_group,
             description = description,
             position = position
         )
-
         db.session.add(new_e_group)
+        db.session.commit()
+
+    def edit_e_group(e_group_id, grade_id, e_group_name, description):
+        e_group = db.session.get(E_Group, e_group_id)
+        grade_before = e_group.grade
+
+        if not grade_id == grade_before:
+            E_GroupManager.reduce_position(e_group_id)
+            e_group_exist = E_Group.query.filter(E_Group.grade==grade_id).first()
+            if e_group_exist:
+                max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.grade==grade_id).one()
+                max = int(max_position.e_group_max)
+                position = max + 1
+            else:
+                position = 1
+        e_group.e_group = e_group_name
+        e_group.description = description
+        e_group.grade = grade_id
+        e_group.position = position
+        db.session.merge(e_group)
+        db.session.commit()
+
+
+    def delete_e_group(e_group_id):
+        E_GroupManager.reduce_position(e_group_id)
+        e_group = db.session.get(E_Group, e_group_id)
+        db.session.delete(e_group)
         db.session.commit()
 
 
@@ -172,12 +216,13 @@ class QuestionManager:
         db.session.delete(question)
         db.session.commit()
 
-        next_question = Question.query.filter(Question.element==element).filter(Question.position > position).first()
+        # 削除した問題以降の問題の項番の変更
+        next_question = Question.query.filter(Question.element==element).filter(Question.position > position).order_by(Question.position).first()
         while(next_question):
             next_question.position -= 1
             db.session.merge(next_question)
             db.session.commit()
-            next_question = Question.query.filter(Question.element==element).filter(Question.position > next_question.position).first()
+            next_question = Question.query.filter(Question.element==element).filter(Question.position > next_question.position).order_by(Question.position).first()
 
         
         message = '削除'

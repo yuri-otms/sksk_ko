@@ -64,7 +64,8 @@
         <td>{{e_group.e_group}}</td>
         <td>{{e_group.description}}</td>
         <td>{{e_group.position}}</td>
-        <td>編集</td>
+        <td><a href="{{url_for('edit.edit_e_group', e_group=e_group.id, l=grade.id)}}">編集</a>
+        <a href="{{url_for('edit.delete_e_group', e_group=e_group.id)}}">削除</a></td>
         
     </tr>
     {% endfor %}
@@ -80,7 +81,7 @@
             <input type="text" name="position">
             </td>
             <td>
-            <input type="hidden" name="grade" value="{{grade_id}}">
+            <input type="hidden" name="grade" value="{{grade.id}}">
             <button type="submit">追加</button>
             </td>
         </form>
@@ -104,7 +105,7 @@
 
 <select name="e_group_id" id="e_group" onchange="location.href=value">
     {% for e_group in e_groups %}
-    <option value="{{url_for('edit.show',l=grade_id,g=e_group.id)}}#element">{{e_group.e_group}}</option>
+    <option value="{{url_for('edit.show',l=grade.id,g=e_group.id)}}#element">{{e_group.e_group}}</option>
     {% endfor %}
 </select>
 
@@ -139,7 +140,7 @@
             <input type="text" name="position">
             </td>
             <td>
-            <input type="hidden" name="e_group_id" value="{{e_group_id}}">
+            <input type="hidden" name="e_group_id" value="{{e_group.id}}">
             <button type="submit">追加</button>
             </td>
         </form>
@@ -151,9 +152,8 @@
 <script>
 
 
-    let selected_grade = '{{grade_position}}' - 1;
-    let selected_e_group = '{{e_group_position}}' - 1;
-    // console.log(selected_e_group)
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
     document.getElementById("grade1").options[selected_grade].selected = true;
     document.getElementById("grade2").options[selected_grade].selected = true;
 

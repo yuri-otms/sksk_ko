@@ -35,25 +35,17 @@ def show():
     result = editor.EditManager.fetchAll()
     grade_id = result[0]
     e_group_id = result[1]
-    element_id = result[2]
-    grade_id = editor.EditManager.fetch_grade()
-    e_group_id = editor.EditManager.fetchE_Group(grade_id)
 
-    grades = db.session.query(Grade).all()
-    e_groups = editor.EditManager.addE_GroupName(grade_id)
+    grades = Grade.query.order_by(Grade.position.asc())
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id).order_by(E_Group.position.asc())
 
     e_group = db.session.get(E_Group, e_group_id)
-    grade_id = e_group.grade
     grade = db.session.get(Grade, grade_id)
-    grade_name = grade.grade
-    grade_position = grade.position
-    elements = Element.query.filter(Element.e_group==e_group_id)
-    e_group_name = e_group.e_group
-    e_group_position = e_group.position
-    e_group_id = e_group.id
+    
+    elements = Element.query.filter(Element.e_group==e_group_id).order_by(Element.position.asc())
 
 
-    return render_template('edit/show.html', grades = grades, e_groups=e_groups, elements=elements,grade_name=grade_name, grade_id=grade_id, grade_position = grade_position,e_group_position=e_group_position,e_group_name=e_group_name, e_group_id=e_group_id)
+    return render_template('edit/show.html', grades = grades, e_groups=e_groups, elements=elements,grade=grade,e_group=e_group)
 
 @edit.route('/show/questions', methods=['GET'])
 def show_questions():
@@ -141,8 +133,7 @@ def add_grade_execute():
     grade_id = Grade.query.filter(Grade.grade== grade).first().id
     e_group = '新規グループ'
     description = '新規グループ'
-    position = 1
-    editor.E_GroupManager.add_e_group(grade_id, e_group, description, position)
+    editor.E_GroupManager.add_e_group(grade_id, e_group, description)
     # 項目グループを追加すると同時に項目を1つ追加する。
     e_group_id = E_Group.query.filter(E_Group.e_group==e_group).first().id
     element = '新規項目'
@@ -217,8 +208,6 @@ def delete_grade_done():
     flash('級を削除しました。')
     return redirect(url_for('edit.show'))
 
-
-
 @edit.route('/add/e_group', methods=['POST'])
 @login_required
 def add_e_group():
@@ -243,9 +232,8 @@ def add_e_group_execute():
     grade_id = request.form['grade']
     e_group = request.form['e_group']
     description = request.form['description']
-    position = request.form['position']
 
-    editor.E_GroupManager.add_e_group(grade_id, e_group, description, position)
+    editor.E_GroupManager.add_e_group(grade_id, e_group, description)
     # 項目グループを追加すると同時に項目を1つ追加する。
     e_group_id = E_Group.query.filter(E_Group.e_group==e_group).first().id
     element = '項目1'
@@ -260,6 +248,79 @@ def add_e_group_execute():
 def add_e_group_done():
     grade_id = request.args.get('l')
     flash('項目グループを登録しました')
+    return redirect(url_for('edit.show', l=grade_id))
+
+@edit.route('/edit/e_group')
+@login_required
+def edit_e_group():
+    e_group_id = request.args.get('e_group')
+    grade_id = editor.EditManager.fetch_grade()
+    e_group = db.session.get(E_Group, e_group_id)
+    grade = db.session.get(Grade, grade_id)
+    grades = Grade.query.all()
+    return render_template('edit/edit_e_group.html', e_group=e_group, grade=grade,grades=grades)
+
+@edit.route('/edit/e_group_check', methods=['POST'])
+@login_required
+def edit_e_group_check():
+    e_group_id = request.form['e_group_id']
+    e_group_name = request.form['e_group']
+    description = request.form['description']
+    grade_id = request.form['grade_id']
+
+    e_group = {
+        "id": e_group_id,
+        "e_group": e_group_name,
+        "description": description
+    }
+
+    grade = db.session.get(Grade, grade_id)
+    return render_template('edit/edit_e_group_check.html', e_group=e_group, grade=grade)
+
+@edit.route('/edit/e_group_edited', methods=['POST'])
+@login_required
+def edit_e_group_execute():
+    e_group_id = request.form['e_group_id']
+    e_group_name = request.form['e_group_name']
+    description = request.form['description']
+    grade_id = int(request.form['grade_id'])
+
+    editor.E_GroupManager.edit_e_group(e_group_id, grade_id, e_group_name, description) 
+
+    return redirect(url_for('edit.edit_e_group_done', g=e_group_id))
+
+@edit.route('/edit/e_group_edited_done')
+@login_required
+def edit_e_group_done():
+    e_group_id = request.args.get('g')
+    flash('項目グループを変更しました。')
+    return redirect(url_for('edit.show', g=e_group_id))
+
+@edit.route('/delete/e_group')
+@login_required
+def delete_e_group():
+    e_group_id = request.args.get('e_group')
+    e_group = db.session.get(E_Group, e_group_id)
+    grade = db.session.get(Grade, e_group.grade)
+
+    return render_template('edit/delete_e_group.html', e_group=e_group, grade=grade)
+
+@edit.route('/delete/e_group_deleted', methods=['POST'])
+@login_required
+def delete_e_group_execute():
+    e_group_id = request.form['e_group']
+
+    e_group = db.session.get(E_Group, e_group_id)
+    editor.E_GroupManager.delete_e_group(e_group_id)
+
+    return redirect(url_for('edit.delete_e_group_done', l=e_group.grade))
+
+@edit.route('/delete/e_group_deleted_done')
+@login_required
+def delete_e_group_done():
+    grade_id = request.args.get('l')
+    flash('項目グループを削除しました。')
+
     return redirect(url_for('edit.show', l=grade_id))
 
 
