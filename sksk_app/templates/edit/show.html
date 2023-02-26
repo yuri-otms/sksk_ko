@@ -19,7 +19,8 @@
         <td>{{grade.grade}}</td>
         <td>{{grade.description}}</td>
         <td>{{grade.position}}</td>
-        <td>編集</td>
+        <td><a href="{{url_for('edit.edit_grade', grade=grade.id)}}">編集</a>
+        <a href="{{url_for('edit.delete_grade', grade=grade.id)}}">削除</a></td>
         
     </tr>
     {% endfor %}

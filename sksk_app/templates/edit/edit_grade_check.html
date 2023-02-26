@@ -1,27 +1,25 @@
 {%extends "base.html" %}
 {% block body %}
 
-<h2>レベルの追加</h2>
+<h2>レベルの編集</h2>
 
-<p>以下のレベルを追加しますか？</p>
+<p>以下のように変更しますか？</p>
 
-<form action="{{url_for('edit.add_grade_execute')}}" method="POST">
+<form action="{{url_for('edit.edit_grade_execute')}}" method="POST">
 <table>
     <tr>
         <th>レベル</th>
         <th>説明</th>
-        <th>項番</th>
     </tr>
     <tr>
         <td>{{grade.grade}}</td>
         <td>{{grade.description}}</td>
-        <td>{{grade.position}}</td>
     </tr>
 </table>
-<input type="hidden" name="grade" value="{{grade.grade}}">
+<input type="hidden" name="grade_id" value="{{grade.id}}">
+<input type="hidden" name="grade_name" value="{{grade.grade}}">
 <input type="hidden" name="description" value="{{grade.description}}">
-<input type="hidden" name="position" value="{{grade.position}}">
-<button>追加</button>
+<button>変更</button>
 <button type="button" onclick="history.back()">戻る</button>
 </form>
 

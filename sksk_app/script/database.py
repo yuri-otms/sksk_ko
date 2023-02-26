@@ -23,9 +23,7 @@ app.cli.add_command(create)
 def init():
     grade = 'ハン検5級'
     description = '입니다, 고 싶다, ㄹ까요'
-    position = 1
-    editor.GradeManager.add_grade(grade, description,position)
-
+    editor.GradeManager.add_grade(grade, description)
 
     name = 'test'
     email = 'test@test.com'

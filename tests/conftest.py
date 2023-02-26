@@ -16,7 +16,7 @@ def app():
         grade = 'ハン検5級'
         description = '입니다, 고 십다'
         position = 1
-        editor.GradeManager.add_grade(grade, description, position)
+        editor.GradeManager.add_grade(grade, description)
 
         grade = 1
         e_group = '指示詞、存在詞、数詞'
