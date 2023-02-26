@@ -1,0 +1,46 @@
+{%extends "base.html" %}
+{% block body %}
+
+<h2>項目グループの編集</h2>
+
+<form action="{{url_for('edit.edit_e_group_check')}}" method="POST">
+<table>
+    <tr>
+        <th>レベル</th>
+        <th>項目グループ</th>
+        <th>説明</th>
+    </tr>
+    <tr>
+        <td>
+            <select name="grade" id="grade" onchange="location.href=value">
+                {% for grade in grades %}
+                <option value="{{url_for('edit.edit_e_group', l=grade.id, e_group=e_group.id)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select> 
+        </td>
+        <td>
+            <input type="text" name="e_group" value="{{e_group.e_group}}">
+        </td>
+        <td>
+            <input type="text" name="description" value="{{e_group.description}}">
+        </td>
+    </tr>
+</table>
+    <input type="hidden" name="e_group_id" value="{{e_group.id}}">
+    <input type="hidden" name="grade_id" value="{{grade.id}}">
+    <button>確認</button>
+    <button type="button" onclick="history.back()">戻る</button>
+</form>
+
+
+
+<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
+
+<script>
+
+    let selected_grade = '{{grade.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+
+</script>
+
+{% endblock %}

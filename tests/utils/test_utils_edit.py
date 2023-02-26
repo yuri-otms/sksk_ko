@@ -42,7 +42,7 @@ def test_add_e_group(app):
     description = "갑니다,에서,지 않다"
     position = None
     with app.app_context():
-        editor.E_GroupManager.add_e_group(grade, e_group_name, description, position)
+        editor.E_GroupManager.add_e_group(grade, e_group_name, description)
         e_group = E_Group.query.filter(E_Group.e_group==e_group_name).first()
 
     assert e_group.description == '갑니다,에서,지 않다'
