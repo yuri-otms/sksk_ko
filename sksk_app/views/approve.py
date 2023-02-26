@@ -173,7 +173,7 @@ def change_question_execute():
 def change_question_done():
     element_id = request.args.get('e')
     flash('問題文の公開設定を変更しました。')
-    return redirect(url_for('approve.question', e=element_id))
+    return redirect(url_for('edit.show_questions', e=element_id))
 
 
 @approve.route('/release/questions', methods=['POST'])
@@ -208,7 +208,7 @@ def release_questions_done():
     element_id = request.args.get('e')
     flash('問題文を公開しました。')
 
-    return redirect(url_for('approve.question', e=element_id))
+    return redirect(url_for('edit.show_questions', e=element_id))
 
 
 @approve.route('/unrelease/questions', methods=['POST'])
@@ -241,5 +241,5 @@ def unrelease_questions_execute():
 def unrelease_questions_done():
     element_id = request.args.get('e')
     flash('問題文を非公開しました。')
-    return redirect(url_for('approve.question', e=element_id))
+    return redirect(url_for('edit.show_questions', e=element_id))
     
