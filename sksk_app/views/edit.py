@@ -65,17 +65,14 @@ def show_questions():
     element = db.session.get(Element, element_id)
 
     grade = db.session.get(Grade, grade_id)
-    grade_position = grade.position
-
-    e_group_id = editor.EditManager.fetchE_Group(grade_id)
-    e_group_position = db.session.get(E_Group, e_group_id).position
+    e_group = db.session.get(E_Group, e_group_id)
     grades = Grade.query.all()
     e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     styles = Style.query.all()
 
     elements = Element.query.filter(Element.e_group==e_group_id)
 
-    questions_raw = Question.query.filter(Question.element==element.id)
+    questions_raw = Question.query.filter(Question.element==element.id).order_by(Question.position.asc())
     questions = []
     for question in questions_raw:
         style = db.session.get(Style, question.style)
@@ -88,7 +85,7 @@ def show_questions():
         }
         questions.append(one_question)
 
-    return render_template('edit/show_questions.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions)
+    return render_template('edit/show_questions.html',grade=grade, e_group=e_group, grades=grades, e_groups=e_groups, styles=styles, elements=elements, element=element, questions=questions)
 
 @edit.route('/show/hints', methods=['GET'])
 def show_hints():
@@ -306,6 +303,113 @@ def add_question_done():
 
     return redirect(url_for('edit.show_questions', e=element))
 
+@edit.route('/edit/question')
+@login_required
+def edit_question():
+    question_id = request.args.get('q')
+    result = editor.EditManager.fetchAll()
+    grade_id = result[0]
+    e_group_id = result[1]
+    element_id = result[2]
+        
+    element = db.session.get(Element, element_id)
+
+    grade = db.session.get(Grade, grade_id)
+    e_group = db.session.get(E_Group, e_group_id)
+    grades = Grade.query.all()
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
+    styles = Style.query.all()
+
+    elements = Element.query.filter(Element.e_group==e_group_id)
+    question = editor.QuestionManager.fetch_question_with_attribute(question_id)
+    return render_template('edit/edit_question.html', question=question, grades=grades, e_groups=e_groups, grade=grade, e_group=e_group,element=element, styles=styles, elements=elements)
+
+@edit.route('/edit/question/ckeck', methods=['POST'])
+@login_required
+def edit_question_check():
+    japanese = request.form['japanese']
+    foreign_l = request.form['foreign_l']
+    style_id = request.form['style']
+    element_id = request.form['element']
+    question_id = request.form['question_id']
+    position = request.form['position']
+
+    style = db.session.get(Style, style_id)
+    element = db.session.get(Element, element_id)
+    e_group = db.session.get(E_Group, element.e_group)
+    grade = db.session.get(Grade, e_group.grade)
+
+    ja_to_ko = api.Papago.ja_to_ko(japanese)
+    ko_to_ja = api.Papago.ko_to_ja(foreign_l)
+
+    question = {
+        "id":question_id,
+        "grade":grade.grade,
+        "e_group":e_group.e_group,
+        "element_id":element.id,
+        "element": element.element,
+        "japanese": japanese,
+        "ja_to_ko": ja_to_ko,
+        "foreign_l": foreign_l,
+        "ko_to_ja":ko_to_ja,
+        "style_id": style.id,
+        "style":style.style,
+        "position":position
+    }
+
+    question_before = editor.QuestionManager.fetch_question_with_attribute(question_id)
+
+    return render_template('edit/edit_question_check.html', question=question, question_before=question_before)
+
+@edit.route('/edit/question_edited', methods=['POST'])
+@login_required
+def edit_question_execute():
+    question_id = request.form['question_id']
+    element_id = int(request.form['element'])
+    japanese = request.form['japanese']
+    foreign_l = request.form['foreign_l']
+    style_id = request.form['style']
+    position = request.form['position']
+    user = session.get('user_id')
+
+    editor.QuestionManager.edit_question(question_id, element_id, japanese, foreign_l, style_id, user)
+    
+    return redirect(url_for('edit.edit_question_done', e=element_id))
+
+@edit.route('/edit/question_edited_done')
+@login_required
+def edit_question_done():
+    element_id = request.args.get('e')
+    flash('問題文を変更しました。')
+    return redirect(url_for('edit.show_questions', e=element_id))
+
+
+@edit.route('/delete/question/<int:id>')
+@login_required
+def delete_question(id):
+
+    question = editor.QuestionManager.fetch_question_with_attribute(id)
+
+    return render_template('edit/delete_question.html', question=question)
+
+@edit.route('/delete/question_deleted', methods=['POST'])
+@login_required
+def delete_question_execute():
+    element_id = request.form['element_id']
+    question_id = request.form['question_id']
+    user = session.get('user_id')
+
+    editor.QuestionManager.delete_question(question_id, user)
+
+    return redirect(url_for('edit.delete_question_done', e=element_id))
+
+@edit.route('/delete/question_deleted_done')
+@login_required
+def delete_question_done():
+    element_id = request.args.get('e')
+    flash('問題文を削除しました。')
+    return redirect(url_for('edit.show_questions', e=element_id))
+
 @edit.route('/confirm/hint/j', methods=['POST'])
 @login_required
 def confirm_hint_j():
@@ -368,27 +472,3 @@ def add_word_hint_done():
     flash('単語とヒントを追加しました')
     return redirect(url_for('edit.show_hints', e=element))
 
-@edit.route('/delete/question/<int:id>')
-@login_required
-def delete_question(id):
-
-    question = editor.QuestionManager.fetch_question_with_attribute(id)
-
-    return render_template('edit/delete_question.html', question=question)
-
-@edit.route('/delete/question_deleted', methods=['POST'])
-@login_required
-def delete_question_execute():
-    element_id = request.form['element_id']
-    question_id = request.form['question_id']
-
-    editor.QuestionManager.delete_question(question_id)
-
-    return redirect(url_for('edit.delete_question_done', e=element_id))
-
-@edit.route('/delete/question_deleted_done')
-@login_required
-def delete_question_done():
-    element_id = request.args.get('e')
-    flash('問題文を削除しました。')
-    return redirect(url_for('edit.show_questions', e=element_id))

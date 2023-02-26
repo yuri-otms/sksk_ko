@@ -70,7 +70,7 @@
         <td>{{question.style}}</td>
         <td>{{question.position}}</td>
         <td>
-             編集
+            <a href="{{url_for('edit.edit_question', q=question.id,e=element.id)}}">編集</a>
             <a href="{{url_for('edit.delete_question', id=question.id)}}">削除</a>
         </td>
     </tr>
@@ -84,8 +84,8 @@
 
 <script>
     
-    let selected_grade = '{{grade_position}}' - 1;
-    let selected_e_group = '{{e_group_position}}' - 1;
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
     let selected_element = '{{element.position}}' - 1;
     document.getElementById("grade").options[selected_grade].selected = true;
     document.getElementById("e_group").options[selected_e_group].selected = true;

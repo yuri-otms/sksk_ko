@@ -52,6 +52,51 @@ def test_add_question(app):
 
     assert question.foreign_l == '제 가방입니까?'
 
+def test_edit_question(app):
+    element = 1
+    level = 1
+    japanese = '私のカバンですか？'
+    foreign_l = '제 가방입니까?'
+    style = 1
+    position = None
+    user = 1
+    with app.app_context():
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
+        question = Question.query.filter(Question.japanese==japanese).first()
+        foreign_l = '제 가방이에요?'
+        style = 2
+        editor.QuestionManager.edit_question(question.id, element, japanese, foreign_l, style, user)
+        question = db.session.get(Question, question.id)
+    
+    assert question.foreign_l == '제 가방이에요?'
+
+def test_delete_question(app):
+    with app.app_context():
+        user = 1
+        element = 1
+        level = 1
+        japanese = '私のカバンですか？'
+        foreign_l = '제 가방입니까?'
+        style = 1
+        position = None
+        user = 1
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
+        japanese = 'これはキムチですか？'
+        foreign_l = '이것은 김치입니까?'
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
+        japanese = '今日は休日ではありません。'
+        foreign_l = '오늘은 휴일이 아닙니다.'
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
+
+        question1 = Question.query.filter(Question.japanese=="私のカバンですか？").first()
+        question2 = Question.query.filter(Question.japanese=="今日は休日ではありません。").first()
+        position = question2.position
+        editor.QuestionManager.delete_question(question1.id, user)
+        question2_edited = Question.query.filter(Question.japanese=="今日は休日ではありません。").first()
+
+        assert question1
+        assert question2_edited.position == position - 1
+
 def test_fetch_questions_with_hints(app):
     element = 1
     with app.app_context():
@@ -78,34 +123,6 @@ def test_fetch_attribute(app):
     with app.app_context():
         attribute = editor.QuestionManager.fetch_attribute(element)
     assert attribute['description'] == '입니다'
-
-def test_delete_question(app):
-    with app.app_context():
-        element = 1
-        level = 1
-        japanese = '私のカバンですか？'
-        foreign_l = '제 가방입니까?'
-        style = 1
-        position = None
-        user = 1
-        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
-        japanese = 'これはキムチですか？'
-        foreign_l = '이것은 김치입니까?'
-        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
-        japanese = '今日は休日ではありません。'
-        foreign_l = '오늘은 휴일이 아닙니다.'
-        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
-
-        question1 = Question.query.filter(Question.japanese=="私のカバンですか？").first()
-        question2 = Question.query.filter(Question.japanese=="今日は休日ではありません。").first()
-        position = question2.position
-        editor.QuestionManager.delete_question(question1.id)
-        question2_edited = Question.query.filter(Question.japanese=="今日は休日ではありません。").first()
-
-        assert question1
-        assert question2_edited.position == position - 1
-
-
         
 
 

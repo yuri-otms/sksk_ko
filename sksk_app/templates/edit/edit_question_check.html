@@ -1,0 +1,72 @@
+{%extends "base.html" %}
+{% block body %}
+
+<h2>問題文の編集</h2>
+
+<p>以下のように問題文の変更しますか？</p>
+
+<form action="{{url_for('edit.edit_question_execute')}}" method="POST">
+<table>
+    <tr>
+        <th></th>
+        <th>レベル</th>
+        <th>項目グループ</th>
+        <th>項目</th>
+        <th>文体</th>
+        <th>項番</th>
+    </tr>
+    <tr>
+        <th>変更前</th>
+        <td>{{question_before.grade}}</td>
+        <td>{{question_before.e_group}}</td>
+        <td>{{question_before.element}}</td>
+        <td>{{question_before.style}}</td>
+        <td>{{question_before.position}}</td>
+    </tr>
+    <tr>
+        <th>変更後</th>
+        <td>{{question.grade}}</td>
+        <td>{{question.e_group}}</td>
+        <td>{{question.element}}</td>
+        <td>{{question.style}}</td>
+        <td>{{question.position}}</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th></th>
+        <th>日本語</th>
+        <th>外国語</th>
+    </tr>
+    <tr>
+        <th>変更前</th>
+        <td>{{question_before.japanese}}</td>
+        <td>{{question_before.foreign_l}}</td>
+    </tr>
+    <tr>
+        <th>変更後</th>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+    <tr>
+        <th>翻訳</th>
+        <td>{{question.ko_to_ja}}</td>
+        <td>{{question.ja_to_ko}}</td>
+    </tr>
+
+</table>
+
+
+    <input type="hidden" name="element" value="{{question.element_id}}">
+    <input type="hidden" name="japanese" value="{{question.japanese}}">
+    <input type="hidden" name="foreign_l" value="{{question.foreign_l}}">
+    <input type="hidden" name="style" value="{{question.style_id}}">
+    <input type="hidden" name="position" value="{{question.position}}">
+    <input type="hidden" name="question_id" value="{{question.id}}">
+    <button>追加</button>
+    <button type="button" onclick="history.back()">戻る</button>
+</form>
+
+<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
+
+{% endblock %}
