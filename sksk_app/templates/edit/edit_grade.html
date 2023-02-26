@@ -1,0 +1,26 @@
+{%extends "base.html" %}
+{% block body %}
+
+<h2>レベルの編集</h2>
+
+<form action="{{url_for('edit.edit_grade_check')}}" method="POST">
+<table>
+    <tr>
+        <th>レベル</th>
+        <th>説明</th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" name="grade_name" value="{{grade.grade}}">
+        </td>
+        <td>
+            <input type="text" name="description" value="{{grade.description}}">
+        </td>
+    </tr>
+</table>
+<input type="hidden" name="grade_id" value="{{grade.id}}">
+<button>確認</button>
+<button type="button" onclick="history.back()">戻る</button>
+</form>
+
+{% endblock %}

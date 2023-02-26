@@ -9,12 +9,15 @@ from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record, Score
 
 class GradeManager:
-    def add_grade(grade, description, position):
-        if not position:
+    def add_grade(grade, description):
+        grades = Grade.query.all()
+        if grades:
             max_position = db.session.query(
                 func.max(Grade.position).label('grade_max')).one()
             max = int(max_position.grade_max)
             position = max + 1
+        else:
+            position = 1
 
         new_grade = Grade(
             grade = grade,
@@ -23,7 +26,23 @@ class GradeManager:
         )
         
         db.session.add(new_grade)
-        db.session.commit()        
+        db.session.commit()
+
+    def edit_grade(id, grade, description):
+        grade_edited = db.session.get(Grade, id)
+
+        grade_edited.grade = grade
+        grade_edited.description = description
+
+        db.session.merge(grade_edited)
+        db.session.commit()
+
+    def delete_grade(id):
+        grade_deleted = db.session.get(Grade, id)
+
+        db.session.delete(grade_deleted)
+        db.session.commit()
+
 
 class E_GroupManager:
     def add_e_group(grade, e_group, description, position):

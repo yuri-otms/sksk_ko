@@ -6,12 +6,34 @@ import sksk_app.utils.edit as editor
 def test_add_grade(app):
     grade_name = 'ハン検4級'
     description = '거예요, 아서, 러'
-    position = 3
     with app.app_context():
-        editor.GradeManager.add_grade(grade_name,description, position)
+        editor.GradeManager.add_grade(grade_name,description)
         grade = Grade.query.filter(Grade.grade==grade_name).first()
     
     assert grade.description == '거예요, 아서, 러'
+
+def test_edit_grade(app):
+    grade_name = 'ハン検4級'
+    description = '거예요, 아서, 러'
+    with app.app_context():
+        editor.GradeManager.add_grade(grade_name,description)
+        grade = Grade.query.filter(Grade.grade==grade_name).first()
+        description = '거예요'
+        editor.GradeManager.edit_grade(grade.id, grade_name, description)
+        grade = db.session.get(Grade,grade.id)
+
+    assert grade.description == '거예요'
+
+def test_delete_grade(app):
+    grade_name = 'ハン検4級'
+    description = '거예요, 아서, 러'
+    with app.app_context():
+        editor.GradeManager.add_grade(grade_name,description)
+        grade = Grade.query.filter(Grade.grade==grade_name).first()
+        editor.GradeManager.delete_grade(grade.id)
+        grade = db.session.get(Grade, grade.id)
+
+    assert grade is None
 
 # E_GroupManager
 def test_add_e_group(app):

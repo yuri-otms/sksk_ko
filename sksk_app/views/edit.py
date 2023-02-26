@@ -136,8 +136,7 @@ def add_grade():
 def add_grade_execute():
     grade = request.form['grade']
     description = request.form['description']
-    position = request.form['position']
-    editor.GradeManager.add_grade(grade, description, position)
+    editor.GradeManager.add_grade(grade, description)
     # レベルを追加すると同時にグループを1つ追加する。
     grade_id = Grade.query.filter(Grade.grade== grade).first().id
     e_group = '新規グループ'
@@ -150,18 +149,75 @@ def add_grade_execute():
     description = '新規項目'
     position = 1
     editor.ElementManager.add_element(e_group_id, element, description, position)
-    
-
     return redirect(url_for('edit.add_grade_done'))
-
-
 
 @edit.route('/add/grade/done')
 @login_required
 def add_grade_done():
     flash('レベルを登録を行いました。')
+    return redirect(url_for('edit.show'))
+
+@edit.route('/edit/grade')
+@login_required
+def edit_grade():
+    grade_id = request.args.get('grade')
+    grade = db.session.get(Grade, grade_id)
+    return render_template('edit/edit_grade.html', grade=grade)
+
+@edit.route('/edit/grade/check', methods=['POST'])
+@login_required
+def edit_grade_check():
+    grade_id = request.form['grade_id']
+    grade_name = request.form['grade_name']
+    description = request.form['description']
+
+    grade = {
+        "id":grade_id,
+        "grade":grade_name,
+        "description": description
+    }
+
+    return render_template('edit/edit_grade_check.html', grade=grade)
+
+@edit.route('/edit/grade_edited', methods=['POST'])
+@login_required
+def edit_grade_execute():
+    grade_id = request.form['grade_id']
+    grade_name = request.form['grade_name']
+    description = request.form['description']
+
+    editor.GradeManager.edit_grade(grade_id, grade_name, description)    
+    return redirect(url_for('edit.edit_grade_done'))
+
+@edit.route('/edit/grade_edited_done')
+@login_required
+def edit_grade_done():
+    flash('級を変更しました')
 
     return redirect(url_for('edit.show'))
+
+@edit.route('/delete/grade')
+@login_required
+def delete_grade():
+    grade_id = request.args.get('grade')
+    grade = db.session.get(Grade, grade_id)
+    return render_template('edit/delete_grade.html', grade=grade)
+
+@edit.route('/delete/grade_deleted', methods=['POST'])
+@login_required
+def delete_grade_execute():
+    grade_id = request.form['grade_id']
+
+    editor.GradeManager.delete_grade(grade_id)
+    return redirect(url_for('edit.delete_grade_done'))
+
+@edit.route('/delete/grade_deleted_done')
+@login_required
+def delete_grade_done():
+    flash('級を削除しました。')
+    return redirect(url_for('edit.show'))
+
+
 
 @edit.route('/add/e_group', methods=['POST'])
 @login_required
@@ -255,7 +311,6 @@ def add_question():
     japanese = request.form['japanese1']
     foreign_l = request.form['foreign_l1']
     style_id = request.form['style']
-    position = request.form['position']
     element_id = request.form['element_id']
 
     style = db.session.get(Style, style_id)
@@ -276,8 +331,7 @@ def add_question():
         "foreign_l": foreign_l,
         "ko_to_ja":ko_to_ja,
         "style_id": style.id,
-        "style":style.style,
-        "position": position,
+        "style":style.style
     }
 
     return render_template('edit/add_question.html', question=question)
