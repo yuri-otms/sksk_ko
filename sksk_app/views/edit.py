@@ -57,6 +57,7 @@ def show():
 
 @edit.route('/show/questions', methods=['GET'])
 def show_questions():
+    approve = session.get('approve')
     result = editor.EditManager.fetchAll()
     grade_id = result[0]
     e_group_id = result[1]
@@ -81,11 +82,12 @@ def show_questions():
             "japanese":question.japanese,
             "foreign_l":question.foreign_l,
             "style": style.style,
-            "position":question.position
+            "position":question.position,
+            "released":question.released
         }
         questions.append(one_question)
 
-    return render_template('edit/show_questions.html',grade=grade, e_group=e_group, grades=grades, e_groups=e_groups, styles=styles, elements=elements, element=element, questions=questions)
+    return render_template('edit/show_questions.html',grade=grade, e_group=e_group, grades=grades, e_groups=e_groups, styles=styles, elements=elements, element=element, questions=questions, approve=approve)
 
 @edit.route('/show/hints', methods=['GET'])
 def show_hints():

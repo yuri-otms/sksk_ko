@@ -36,6 +36,8 @@
         <th>文体</th>
         <th>項番</th>
         <th>編集</th>
+        <th>公開</th>
+        <th><label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
     </tr>
     <tr>
         <td>
@@ -55,11 +57,13 @@
             </select>
         </td>
         <td>
-            <input type="text" name="position">
+        </td>
+        <td>
         </td>
         <td>
             <input type="hidden" name="element_id" value="{{element.id}}">
             <button>確認</button>
+</form>
         </td>
     </tr>
     {% for question in questions %}
@@ -73,10 +77,24 @@
             <a href="{{url_for('edit.edit_question', q=question.id,e=element.id)}}">編集</a>
             <a href="{{url_for('edit.delete_question', id=question.id)}}">削除</a>
         </td>
+        <td>
+            {% if question.released %}
+            <a href="{{url_for('approve.change_question', q=question.id)}}">○</a> 
+            {% else %}
+            <a href="{{url_for('approve.change_question', q=question.id)}}">×</a> 
+            {% endif %}
+        </td>
+        <td>
+            <form action="" method="POST">
+            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
+        </td>
     </tr>
 
     {% endfor %}
 </table>
+<input type="hidden" name="element_id" value="{{element.id}}">
+<button style="text-align:center" formaction="{{url_for('approve.release_questions')}}" formmethod="POST">まとめて公開</button>
+<button style="text-align:center" formaction="{{url_for('approve.unrelease_questions')}}" formmethod="POST">まとめて非公開</button>
 </form>
 
 
@@ -90,6 +108,37 @@
     document.getElementById("grade").options[selected_grade].selected = true;
     document.getElementById("e_group").options[selected_e_group].selected = true;
     document.getElementById("element").options[selected_element].selected = true;
+
+    //チェックボックスを全て選択、全て解除
+    let checkAll = document.getElementById("checkAll");
+    let el = document.getElementsByClassName("checks");
+
+    const funcCheckAll = (bool) => {
+        for (let i = 0; i < el.length; i++) {
+            el[i].checked = bool;
+        }
+    }
+    const funcCheck = () => {
+        let count = 0;
+        for (let i = 0; i < el.length; i++) {
+            if (el[i].checked) {
+                count += 1;
+            }
+        }
+        if (el.length == count) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    };
+    checkAll.addEventListener("click",() => {
+        funcCheckAll(checkAll.checked);
+    }, false)
+
+    for (let i = 0; i < el.length; i++) {
+        el[i].addEventListener("click", funcCheck, false)
+    }
+
 
 </script>
 {%endblock%}
