@@ -79,17 +79,24 @@ class StyleManager:
         db.session.commit()
 
 class QuestionManager:
+    
+    def calculate_position(element):
+
+        question_exist = Question.query.filter(Question.element==element).first()
+        if question_exist:
+            max_position = Question.query.with_entities(func.max(Question.position).label('question_max')).filter(Question.element==element).one()
+            max = int(max_position.question_max)
+            position = max + 1
+        else:
+            position = 1
+
+        return position        
+
+
     def add_question(element, level,  japanese, foreign_l, style, position, user):
 
         if not position:
-            question_exist = Question.query.filter(Question.element==element).first()
-            if question_exist:
-                max_position = Question.query.with_entities(func.max(Question.position).label('question_max')).filter(Question.element==element).one()
-                max = int(max_position.question_max)
-                position = max + 1
-            else:
-                position = 1
-
+            position = QuestionManager.calculate_position(element)
         created_at = datetime.now()
         
         new_question = Question(
@@ -108,8 +115,55 @@ class QuestionManager:
 
         question_id = Question.query.with_entities(func.max(Question.id).label('max_id')).one().max_id
 
-        message = 'なし'
+        message = '作成'
         QuestionManager.record_process(user, question_id, 1, 1,message, created_at)
+
+    def edit_question(question_id, element, japanese, foreign_l, style, user):
+        created_at = datetime.now()
+
+        question = db.session.get(Question, question_id)
+
+        element_before = question.element
+        
+        if element == element_before:
+            question.position = question.position
+        else:
+            position = QuestionManager.calculate_position(element)
+            question.position = position
+
+        question.element = element
+        question.japanese = japanese
+        question.foreign_l = foreign_l
+        question.style = style
+
+
+        db.session.merge(question)
+        db.session.commit()
+
+        message = '編集'
+        QuestionManager.record_process(user, question_id, 1, 1, message, created_at)
+        
+    
+    def delete_question(question_id, user):
+        created_at = datetime.now()
+
+        question = db.session.get(Question, question_id)
+        position = question.position
+        element = question.element
+        db.session.delete(question)
+        db.session.commit()
+
+        next_question = Question.query.filter(Question.element==element).filter(Question.position > position).first()
+        while(next_question):
+            next_question.position -= 1
+            db.session.merge(next_question)
+            db.session.commit()
+            next_question = Question.query.filter(Question.element==element).filter(Question.position > next_question.position).first()
+
+        
+        message = '削除'
+        QuestionManager.record_process(user, question_id, 1, 1, message, created_at)
+
 
     def record_process(user, question, process, result, message, time):
         new_record = Record(
@@ -261,20 +315,6 @@ class QuestionManager:
 
         return question_added
     
-    def delete_question(question_id):
-
-        question = db.session.get(Question, question_id)
-        position = question.position
-        element = question.element
-        db.session.delete(question)
-        db.session.commit()
-
-        next_question = Question.query.filter(Question.element==element).filter(Question.position > position).first()
-        while(next_question):
-            next_question.position -= 1
-            db.session.merge(next_question)
-            db.session.commit()
-            next_question = Question.query.filter(Question.element==element).filter(Question.position > next_question.position).first()
 
 class WordManager:
 
