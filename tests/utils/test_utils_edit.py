@@ -52,9 +52,8 @@ def test_add_element(app):
     e_group = 1
     element_name = '指示詞の否定'
     description = '아닙니다'
-    position = None
     with app.app_context():
-        editor.ElementManager.add_element(e_group, element_name, description, position)
+        editor.ElementManager.add_element(e_group, element_name, description)
         element = Element.query.filter(Element.element==element_name).first()
 
     assert element.description == '아닙니다'

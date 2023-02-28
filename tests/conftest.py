@@ -15,20 +15,18 @@ def app():
         db.create_all()
         grade = 'ハン検5級'
         description = '입니다, 고 십다'
-        position = 1
         editor.GradeManager.add_grade(grade, description)
 
         grade = 1
         e_group = '指示詞、存在詞、数詞'
         description = '입니다, 있다, 하나'
-        position = 1
         editor.E_GroupManager.add_e_group(grade, e_group, description)
         
         e_group = 1
         element_name = '指示詞'
         description = '입니다'
         position = 1
-        editor.ElementManager.add_element(e_group, element_name, description, position)
+        editor.ElementManager.add_element(e_group, element_name, description)
 
         element = 1
         level = 1
