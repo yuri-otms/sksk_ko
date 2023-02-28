@@ -190,6 +190,19 @@ class QuestionManager:
 
         return position        
 
+    def reduce_position(question_id):
+        question = db.session.get(Question, question_id)
+        element = question.element
+        position = question.position
+
+        next_question = Question.query.filter(Question.element==element).filter(Question.position>position).order_by(Question.position).first()
+        while(next_question):
+            next_question.position -= 1
+            position = next_question.position
+            db.session.merge(next_question)
+            db.session.commit()
+            next_question = Question.query.filter(Question.element==element).filter(Question.position>position).order_by(Question.position).first()
+
 
     def add_question(element, level,  japanese, foreign_l, style, position, user):
 
@@ -226,6 +239,7 @@ class QuestionManager:
         if element == element_before:
             question.position = question.position
         else:
+            QuestionManager.reduce_position(question_id)
             position = QuestionManager.calculate_position(element)
             question.position = position
 
@@ -243,22 +257,13 @@ class QuestionManager:
         
     
     def delete_question(question_id, user):
+        QuestionManager.reduce_position(question_id)
+
         created_at = datetime.now()
 
         question = db.session.get(Question, question_id)
-        position = question.position
-        element = question.element
         db.session.delete(question)
         db.session.commit()
-
-        # 削除した問題以降の問題の項番の変更
-        next_question = Question.query.filter(Question.element==element).filter(Question.position > position).order_by(Question.position).first()
-        while(next_question):
-            next_question.position -= 1
-            db.session.merge(next_question)
-            db.session.commit()
-            next_question = Question.query.filter(Question.element==element).filter(Question.position > next_question.position).order_by(Question.position).first()
-
         
         message = '削除'
         QuestionManager.record_process(user, question_id, 1, 1, message, created_at)

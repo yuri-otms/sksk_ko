@@ -140,7 +140,6 @@ class Question(db.Model):
     checked = db.Column(db.Boolean, nullable=False, default=0)
     released = db.Column(db.Boolean, nullable=False,default=0)
     scores = db.relationship("Score", backref='question_score')
-    records = db.relationship("Record", backref='question_record')
     hints = db.relationship("Hint", backref='question_hint')
 
 
@@ -165,7 +164,7 @@ class Record(db.Model):
     __tablename__  = 'record'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    question = db.Column(db.Integer, db.ForeignKey('question.id', ondelete="CASCADE"))
+    question = db.Column(db.Integer)
     process = db.Column(db.Integer, db.ForeignKey('process.id'))
     result = db.Column(db.Boolean, default=0)
     message = db.Column(db.Text)
