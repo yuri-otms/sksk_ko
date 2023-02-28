@@ -115,7 +115,6 @@ def test_delete_question(app):
         editor.QuestionManager.delete_question(question1.id, user)
         question2_edited = Question.query.filter(Question.japanese=="今日は休日ではありません。").first()
 
-        assert question1
         assert question2_edited.position == position - 1
 
 def test_fetch_questions_with_hints(app):

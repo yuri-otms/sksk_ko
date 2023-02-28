@@ -528,7 +528,6 @@ def edit_question_check():
     style_id = request.form['style']
     element_id = request.form['element']
     question_id = request.form['question_id']
-    position = request.form['position']
 
     style = db.session.get(Style, style_id)
     element = db.session.get(Element, element_id)
@@ -549,8 +548,7 @@ def edit_question_check():
         "foreign_l": foreign_l,
         "ko_to_ja":ko_to_ja,
         "style_id": style.id,
-        "style":style.style,
-        "position":position
+        "style":style.style
     }
 
     question_before = editor.QuestionManager.fetch_question_with_attribute(question_id)
@@ -565,7 +563,6 @@ def edit_question_execute():
     japanese = request.form['japanese']
     foreign_l = request.form['foreign_l']
     style_id = request.form['style']
-    position = request.form['position']
     user = session.get('user_id')
 
     editor.QuestionManager.edit_question(question_id, element_id, japanese, foreign_l, style_id, user)

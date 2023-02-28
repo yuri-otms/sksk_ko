@@ -50,14 +50,12 @@ def init():
     grade = 1
     e_group = '指示詞、存在詞、数詞'
     description = '입니다, 있다, 하나'
-    position = 1
-    editor.E_GroupManager.add_e_group(grade, e_group, description, position)
+    editor.E_GroupManager.add_e_group(grade, e_group, description)
 
     e_group = 1
     element = '指示詞'
     description = '입니다'
-    position = 1
-    editor.ElementManager.add_element(e_group, element, description, position)
+    editor.ElementManager.add_element(e_group, element, description)
 
     new_level = Level(
         level = 1
@@ -70,31 +68,8 @@ def init():
     japanese = '父は医者です。'
     foreign_l = '아버지는 의사입니다.'
     style = 1
-    position = None
     user = 1
-    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, position, user)
-
-    # element = 1
-    # japanese = '私は学生です。'
-    # foreign_l = '저는 학생입니다.'
-    # style = 1
-    # position = None
-    # user = 1
-    # editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
-
-
-    # element = 1
-    # japanese = '母は公務員です。'
-    # foreign_l = '어머니는 공무원입니다.'
-    # style = 1
-    # position = None
-    # user = 1
-    # editor.QuestionManager.add_question(element, japanese, foreign_l, style, position, user)
-
-    # question = 1
-    # word = 1
-    # editor.HintManager.add_hint(question, word)
-
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, user)
 
     print("Insert User Data ")
 
