@@ -238,8 +238,7 @@ def add_e_group_execute():
     e_group_id = E_Group.query.filter(E_Group.e_group==e_group).first().id
     element = '項目1'
     description = '一つ目の項目'
-    position = 1
-    editor.ElementManager.add_element(e_group_id, element, description, position)
+    editor.ElementManager.add_element(e_group_id, element, description)
 
     return redirect(url_for('edit.add_e_group_done', l=grade_id))
 
@@ -331,15 +330,13 @@ def add_element():
     e_group_id = request.form['e_group_id']
     element_name = request.form['element_name']
     description = request.form['description']
-    position = request.form['position']
 
     e_group = db.session.get(E_Group, e_group_id)
     e_group_name=e_group.e_group
     element = Element(
         e_group = e_group_id,
         element = element_name,
-        description = description,
-        position = position
+        description = description
     )
 
     return render_template('edit/add_element.html', element=element, e_group_name=e_group_name)
@@ -350,9 +347,8 @@ def add_element_execute():
     e_group_id = request.form['e_group']
     element_name= request.form['element_name']
     description = request.form['description']
-    position = request.form['position']
 
-    editor.ElementManager.add_element(e_group_id, element_name, description, position)
+    editor.ElementManager.add_element(e_group_id, element_name, description)
 
     grade_id = db.session.get(E_Group, e_group_id).grade
 
@@ -365,6 +361,89 @@ def add_element_done():
     e_group_id = request.args.get('g')
     flash('項目を登録しました')
     return redirect(url_for('edit.show', l=grade_id, g=e_group_id))
+
+
+@edit.route('/edit/element')
+@login_required
+def edit_element():
+    result = editor.EditManager.fetchAll()
+    grade_id = result[0]
+    e_group_id = result[1]
+
+    element_id = request.args.get('e')
+
+    element = db.session.get(Element, element_id)
+    e_group = db.session.get(E_Group, e_group_id)
+    grade = db.session.get(Grade, grade_id)
+
+    grades = Grade.query.all()
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id)
+
+    return render_template('edit/edit_element.html', element=element,grade=grade, e_group=e_group, grades=grades, e_groups=e_groups)
+
+
+@edit.route('/edit/element_check', methods=['POST'])
+@login_required
+def edit_element_check():
+    element_id = request.form['element_id']
+    element_name = request.form['element_name']
+    description = request.form['description']
+    e_group_id = request.form['e_group_id']
+
+    e_group = db.session.get(E_Group, e_group_id)
+    grade = db.session.get(Grade, e_group.grade)
+
+    element = {
+        "id":element_id,
+        "e_group_id":e_group_id,
+        "element":element_name,
+        "description":description
+    }
+
+    return render_template('edit/edit_element_check.html', element=element, e_group=e_group, grade=grade)
+
+@edit.route('/edit/element_edited', methods=['POST'])
+@login_required
+def edit_element_execute():
+    element_id = request.form['element_id']
+    element_name = request.form['element_name']
+    description = request.form['description']
+    e_group_id = int(request.form['e_group_id'])
+
+    editor.ElementManager.edit_element(element_id, e_group_id, element_name, description)
+
+    return redirect(url_for('edit.edit_element_done', g=e_group_id))
+
+@edit.route('/edit/element_edited_done')
+@login_required
+def edit_element_done():
+    e_group_id = request.args.get('g')
+    flash('項目を変更しました。')
+    return redirect(url_for('edit.show', g=e_group_id))
+
+@edit.route('/delete/element')
+@login_required
+def delete_element():
+    element_id = request.args.get('element_id')
+    element = db.session.get(Element, element_id)
+    e_group = db.session.get(E_Group, element.e_group)
+    return render_template('edit/delete_element.html', element = element, e_group=e_group)
+
+@edit.route('/delete/element_deleted', methods=['POST'])
+@login_required
+def delete_element_execute():
+    element_id = request.form['element_id']
+    e_group_id = request.form['e_group_id']
+
+    editor.ElementManager.delete_element(element_id)
+
+    return redirect(url_for('edit.delete_element_done', g=e_group_id))
+
+@edit.route('/delete/element_deleted_done')
+@login_required
+def delete_element_done():
+    e_group_id = request.args.get('g')
+    return redirect(url_for('edit.show', g=e_group_id))
 
 @edit.route('/add/question', methods=['POST'])
 @login_required

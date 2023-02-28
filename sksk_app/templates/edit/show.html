@@ -124,7 +124,9 @@
         <td>{{element.element}}</td>
         <td>{{element.description}}</td>
         <td>{{element.position}}</td>
-        <td>編集</td>
+        <td><a href="{{url_for('edit.edit_element', e=element.id)}}">編集</a>
+            <a href="{{url_for('edit.delete_element', element_id=element.id)}}">削除</a>
+        </td>
         
     </tr>
     {% endfor %}

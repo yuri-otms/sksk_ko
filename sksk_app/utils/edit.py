@@ -46,10 +46,10 @@ class GradeManager:
 
 class E_GroupManager:
 
-    def calculate_position(grade):
-        e_group_exist = E_Group.query.filter(E_Group.grade==grade).first()
+    def calculate_position(grade_id):
+        e_group_exist = E_Group.query.filter(E_Group.grade==grade_id).first()
         if e_group_exist:
-            max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.grade==grade).one()
+            max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.grade==grade_id).one()
             max = int(max_position.e_group_max)
             position = max + 1
         else:
@@ -85,20 +85,14 @@ class E_GroupManager:
     def edit_e_group(e_group_id, grade_id, e_group_name, description):
         e_group = db.session.get(E_Group, e_group_id)
         grade_before = e_group.grade
-
+        
         if not grade_id == grade_before:
             E_GroupManager.reduce_position(e_group_id)
-            e_group_exist = E_Group.query.filter(E_Group.grade==grade_id).first()
-            if e_group_exist:
-                max_position = E_Group.query.with_entities(func.max(E_Group.position).label('e_group_max')).filter(E_Group.grade==grade_id).one()
-                max = int(max_position.e_group_max)
-                position = max + 1
-            else:
-                position = 1
+            position = E_GroupManager.calculate_position(grade_id)
+            e_group.position = position
         e_group.e_group = e_group_name
         e_group.description = description
         e_group.grade = grade_id
-        e_group.position = position
         db.session.merge(e_group)
         db.session.commit()
 
@@ -112,18 +106,36 @@ class E_GroupManager:
 
 
 class ElementManager:
-    def add_element(e_group, element, description, position):
-        if not position:
-            element_exist = Element.query.filter(Element.e_group==e_group).first()
-            if element_exist:
-                max_position = Element.query.with_entities(func.max(Element.position).label('element_max')).filter(Element.e_group==e_group).one()
-                max = int(max_position.element_max)
-                position = max + 1
-            else:
-                position = 1
+
+    def calculate_position(e_group_id):
+        element_exist = Element.query.filter(Element.e_group==e_group_id).first()
+        if element_exist:
+            max_position = Element.query.with_entities(func.max(Element.position).label('element_max')).filter(Element.e_group==e_group_id).one()
+            max = int(max_position.element_max)
+            position = max + 1
+        else:
+            position = 1
+
+        return position
+
+    def reduce_position(element_id):
+        element = db.session.get(Element, element_id)
+        e_group = element.e_group
+        position = element.position
+
+        next_element = Element.query.filter(Element.e_group==e_group).filter(Element.position>position).order_by(Element.position).first()
+        while(next_element):
+            next_element.position -= 1
+            position = next_element.position
+            db.session.merge(next_element)
+            db.session.commit()
+            next_element = Element.query.filter(Element.e_group==e_group).filter(Element.position>position).order_by(Element.position).first()
+
+    def add_element(e_group_id, element, description):
+        position = ElementManager.calculate_position(e_group_id)
 
         new_element = Element(
-            e_group = e_group,
+            e_group = e_group_id,
             element = element,
             description = description,
             position = position
@@ -132,6 +144,29 @@ class ElementManager:
         db.session.add(new_element)
         db.session.commit()
 
+    def edit_element(element_id, e_group_id, element_name, description):
+        element = db.session.get(Element, element_id)
+        e_group_before = element.e_group
+
+        if e_group_id != e_group_before:
+            ElementManager.reduce_position(element_id)
+            position = ElementManager.calculate_position(e_group_id)
+            element.position = position
+        
+        element.element = element_name
+        element.description = description
+        element.e_group = e_group_id
+
+        db.session.merge(element)
+        db.session.commit()
+
+
+    def delete_element(element_id):
+        element = db.session.get(Element, element_id)
+        ElementManager.reduce_position(element_id)
+        db.session.delete(element)
+        db.session.commit()
+    
 class StyleManager:
     def add_style(style):
         new_style = Style(

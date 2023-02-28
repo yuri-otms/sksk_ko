@@ -110,15 +110,14 @@ class Element(db.Model):
     position = db.Column(db.Integer, default=1)
 
 
-    def __init__(self, e_group=None, no=None,element=None, description=None, position=None):
+    def __init__(self, e_group=None, element=None, description=None, position=None):
         self.e_group = e_group
-        self.no = no
         self.element = element
         self.description = description
         self.position = position
     
     def __repr__(self):
-        return '<Element id:{} group:{} no:{} element:{} description:{} position:{}>'.format(self.id, self.grade, self.group, self.no,  self.element, self.description, self.position)
+        return '<Element id:{} e_group:{} element:{} description:{} position:{}>'.format(self.id, self.e_group, self.element, self.description, self.position)
     
 class Level(db.Model):
     __tablename__ = 'level'
