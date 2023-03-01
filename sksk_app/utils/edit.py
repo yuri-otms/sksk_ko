@@ -204,10 +204,9 @@ class QuestionManager:
             next_question = Question.query.filter(Question.element==element).filter(Question.position>position).order_by(Question.position).first()
 
 
-    def add_question(element, level,  japanese, foreign_l, style, position, user):
+    def add_question(element, level,  japanese, foreign_l, style, spoken, sida, will, user):
 
-        if not position:
-            position = QuestionManager.calculate_position(element)
+        position = QuestionManager.calculate_position(element)
         created_at = datetime.now()
         
         new_question = Question(
@@ -216,6 +215,9 @@ class QuestionManager:
             japanese = japanese,
             foreign_l = foreign_l,
             style = style,
+            spoken = spoken,
+            sida = sida,
+            will = will,
             position = position,
             created_at = created_at,
             created_by = user

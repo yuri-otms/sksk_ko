@@ -34,6 +34,9 @@
         <th>日本語</th>
         <th>外国語</th>
         <th>文体</th>
+        <th>口語</th>
+        <th>시다</th>
+        <th>겠</th>
         <th>項番</th>
         <th>編集</th>
         <th>公開</th>
@@ -50,19 +53,33 @@
             <input type="text" name="foreign_l1">
         </td>
         <td>
-            <select name="style">
+            <select name="style1">
                 {% for style in styles %}
                 <option value="{{style.id}}">{{style.style}}</option>
                 {% endfor %}
             </select>
         </td>
         <td>
+            <select name="spoken1">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
         </td>
         <td>
+            <select name="sida1">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
         </td>
         <td>
+            <select name="will1">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td colspan="4">
             <input type="hidden" name="element_id" value="{{element.id}}">
-            <button>確認</button>
+            <button style="width:100px;">確認</button>
 </form>
         </td>
     </tr>
@@ -72,6 +89,27 @@
         <td>{{question.japanese}}</td>
         <td>{{question.foreign_l}}</td>
         <td>{{question.style}}</td>
+        <td>
+            {% if question.spoken %}}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.sida %}}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.will %}}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
         <td>{{question.position}}</td>
         <td>
             <a href="{{url_for('edit.edit_question', q=question.id,e=element.id)}}">編集</a>

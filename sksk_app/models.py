@@ -134,6 +134,7 @@ class Question(db.Model):
     style = db.Column(db.Integer, db.ForeignKey('style.id'))
     spoken = db.Column(db.Boolean, nullable=False, default=0)
     sida = db.Column(db.Boolean, nullable=False, default=0)
+    will = db.Column(db.Boolean, nullable=False, default=0)
     position = db.Column(db.Integer, default=1)
     created_at = db.Column(db.DateTime, nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -143,7 +144,7 @@ class Question(db.Model):
     hints = db.relationship("Hint", backref='question_hint')
 
 
-    def __init__(self, element=None, level=None, japanese=None,foreign_l=None, style=None, spoken=None, sida=None, position=None, created_at=None, created_by=None, checked=None, released=None):
+    def __init__(self, element=None, level=None, japanese=None,foreign_l=None, style=None, spoken=None, sida=None, will=None, position=None, created_at=None, created_by=None, checked=None, released=None):
         self.element = element
         self.level = level
         self.japanese = japanese
@@ -151,6 +152,7 @@ class Question(db.Model):
         self.style = style
         self.spoken = spoken
         self.sida = sida
+        self.will = will
         self.position = position
         self.created_at = created_at
         self.created_by =created_by
@@ -158,7 +160,7 @@ class Question(db.Model):
         self.released = released
     
     def __repr__(self):
-        return '<Element id:{} element:{} level:{} japanese:{} foreign:{} style:{} spoken:{} sida:{} position:{} created_at:{} created_by:{} checked:{} released:{}>'.format(self.id, self.element, self.level, self.japanese, self.foreign_l, self.style, self.spoken, self.sida, self.position, self.created_at, self.created_by, self.checked, self.released)
+        return '<Element id:{} element:{} level:{} japanese:{} foreign:{} style:{} spoken:{} sida:{} will:{} position:{} created_at:{} created_by:{} checked:{} released:{}>'.format(self.id, self.element, self.level, self.japanese, self.foreign_l, self.style, self.spoken, self.sida, self.will, self.position, self.created_at, self.created_by, self.checked, self.released)
 
 class Record(db.Model):
     __tablename__  = 'record'
