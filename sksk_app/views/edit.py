@@ -75,6 +75,9 @@ def show_questions():
             "foreign_l":question.foreign_l,
             "style": style.style,
             "position":question.position,
+            "spoken":question.spoken,
+            "sida":question.sida,
+            "will":question.will,
             "released":question.released
         }
         questions.append(one_question)
@@ -448,30 +451,36 @@ def delete_element_done():
 @edit.route('/add/question', methods=['POST'])
 @login_required
 def add_question():
-    japanese = request.form['japanese1']
-    foreign_l = request.form['foreign_l1']
-    style_id = request.form['style']
+    japanese1 = request.form['japanese1']
+    foreign_l1 = request.form['foreign_l1']
+    style_id1 = request.form['style1']
+    spoken1 = request.form['spoken1']
+    sida1 = request.form['sida1']
+    will1 = request.form['will1']
     element_id = request.form['element_id']
 
-    style = db.session.get(Style, style_id)
+    style = db.session.get(Style, style_id1)
     element = db.session.get(Element, element_id)
     e_group = db.session.get(E_Group, element.e_group)
     grade = db.session.get(Grade, e_group.grade)
 
-    ja_to_ko = api.Papago.ja_to_ko(japanese)
-    ko_to_ja = api.Papago.ko_to_ja(foreign_l)
+    ja_to_ko = api.Papago.ja_to_ko(japanese1)
+    ko_to_ja = api.Papago.ko_to_ja(foreign_l1)
 
     question = {
         "grade":grade.grade,
         "e_group":e_group.e_group,
         "element_id":element.id,
         "element": element.element,
-        "japanese": japanese,
+        "japanese": japanese1,
         "ja_to_ko": ja_to_ko,
-        "foreign_l": foreign_l,
+        "foreign_l": foreign_l1,
         "ko_to_ja":ko_to_ja,
         "style_id": style.id,
-        "style":style.style
+        "style":style.style,
+        "spoken":spoken1,
+        "sida":sida1,
+        "will":0
     }
 
     return render_template('edit/add_question.html', question=question)
@@ -483,11 +492,13 @@ def add_question_execute():
     level = 1
     japanese1 = request.form['japanese1']
     foreign_l1 = request.form['foreign_l1']
-    style = request.form['style']
-    position = request.form['position']
+    style1 = request.form['style1']
+    spoken1 = int(request.form['spoken1'])
+    sida1 = int(request.form['sida1'])
+    will1 = int(request.form['will1'])
     user = session.get('user_id')
 
-    editor.QuestionManager.add_question(element, level, japanese1, foreign_l1, style, position, user)
+    editor.QuestionManager.add_question(element, level, japanese1, foreign_l1, style1, spoken1, sida1, will1, user)
 
     return redirect(url_for('edit.add_question_done', e=element))
 

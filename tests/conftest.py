@@ -33,18 +33,19 @@ def app():
         japanese = '父は医者です。'
         foreign_l = '아버지는 의사입니다.'
         style = 1
-        position = None
+        spoken = 0
+        sida = 0
+        will = 0
         user = 1
-        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, spoken, sida, will, user)
 
         element = 1
         level = 1
         japanese = '私は学生です。'
         foreign_l = '저는 학생입니다.'
         style = 1
-        position = None
         user = 1
-        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, spoken, sida, will, user)
 
 
         element = 1
@@ -54,7 +55,7 @@ def app():
         style = 1
         position = None
         user = 1
-        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, position, user)
+        editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, spoken, sida, will, user)
 
 
         j_word = '医者'

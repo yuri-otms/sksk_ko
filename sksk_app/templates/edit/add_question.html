@@ -12,14 +12,36 @@
         <th>項目グループ</th>
         <th>項目</th>
         <th>文体</th>
-        <th>項番</th>
+        <th>口語</th>
+        <th>시다</th>
+        <th>겠</th>
     </tr>
     <tr>
         <td>{{question.grade}}</td>
         <td>{{question.e_group}}</td>
         <td>{{question.element}}</td>
         <td>{{question.style}}</td>
-        <td>{{question.position}}</td>
+        <td>
+            {% if question.spoken == '1' %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.sida == '1' %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.will == '1' %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
     </tr>
 </table>
 <table>
@@ -44,8 +66,10 @@
     <input type="hidden" name="element" value="{{question.element_id}}">
     <input type="hidden" name="japanese1" value="{{question.japanese}}">
     <input type="hidden" name="foreign_l1" value="{{question.foreign_l}}">
-    <input type="hidden" name="style" value="{{question.style_id}}">
-    <input type="hidden" name="position" value="{{question.position}}">
+    <input type="hidden" name="style1" value="{{question.style_id}}">
+    <input type="hidden" name="spoken1" value="{{question.spoken}}">
+    <input type="hidden" name="sida1" value="{{question.sida}}">
+    <input type="hidden" name="will1" value="{{question.will}}">
     <button>追加</button>
     <button type="button" onclick="history.back()">戻る</button>
 </form>
