@@ -58,9 +58,9 @@ def app():
         editor.QuestionManager.add_question(element, level, japanese, foreign_l, style, spoken, sida, will, user)
 
 
-        j_word = '医者'
-        f_word = '의사'
-        editor.WordManager.add_word(j_word, f_word)
+        japanese_word = '医者'
+        foreign_word = '의사'
+        editor.WordManager.add_word(japanese_word, foreign_word)
 
         question = 1
         word = 1

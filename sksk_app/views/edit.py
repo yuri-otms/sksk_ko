@@ -803,16 +803,16 @@ def delete_question_done():
 @login_required
 def confirm_hint_j():
     question_id = request.form['question_id']
-    j_word = request.form['j_word']
+    japanese_word = request.form['japanese_word']
     question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
-    j_words = Word.query.filter(Word.japanese.like("%" + j_word + "%"))
-    translated_word = api.Papago.ja_to_ko(j_word)
+    japanese_words = Word.query.filter(Word.japanese.like("%" + japanese_word + "%"))
+    translated_word = api.Papago.ja_to_ko(japanese_word)
 
     words = editor.HintManager.fetch_word(question_id)
-    hint_existed = editor.HintManager.confirm_j_hint(question_id, j_word)
+    hint_existed = editor.HintManager.confirm_j_hint(question_id, japanese_word)
 
-    return render_template('edit/confirm_hint_j.html', question=question_with_hints, j_word=j_word, j_words=j_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
+    return render_template('edit/confirm_hint_j.html', question=question_with_hints, japanese_word=japanese_word, japanese_words=japanese_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
 
 @edit.route('/confirm/hint/f', methods=['POST'])
 @login_required
@@ -833,21 +833,23 @@ def confirm_hint_f():
 @login_required
 def add_word_hint():
     question_id = request.form['question_id']
-    j_word = request.form['j_word']
-    f_word = request.form['f_word']
+    japanese_word = request.form['japanese_word']
+    foreign_word = request.form['foreign_word']
     question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
+    ja_to_ko = api.Papago.ja_to_ko(japanese_word)
+    ko_to_ja = api.Papago.ko_to_ja(foreign_word)
 
-    return render_template('edit/add_word_hint.html', question = question_with_hints, j_word=j_word, f_word=f_word)
+    return render_template('edit/add_word_hint.html', question = question_with_hints, japanese_word=japanese_word, foreign_word=foreign_word, ja_to_ko=ja_to_ko, ko_to_ja=ko_to_ja)
 
 @edit.route('/add/word/hint_addded', methods=['POST'])
 @login_required
 def add_word_hint_execute():
     question_id = request.form['question_id']
-    j_word = request.form['j_word']
-    f_word = request.form['f_word']
+    japanese_word = request.form['japanese_word']
+    foreign_word = request.form['foreign_word']
 
-    editor.WordManager.add_word(j_word, f_word)
-    word_id = Word.query.filter(Word.japanese==j_word).filter(Word.foreign_l==f_word).first().id
+    editor.WordManager.add_word(japanese_word, foreign_word)
+    word_id = Word.query.filter(Word.japanese==japanese_word).filter(Word.foreign_l==foreign_word).first().id
     editor.HintManager.add_hint(question_id, word_id)
     question = db.session.get(Question, question_id)
     element = db.session.get(Element, question.element)
@@ -892,3 +894,13 @@ def add_hint_done():
     return redirect(url_for('edit.show_hints', e=element_id))
 
 
+@edit.route('/add/word/hint/edit', methods=['POST'])
+@login_required
+def add_word_hint_edit():
+    question_id = request.form['question_id']
+    japanese_word = request.form['japanese_word']
+    foreign_word = request.form['foreign_word']
+
+    question = db.session.get(Question, question_id)
+
+    return render_template('edit/add_hint_edit_word.html', question=question, japanese_word=japanese_word, foreign_word=foreign_word)

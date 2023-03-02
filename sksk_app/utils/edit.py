@@ -335,27 +335,27 @@ class QuestionManager:
             'japanese':question.japanese,
             'foreign_l':question.foreign_l,
             'element':question.element,
-            'word':None,
-            'foword':None,
+            'japanese_word':None,
+            'foreign_word':None,
             'hint':None
         }
         mecab = MeCab.Tagger()
         # 単語の候補
-        question_with_hints['word']= []
+        question_with_hints['japanese_word']= []
         node = mecab.parseToNode(question_with_hints['japanese'])
         while node:
             p = node.feature.split(',')[0]
             if p == '名詞' or p == '動詞' or p== '形容詞' or p =='副詞':
-                question_with_hints['word'].append(node.feature.split(",")[6])
+                question_with_hints['japanese_word'].append(node.feature.split(",")[6])
             node = node.next
 
         # 韓国語のそれぞれの単語
-        question_with_hints['foword'] = []
+        question_with_hints['foreign_word'] = []
         text = question_with_hints['foreign_l']
         okt = Okt()
         korean_w = okt.morphs(text, norm=True, stem=True)
         for word in korean_w:
-            question_with_hints['foword'].append(word)
+            question_with_hints['foreign_word'].append(word)
 
 
         # 登録済みのヒント
@@ -429,10 +429,10 @@ class QuestionManager:
 
 class WordManager:
 
-    def add_word(j_word, f_word):
+    def add_word(japanese_word, foreign_word):
         new_word = Word(
-            japanese = j_word,
-            foreign_l = f_word
+            japanese = japanese_word,
+            foreign_l = foreign_word
         )
 
         db.session.add(new_word)
@@ -451,22 +451,22 @@ class HintManager:
 
         return words
 
-    def confirm_j_hint(question, j_word):
+    def confirm_j_hint(question, japanese_word):
         hints = Hint.query.filter(Hint.question==question)
         existed = 0
         for hint in hints:
             word = db.session.get(Word, hint.word)
-            if j_word in word.japanese:
+            if japanese_word in word.japanese:
                 existed += 1
         
         return existed
     
-    def confirm_f_hint(question, f_word):
+    def confirm_f_hint(question, foreign_word):
         hints = Hint.query.filter(Hint.question==question)
         existed = 0
         for hint in hints:
             word = db.session.get(Word, hint.word)
-            if f_word in word.foreign_l:
+            if foreign_word in word.foreign_l:
                 existed += 1
         
         return existed

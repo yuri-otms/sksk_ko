@@ -135,7 +135,7 @@ def test_fetch_question_with_components_hints(app):
     with app.app_context():
         question = editor.QuestionManager.fetch_question_with_components_hints(question)
 
-    assert question['word'][0] == '父'
+    assert question['japanese_word'][0] == '父'
 
 def test_fetch_question_with_hints(app):
     question = 1
@@ -154,11 +154,11 @@ def test_fetch_attribute(app):
 
 #WordManager
 def test_add_word(app):
-    j_word = '父'
-    f_word = '아버지'
+    japanese_word = '父'
+    foreign_word = '아버지'
     with app.app_context():
-        editor.WordManager.add_word(j_word, f_word)
-        word = Word.query.filter(Word.japanese==j_word).filter(Word.foreign_l==f_word).first()
+        editor.WordManager.add_word(japanese_word, foreign_word)
+        word = Word.query.filter(Word.japanese==japanese_word).filter(Word.foreign_l==foreign_word).first()
     assert word.foreign_l == '아버지'
 
 #HintManager  
