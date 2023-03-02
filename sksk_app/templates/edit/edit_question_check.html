@@ -13,7 +13,9 @@
         <th>項目グループ</th>
         <th>項目</th>
         <th>文体</th>
-        <th>項番</th>
+        <th>口語</th>
+        <th>시다</th>
+        <th>겠</th>
     </tr>
     <tr>
         <th>変更前</th>
@@ -21,7 +23,27 @@
         <td>{{question_before.e_group}}</td>
         <td>{{question_before.element}}</td>
         <td>{{question_before.style}}</td>
-        <td>{{question_before.position}}</td>
+        <td>
+            {% if question_before.spoken %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question_before.sida %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question_before.will %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <th>変更後</th>
@@ -29,7 +51,27 @@
         <td>{{question.e_group}}</td>
         <td>{{question.element}}</td>
         <td>{{question.style}}</td>
-        <td>{{question.position}}</td>
+        <td>
+            {% if question.spoken %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.sida %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.will %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
     </tr>
 </table>
 <table>
@@ -61,9 +103,12 @@
     <input type="hidden" name="japanese" value="{{question.japanese}}">
     <input type="hidden" name="foreign_l" value="{{question.foreign_l}}">
     <input type="hidden" name="style" value="{{question.style_id}}">
+    <input type="hidden" name="spoken" value="{{question.spoken}}">
+    <input type="hidden" name="sida" value="{{question.sida}}">
+    <input type="hidden" name="will" value="{{question.will}}">
     <input type="hidden" name="position" value="{{question.position}}">
     <input type="hidden" name="question_id" value="{{question.id}}">
-    <button>追加</button>
+    <button>変更</button>
     <button type="button" onclick="history.back()">戻る</button>
 </form>
 

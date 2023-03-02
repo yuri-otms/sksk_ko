@@ -11,6 +11,9 @@
         <th>項目グループ</th>
         <th>項目</th>
         <th>文体</th>
+        <th>口語</th>
+        <th>시다</th>
+        <th>겠</th>
         <th>項番</th>
     </tr>
     <tr>
@@ -40,6 +43,24 @@
                 {% for style in styles %}
                 <option value="{{style.id}}">{{style.style}}</option>
                 {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="spoken" name="spoken">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select id="sida" name="sida">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select id="will" name="will">
+                <option value="0">×</option>
+                <option value="1">○</option>
             </select>
         </td>
         <td>{{question.position}}</td>
@@ -77,10 +98,16 @@
     let selected_e_group = '{{e_group.position}}' - 1;
     let selected_element = '{{element.position}}' - 1;
     let selected_style = '{{question.style_id}}' -1;
+    let selected_spoken = '{{question.spoken}}';
+    let selected_sida = '{{question.sida}}';
+    let selected_will = '{{question.will}}';
     document.getElementById("grade").options[selected_grade].selected = true;
     document.getElementById("e_group").options[selected_e_group].selected = true;
     document.getElementById("element").options[selected_element].selected = true;
     document.getElementById("style").options[selected_style].selected = true;
+    document.getElementById("spoken").options[selected_spoken].selected = true;
+    document.getElementById("sida").options[selected_sida].selected = true;
+    document.getElementById("will").options[selected_will].selected = true;
 
 </script>
 
