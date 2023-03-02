@@ -71,7 +71,10 @@ def account():
     all_count = Score.query.filter(Score.user==user_id).count()
     correct_answers = Score.query.filter(Score.user==user_id).filter(Score.correct==1).count()
     # 正答率
-    all_ratio = '{:.0%}'.format(correct_answers/all_count)
+    if all_count:
+        all_ratio = '{:.0%}'.format(correct_answers/all_count)
+    else:
+        all_ratio = '0%'
     grades_info = user_setting.ScoreManager.culculate_ratio_each_grade(user_id)
 
     return render_template('account.html', user=user, all_count=all_count,all_ratio=all_ratio, grades_info=grades_info)

@@ -6,6 +6,7 @@
 <p>以下の問題文を追加しますか？</p>
 
 <form action="{{url_for('edit.add_question_execute')}}" method="POST">
+{% for question in questions %}
 <table>
     <tr>
         <th>レベル</th>
@@ -61,15 +62,90 @@
         <td>{{question.ja_to_ko}}</td>
     </tr>
 </table>
+{% endfor %}
+
+    {% if questions[0] %}
+    <input type="hidden" name="element" value="{{questions[0].element_id}}">
+    <input type="hidden" name="japanese1" value="{{questions[0].japanese}}">
+    <input type="hidden" name="foreign_l1" value="{{questions[0].foreign_l}}">
+    <input type="hidden" name="style1" value="{{questions[0].style_id}}">
+    <input type="hidden" name="spoken1" value="{{questions[0].spoken}}">
+    <input type="hidden" name="sida1" value="{{questions[0].sida}}">
+    <input type="hidden" name="will1" value="{{questions[0].will}}">
+    {% else %}
+    <input type="hidden" name="japanese1" value="">
+    <input type="hidden" name="foreign_l1" value="">
+    <input type="hidden" name="style1" value="">
+    <input type="hidden" name="spoken1" value="">
+    <input type="hidden" name="sida1" value="">
+    <input type="hidden" name="will1" value="">
+    {% endif %}
 
 
-    <input type="hidden" name="element" value="{{question.element_id}}">
-    <input type="hidden" name="japanese1" value="{{question.japanese}}">
-    <input type="hidden" name="foreign_l1" value="{{question.foreign_l}}">
-    <input type="hidden" name="style1" value="{{question.style_id}}">
-    <input type="hidden" name="spoken1" value="{{question.spoken}}">
-    <input type="hidden" name="sida1" value="{{question.sida}}">
-    <input type="hidden" name="will1" value="{{question.will}}">
+    {% if questions[1] %}
+    <input type="hidden" name="japanese2" value="{{questions[1].japanese}}">
+    <input type="hidden" name="foreign_l2" value="{{questions[1].foreign_l}}">
+    <input type="hidden" name="style2" value="{{questions[1].style_id}}">
+    <input type="hidden" name="spoken2" value="{{questions[1].spoken}}">
+    <input type="hidden" name="sida2" value="{{questions[1].sida}}">
+    <input type="hidden" name="will2" value="{{questions[1].will}}">
+    {% else %}
+    <input type="hidden" name="japanese2" value="">
+    <input type="hidden" name="foreign_l2" value="">
+    <input type="hidden" name="style2" value="">
+    <input type="hidden" name="spoken2" value="">
+    <input type="hidden" name="sida2" value="">
+    <input type="hidden" name="will2" value="">
+    {% endif %}
+
+    {% if questions[2] %}
+    <input type="hidden" name="japanese3" value="{{questions[2].japanese}}">
+    <input type="hidden" name="foreign_l3" value="{{questions[2].foreign_l}}">
+    <input type="hidden" name="style3" value="{{questions[2].style_id}}">
+    <input type="hidden" name="spoken3" value="{{questions[2].spoken}}">
+    <input type="hidden" name="sida3" value="{{questions[2].sida}}">
+    <input type="hidden" name="will3" value="{{questions[2].will}}">
+    {% else %}
+    <input type="hidden" name="japanese3" value="">
+    <input type="hidden" name="foreign_l3" value="">
+    <input type="hidden" name="style3" value="">
+    <input type="hidden" name="spoken3" value="">
+    <input type="hidden" name="sida3" value="">
+    <input type="hidden" name="will3" value="">
+    {% endif %}
+
+    {% if questions[3] %}
+    <input type="hidden" name="japanese4" value="{{questions[3].japanese}}">
+    <input type="hidden" name="foreign_l4" value="{{questions[3].foreign_l}}">
+    <input type="hidden" name="style4" value="{{questions[3].style_id}}">
+    <input type="hidden" name="spoken4" value="{{questions[3].spoken}}">
+    <input type="hidden" name="sida4" value="{{questions[3].sida}}">
+    <input type="hidden" name="will4" value="{{questions[3].will}}">
+    {% else %}
+    <input type="hidden" name="japanese4" value="">
+    <input type="hidden" name="foreign_l4" value="">
+    <input type="hidden" name="style4" value="">
+    <input type="hidden" name="spoken4" value="">
+    <input type="hidden" name="sida4" value="">
+    <input type="hidden" name="will4" value="">
+    {% endif %}
+
+    {% if questions[4] %}
+    <input type="hidden" name="japanese5" value="{{questions[4].japanese}}">
+    <input type="hidden" name="foreign_l5" value="{{questions[4].foreign_l}}">
+    <input type="hidden" name="style5" value="{{questions[4].style_id}}">
+    <input type="hidden" name="spoken5" value="{{questions[4].spoken}}">
+    <input type="hidden" name="sida5" value="{{questions[4].sida}}">
+    <input type="hidden" name="will5" value="{{questions[4].will}}">
+    {% else %}
+    <input type="hidden" name="japanese5" value="">
+    <input type="hidden" name="foreign_l5" value="">
+    <input type="hidden" name="style5" value="">
+    <input type="hidden" name="spoken5" value="">
+    <input type="hidden" name="sida5" value="">
+    <input type="hidden" name="will5" value="">
+    {% endif %}
+
     <button>追加</button>
     <button type="button" onclick="history.back()">戻る</button>
 </form>

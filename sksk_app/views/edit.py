@@ -448,42 +448,172 @@ def delete_element_done():
     e_group_id = request.args.get('g')
     return redirect(url_for('edit.show', g=e_group_id))
 
+# 質問の追加・編集・削除
 @edit.route('/add/question', methods=['POST'])
 @login_required
 def add_question():
-    japanese1 = request.form['japanese1']
-    foreign_l1 = request.form['foreign_l1']
-    style_id1 = request.form['style1']
-    spoken1 = request.form['spoken1']
-    sida1 = request.form['sida1']
-    will1 = request.form['will1']
     element_id = request.form['element_id']
-
-    style = db.session.get(Style, style_id1)
     element = db.session.get(Element, element_id)
     e_group = db.session.get(E_Group, element.e_group)
     grade = db.session.get(Grade, e_group.grade)
+    questions = []
 
-    ja_to_ko = api.Papago.ja_to_ko(japanese1)
-    ko_to_ja = api.Papago.ko_to_ja(foreign_l1)
+    # 1つ目の問題文
+    if request.form['japanese1']:
+        japanese1 = request.form['japanese1']
+        foreign_l1 = request.form['foreign_l1']
+        style_id1 = request.form['style1']
+        spoken1 = request.form['spoken1']
+        sida1 = request.form['sida1']
+        will1 = request.form['will1']
 
-    question = {
-        "grade":grade.grade,
-        "e_group":e_group.e_group,
-        "element_id":element.id,
-        "element": element.element,
-        "japanese": japanese1,
-        "ja_to_ko": ja_to_ko,
-        "foreign_l": foreign_l1,
-        "ko_to_ja":ko_to_ja,
-        "style_id": style.id,
-        "style":style.style,
-        "spoken":spoken1,
-        "sida":sida1,
-        "will":0
-    }
+        style = db.session.get(Style, style_id1)
 
-    return render_template('edit/add_question.html', question=question)
+        ja_to_ko1 = api.Papago.ja_to_ko(japanese1)
+        ko_to_ja1 = api.Papago.ko_to_ja(foreign_l1)
+
+        question1 = {
+            "grade":grade.grade,
+            "e_group":e_group.e_group,
+            "element_id":element.id,
+            "element": element.element,
+            "japanese": japanese1,
+            "ja_to_ko": ja_to_ko1,
+            "foreign_l": foreign_l1,
+            "ko_to_ja":ko_to_ja1,
+            "style_id": style.id,
+            "style":style.style,
+            "spoken":spoken1,
+            "sida":sida1,
+            "will":will1
+        }
+        questions.append(question1)
+
+    # 2つ目の問題文
+    if request.form['japanese2']:
+        japanese2 = request.form['japanese2']
+        foreign_l2 = request.form['foreign_l2']
+        style_id2 = request.form['style2']
+        spoken2 = request.form['spoken2']
+        sida2 = request.form['sida2']
+        will2 = request.form['will2']
+
+        style = db.session.get(Style, style_id2)
+
+        ja_to_ko2 = api.Papago.ja_to_ko(japanese2)
+        ko_to_ja2 = api.Papago.ko_to_ja(foreign_l2)
+
+        question2 = {
+            "grade":grade.grade,
+            "e_group":e_group.e_group,
+            "element_id":element.id,
+            "element": element.element,
+            "japanese": japanese2,
+            "ja_to_ko": ja_to_ko2,
+            "foreign_l": foreign_l2,
+            "ko_to_ja":ko_to_ja2,
+            "style_id": style.id,
+            "style":style.style,
+            "spoken":spoken2,
+            "sida":sida2,
+            "will":will2
+        }
+        questions.append(question2)
+
+    # 3つ目の問題文
+    if request.form['japanese3']:
+        japanese3 = request.form['japanese3']
+        foreign_l3 = request.form['foreign_l3']
+        style_id3 = request.form['style3']
+        spoken3 = request.form['spoken3']
+        sida3 = request.form['sida3']
+        will3 = request.form['will3']
+
+        style = db.session.get(Style, style_id3)
+
+        ja_to_ko3 = api.Papago.ja_to_ko(japanese3)
+        ko_to_ja3 = api.Papago.ko_to_ja(foreign_l3)
+
+        question3 = {
+            "grade":grade.grade,
+            "e_group":e_group.e_group,
+            "element_id":element.id,
+            "element": element.element,
+            "japanese": japanese3,
+            "ja_to_ko": ja_to_ko3,
+            "foreign_l": foreign_l3,
+            "ko_to_ja":ko_to_ja3,
+            "style_id": style.id,
+            "style":style.style,
+            "spoken":spoken3,
+            "sida":sida3,
+            "will":will3
+        }
+        questions.append(question3)
+        
+    # 4つ目の問題文
+    if request.form['japanese4']:
+        japanese4 = request.form['japanese4']
+        foreign_l4 = request.form['foreign_l4']
+        style_id4 = request.form['style4']
+        spoken4 = request.form['spoken4']
+        sida4 = request.form['sida4']
+        will4 = request.form['will4']
+
+        style = db.session.get(Style, style_id4)
+
+        ja_to_ko4 = api.Papago.ja_to_ko(japanese4)
+        ko_to_ja4 = api.Papago.ko_to_ja(foreign_l4)
+
+        question4 = {
+            "grade":grade.grade,
+            "e_group":e_group.e_group,
+            "element_id":element.id,
+            "element": element.element,
+            "japanese": japanese4,
+            "ja_to_ko": ja_to_ko4,
+            "foreign_l": foreign_l4,
+            "ko_to_ja":ko_to_ja4,
+            "style_id": style.id,
+            "style":style.style,
+            "spoken":spoken4,
+            "sida":sida4,
+            "will":will4
+        }
+        questions.append(question4)
+
+    # 5つ目の問題文
+    if request.form['japanese5']:
+        japanese5 = request.form['japanese5']
+        foreign_l5 = request.form['foreign_l5']
+        style_id5 = request.form['style5']
+        spoken5 = request.form['spoken5']
+        sida5 = request.form['sida5']
+        will5 = request.form['will5']
+
+        style = db.session.get(Style, style_id5)
+
+        ja_to_ko5 = api.Papago.ja_to_ko(japanese5)
+        ko_to_ja5 = api.Papago.ko_to_ja(foreign_l5)
+
+        question5 = {
+            "grade":grade.grade,
+            "e_group":e_group.e_group,
+            "element_id":element.id,
+            "element": element.element,
+            "japanese": japanese5,
+            "ja_to_ko": ja_to_ko5,
+            "foreign_l": foreign_l5,
+            "ko_to_ja":ko_to_ja5,
+            "style_id": style.id,
+            "style":style.style,
+            "spoken":spoken5,
+            "sida":sida5,
+            "will":will5
+        }
+        questions.append(question5)
+
+    return render_template('edit/add_question.html', questions=questions)
 
 @edit.route('/add/question_added', methods=['POST'])
 @login_required
@@ -499,6 +629,49 @@ def add_question_execute():
     user = session.get('user_id')
 
     editor.QuestionManager.add_question(element, level, japanese1, foreign_l1, style1, spoken1, sida1, will1, user)
+
+    if request.form['japanese2']:
+        japanese2 = request.form['japanese2']
+        foreign_l2 = request.form['foreign_l2']
+        style2 = request.form['style2']
+        spoken2 = int(request.form['spoken2'])
+        sida2 = int(request.form['sida2'])
+        will2 = int(request.form['will2'])
+
+        editor.QuestionManager.add_question(element, level, japanese2, foreign_l2, style2, spoken2, sida2, will2, user)
+
+
+    if request.form['japanese3']:
+        japanese3 = request.form['japanese3']
+        foreign_l3 = request.form['foreign_l3']
+        style3 = request.form['style3']
+        spoken3 = int(request.form['spoken3'])
+        sida3 = int(request.form['sida3'])
+        will3 = int(request.form['will3'])
+
+        editor.QuestionManager.add_question(element, level, japanese3, foreign_l3, style3, spoken3, sida3, will3, user)
+
+
+    if request.form['japanese4']:
+        japanese4 = request.form['japanese4']
+        foreign_l4 = request.form['foreign_l4']
+        style4 = request.form['style4']
+        spoken4 = int(request.form['spoken4'])
+        sida4 = int(request.form['sida4'])
+        will4 = int(request.form['will4'])
+
+        editor.QuestionManager.add_question(element, level, japanese4, foreign_l4, style4, spoken4, sida4, will4, user)
+
+    
+    if request.form['japanese5']:
+        japanese5 = request.form['japanese5']
+        foreign_l5 = request.form['foreign_l5']
+        style5 = request.form['style5']
+        spoken5 = int(request.form['spoken5'])
+        sida5 = int(request.form['sida5'])
+        will5 = int(request.form['will5'])
+
+        editor.QuestionManager.add_question(element, level, japanese5, foreign_l5, style5, spoken5, sida5, will5, user)
 
     return redirect(url_for('edit.add_question_done', e=element))
 
