@@ -710,6 +710,10 @@ def edit_question_check():
     japanese = request.form['japanese']
     foreign_l = request.form['foreign_l']
     style_id = request.form['style']
+    spoken = int(request.form['spoken'])
+    sida = int(request.form['sida'])
+    will = int(request.form['will'])
+    
     element_id = request.form['element']
     question_id = request.form['question_id']
 
@@ -732,7 +736,10 @@ def edit_question_check():
         "foreign_l": foreign_l,
         "ko_to_ja":ko_to_ja,
         "style_id": style.id,
-        "style":style.style
+        "style":style.style,
+        "spoken":spoken,
+        "sida":sida,
+        "will":will
     }
 
     question_before = editor.QuestionManager.fetch_question_with_attribute(question_id)
@@ -744,12 +751,17 @@ def edit_question_check():
 def edit_question_execute():
     question_id = request.form['question_id']
     element_id = int(request.form['element'])
+
     japanese = request.form['japanese']
     foreign_l = request.form['foreign_l']
     style_id = request.form['style']
+    spoken = int(request.form['spoken'])
+    sida = int(request.form['sida'])
+    will = int(request.form['will'])
+
     user = session.get('user_id')
 
-    editor.QuestionManager.edit_question(question_id, element_id, japanese, foreign_l, style_id, user)
+    editor.QuestionManager.edit_question(question_id, element_id, japanese, foreign_l, style_id, spoken, sida, will, user)
     
     return redirect(url_for('edit.edit_question_done', e=element_id))
 

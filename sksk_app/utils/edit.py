@@ -231,7 +231,7 @@ class QuestionManager:
         message = '作成'
         QuestionManager.record_process(user, question_id, 1, 1,message, created_at)
 
-    def edit_question(question_id, element, japanese, foreign_l, style, user):
+    def edit_question(question_id, element, japanese, foreign_l, style, spoken, sida, will, user):
         created_at = datetime.now()
 
         question = db.session.get(Question, question_id)
@@ -249,7 +249,9 @@ class QuestionManager:
         question.japanese = japanese
         question.foreign_l = foreign_l
         question.style = style
-
+        question.spoken = spoken
+        question.sida = sida
+        question.will = will 
 
         db.session.merge(question)
         db.session.commit()
@@ -416,6 +418,9 @@ class QuestionManager:
             "foreign_l": question.foreign_l,
             "style_id": style.id,
             "style":style.style,
+            "spoken":int(question.spoken),
+            "sida":int(question.sida),
+            "will":int(question.will),
             "position": question.position,
         }
 
