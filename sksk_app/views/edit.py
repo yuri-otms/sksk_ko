@@ -821,7 +821,7 @@ def confirm_hint_f():
     f_word = request.form['f_word']
     question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
-    f_words = Word.query.filter(Word.japanese.like("%" + f_word + "%"))
+    f_words = Word.query.filter(Word.foreign_l.like("%" + f_word + "%"))
     translated_word = api.Papago.ko_to_ja(f_word)
 
     words = editor.HintManager.fetch_word(question_id)
@@ -837,7 +837,7 @@ def add_word_hint():
     f_word = request.form['f_word']
     question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
-    return render_template('edit/add_hint.html', question = question_with_hints, j_word=j_word, f_word=f_word)
+    return render_template('edit/add_word_hint.html', question = question_with_hints, j_word=j_word, f_word=f_word)
 
 @edit.route('/add/word/hint_addded', methods=['POST'])
 @login_required
@@ -860,4 +860,35 @@ def add_word_hint_done():
     element = request.args.get('e')
     flash('単語とヒントを追加しました')
     return redirect(url_for('edit.show_hints', e=element))
+
+
+@edit.route('/add//hint', methods=['GET'])
+@login_required
+def add_hint():
+    question_id = request.args.get('q')
+    word_id = request.args.get('w')
+
+    question = db.session.get(Question, question_id)
+    word = db.session.get(Word, word_id)
+
+    return render_template('edit/add_hint.html', question=question, word=word)
+
+@edit.route('/add//hint_added', methods=['POST'])
+@login_required
+def add_hint_execute():
+    element_id = request.form['element_id']
+    question_id = request.form['question_id']
+    word_id = request.form['word_id']
+
+    editor.HintManager.add_hint(question_id, word_id)
+
+    return redirect(url_for('edit.add_hint_done', e=element_id))
+
+@edit.route('/add//hint_added_done', methods=['GET'])
+@login_required
+def add_hint_done():
+    element_id = request.args.get('e')
+    flash('ヒントを追加しました。')
+    return redirect(url_for('edit.show_hints', e=element_id))
+
 

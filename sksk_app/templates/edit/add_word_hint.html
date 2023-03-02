@@ -4,18 +4,16 @@
 <h2>ヒントの追加</h2>
 <p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
 
-<p>この単語をヒントに追加しますか？</p>
+<p>この単語を登録、ヒントに追加しますか？</p>
 
 <table>
     <tr>
-        <th>id</th>
         <th>日本語</th>
         <th>韓国語</th>
     </tr>
     <tr>
-        <td>{{word.id}}</td>
-        <td>{{word.japanese}}</td>
-        <td>{{word.foreign_l}}</td>
+        <td>{{j_word}}</td>
+        <td>{{f_word}}</td>
     </tr>
 </table>
 
@@ -32,10 +30,10 @@
     </tr>
 </table>
 
-<form action="{{url_for('edit.add_hint_execute')}}" method="POST">
+<form action="{{url_for('edit.add_word_hint_execute')}}" method="POST">
     <input type="hidden" name="question_id" value="{{question.id}}">
-    <input type="hidden" name="element_id" value="{{question.element}}">
-    <input type="hidden" name="word_id" value="{{word.id}}">
+    <input type="hidden" name="j_word" value="{{j_word}}">
+    <input type="hidden" name="f_word" value="{{f_word}}">
     <button type="button" onclick="history.back()">戻る</button>
     <button>追加</button>
 </form>

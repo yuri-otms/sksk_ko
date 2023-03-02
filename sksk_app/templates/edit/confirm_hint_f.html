@@ -103,7 +103,7 @@
     <td>{{f_word['id']}}</td>
     <td>{{f_word['japanese']}}</td>
     <td>{{f_word['foreign_l']}}</td>
-    <td>追加する</td>
+    <td><a href="{{url_for('edit.add_hint', q= question.id, w=f_word['id'])}}">追加する</a></td>
 </tr>
 {% endfor %}
 {% if not f_words[0] %}

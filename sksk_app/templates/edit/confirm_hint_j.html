@@ -100,7 +100,7 @@
     <td>{{j_word['id']}}</td>
     <td>{{j_word['japanese']}}</td>
     <td>{{j_word['foreign_l']}}</td>
-    <td>追加する</td>
+    <td><a href="{{url_for('edit.add_hint', q=question.id, w=j_word['id'])}}">追加する</td>
 </tr>
 {% endfor %}
 {% if not j_words[0] %}
