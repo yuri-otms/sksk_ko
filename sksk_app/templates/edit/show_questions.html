@@ -5,7 +5,7 @@
 
 
 <p><a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a></p>
-<p><a href="{{url_for('edit.show_hints')}}">ヒントの登録</a></p>
+<p><a href="{{url_for('edit.show_hints', e=element.id)}}">ヒントの登録</a></p>
 
 <div class="flex">
     <select name="grade" id="grade" onchange="location.href=value">

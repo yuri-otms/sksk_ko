@@ -5,7 +5,7 @@
 
 
 <p><a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a></p>
-<p><a href="{{url_for('edit.show_questions')}}">問題文の登録</a></p>
+<p><a href="{{url_for('edit.show_questions', e=element.id)}}">問題文の登録</a></p>
 
 <div class="flex">
     <select name="grade" id="grade" onchange="location.href=value">
@@ -51,7 +51,7 @@
             {%for word in question['word'] %}
             <form action="{{url_for('edit.confirm_hint_j')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
-                <input type="hidden" name="j_word" value="{{word}}">
+                <input type="hidden" name="japanese_word" value="{{word}}">
                 <button>{{word}}</button>
             </form>
             {% endfor %}
@@ -63,7 +63,7 @@
             {% if not foword == '.' %}
             <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
-                <input type="hidden" name="f_word" value="{{foword}}">
+                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
                 <button>{{foword}}</button>
             </form>
             {% else %}

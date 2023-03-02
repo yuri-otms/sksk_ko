@@ -7,12 +7,12 @@
 
 <table>
     <tr>
-        <th>日本語</th>
-        <th>韓国語(候補)</th>
+        <th>日本語(候補)</th>
+        <th>韓国語</th>
     </tr>
     <tr>
-        <td>{{f_word}}</td>
         <td>{{translated_word}}</td>
+        <td>{{foreign_word}}</td>
     </tr>
 </table>
 
@@ -33,8 +33,8 @@
             {% for word in question['word'] %}
             <form action="{{url_for('edit.add_word_hint')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
-                <input type="hidden" name="j_word" value="{{word}}">
-                <input type="hidden" name="f_word" value="{{f_word}}">
+                <input type="hidden" name="japanese_word" value="{{japanese_word}}">
+                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
                 <button>{{word}}</button>
             </form>
             {% endfor %}
@@ -46,7 +46,7 @@
             {% if not foword == '.' %}
             <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
-                <input type="hidden" name="f_word" value="{{foword}}">
+                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
                 <button>{{foword}}</button>
             </form>
             {% else %}
@@ -100,10 +100,10 @@
     </tr>
 {% for f_word in f_words %}
 <tr>
-    <td>{{f_word['id']}}</td>
-    <td>{{f_word['japanese']}}</td>
-    <td>{{f_word['foreign_l']}}</td>
-    <td><a href="{{url_for('edit.add_hint', q= question.id, w=f_word['id'])}}">追加する</a></td>
+    <td>{{foreign_word['id']}}</td>
+    <td>{{foreign_word['japanese']}}</td>
+    <td>{{foreign_word['foreign_l']}}</td>
+    <td><a href="{{url_for('edit.add_hint', q= question.id, w=foreign_word['id'])}}">追加する</a></td>
 </tr>
 {% endfor %}
 {% if not f_words[0] %}

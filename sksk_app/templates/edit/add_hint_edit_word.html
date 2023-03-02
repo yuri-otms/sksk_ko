@@ -1,0 +1,49 @@
+{%extends "base.html" %}
+{% block body %}
+
+<h2>ヒントの追加</h2>
+<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
+
+<p>単語の編集を行います。</p>
+
+<form action="{{url_for('edit.add_word_hint')}}" method="POST">
+
+<table>
+    <tr>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" name="japanese_word" value="{{japanese_word}}">
+        </td>
+        <td>
+            <input type="text" name="foreign_word" value="{{foreign_word}}">
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+</table>
+
+    <input type="hidden" name="question_id" value="{{question.id}}">
+    <button type="button" onclick="history.back()">戻る</button>
+    <button>確認</button>
+</form>
+
+
+
+<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
+
+
+{% endblock %}

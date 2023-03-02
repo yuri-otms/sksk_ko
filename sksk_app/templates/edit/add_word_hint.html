@@ -8,14 +8,46 @@
 
 <table>
     <tr>
+        <th></th>
         <th>日本語</th>
         <th>韓国語</th>
     </tr>
     <tr>
-        <td>{{j_word}}</td>
-        <td>{{f_word}}</td>
+        <th></th>
+        <td>{{japanese_word}}</td>
+        <td>{{foreign_word}}</td>
+    </tr>
+    <tr>
+        <th>翻訳</th>
+        <td>{{ko_to_ja}}</td>
+        <td>{{ja_to_ko}}</td>
+    </tr>
+    <tr>
+        <th>判定</th>
+        <td>
+            {% if japanese_word == ko_to_ja %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if foreign_word == ja_to_ko %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
     </tr>
 </table>
+<div class="flex">
+<form action="{{url_for('edit.add_word_hint_edit')}}" method="POST">
+    <input type="hidden" name="question_id" value="{{question.id}}">
+    <input type="hidden" name="japanese_word" value="{{japanese_word}}">
+    <input type="hidden" name="foreign_word" value="{{foreign_word}}">
+    <button>編集</button>
+</form>
+</div>
 
 <table>
     <tr>
@@ -32,8 +64,8 @@
 
 <form action="{{url_for('edit.add_word_hint_execute')}}" method="POST">
     <input type="hidden" name="question_id" value="{{question.id}}">
-    <input type="hidden" name="j_word" value="{{j_word}}">
-    <input type="hidden" name="f_word" value="{{f_word}}">
+    <input type="hidden" name="japanese_word" value="{{japanese_word}}">
+    <input type="hidden" name="foreign_word" value="{{foreign_word}}">
     <button type="button" onclick="history.back()">戻る</button>
     <button>追加</button>
 </form>
