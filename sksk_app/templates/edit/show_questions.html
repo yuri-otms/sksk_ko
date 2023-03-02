@@ -42,9 +42,55 @@
         <th>公開</th>
         <th><label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
     </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        <td>{{question.style}}</td>
+        <td>
+            {% if question.spoken %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.sida %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if question.will %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>{{question.position}}</td>
+        <td>
+            <a href="{{url_for('edit.edit_question', q=question.id,e=element.id)}}">編集</a>
+            <a href="{{url_for('edit.delete_question', id=question.id)}}">削除</a>
+        </td>
+        <td>
+            {% if question.released %}
+            <a href="{{url_for('approve.change_question', q=question.id)}}">○</a> 
+            {% else %}
+            <a href="{{url_for('approve.change_question', q=question.id)}}">×</a> 
+            {% endif %}
+        </td>
+        <td>
+            <form action="" method="POST">
+            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
+        </td>
+    </tr>
+
+    {% endfor %}
     <tr>
         <td>
-            新規
+            新規1
         </td>
         <td>
             <input type="text" name="japanese1">
@@ -77,58 +123,157 @@
                 <option value="1">○</option>
             </select>
         </td>
-        <td colspan="4">
+        <td colspan="4" rowspan="5">
             <input type="hidden" name="element_id" value="{{element.id}}">
             <button style="width:100px;">確認</button>
-</form>
-        </td>
-    </tr>
-    {% for question in questions %}
-    <tr>
-        <td>{{question.id}}</td>
-        <td>{{question.japanese}}</td>
-        <td>{{question.foreign_l}}</td>
-        <td>{{question.style}}</td>
-        <td>
-            {% if question.spoken %}}
-            ○
-            {% else %}
-            ×
-            {% endif %}
-        </td>
-        <td>
-            {% if question.sida %}}
-            ○
-            {% else %}
-            ×
-            {% endif %}
-        </td>
-        <td>
-            {% if question.will %}}
-            ○
-            {% else %}
-            ×
-            {% endif %}
-        </td>
-        <td>{{question.position}}</td>
-        <td>
-            <a href="{{url_for('edit.edit_question', q=question.id,e=element.id)}}">編集</a>
-            <a href="{{url_for('edit.delete_question', id=question.id)}}">削除</a>
-        </td>
-        <td>
-            {% if question.released %}
-            <a href="{{url_for('approve.change_question', q=question.id)}}">○</a> 
-            {% else %}
-            <a href="{{url_for('approve.change_question', q=question.id)}}">×</a> 
-            {% endif %}
-        </td>
-        <td>
-            <form action="" method="POST">
-            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
-        </td>
-    </tr>
 
-    {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            新規2
+        </td>
+        <td>
+            <input type="text" name="japanese2">
+        </td>
+        <td>
+            <input type="text" name="foreign_l2">
+        </td>
+        <td>
+            <select name="style2">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken2">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida2">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will2">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            新規3
+        </td>
+        <td>
+            <input type="text" name="japanese3">
+        </td>
+        <td>
+            <input type="text" name="foreign_l3">
+        </td>
+        <td>
+            <select name="style3">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken3">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida3">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will3">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            新規4
+        </td>
+        <td>
+            <input type="text" name="japanese4">
+        </td>
+        <td>
+            <input type="text" name="foreign_l4">
+        </td>
+        <td>
+            <select name="style4">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken4">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida4">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will4">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            新規5
+        </td>
+        <td>
+            <input type="text" name="japanese5">
+        </td>
+        <td>
+            <input type="text" name="foreign_l5">
+        </td>
+        <td>
+            <select name="style5">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken5">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida5">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will5">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    </form>
 </table>
 <input type="hidden" name="element_id" value="{{element.id}}">
 <button style="text-align:center" formaction="{{url_for('approve.release_questions')}}" formmethod="POST">まとめて公開</button>
