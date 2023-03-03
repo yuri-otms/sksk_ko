@@ -84,7 +84,10 @@ def show_first_question():
     question = editor.QuestionManager.fetch_question_with_hints(questions[0][0])
     attribute = editor.QuestionManager.fetch_attribute(question['element'])
 
-    return render_template('question/question.html', question=question, no=no, attribute=attribute, guest=guest, review=review)
+    question_id = str(question['id'])
+    audio_file = 'audio/' + question_id.zfill(5) + '.mp3'
+
+    return render_template('question/question.html', question=question, no=no, attribute=attribute, guest=guest, review=review, audio_file=audio_file)
 
 @question.route('/record_temp', methods=['POST'])
 def record_score_temp():
@@ -135,7 +138,10 @@ def show_question():
 
     attribute = editor.QuestionManager.fetch_attribute(question['element'])
 
-    return render_template('question/question.html', question=question, no=no, attribute=attribute, guest=guest, review=review)
+    question_id = str(question['id'])
+    audio_file = 'audio/' + question_id.zfill(5) + '.mp3'
+
+    return render_template('question/question.html', question=question, no=no, attribute=attribute, guest=guest, review=review, audio_file=audio_file)
 
 @question.route('/question/finish', methods=['POST'])
 def finish():
@@ -173,5 +179,6 @@ def start_review_element():
     # question = db.session.get(Question, questions[0][0])
 
     return redirect(url_for('question.show_first_question', e=1, guest=guest, review=review))
+
 
 

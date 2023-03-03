@@ -13,6 +13,7 @@ coverage = "*"
 konlpy = "*"
 mecab-python3 = "*"
 numpy = "*"
+google-cloud-texttospeech = "*"
 
 [dev-packages]
 

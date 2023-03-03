@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>音声ファイルの作成</h2>
+
+<p>以下の問題文の音声ファイルを作成しますか？</p>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p><a href="{{url_for('edit.create_audio_files_execute', e=element_id, releases=releases)}}">作成する</a></p>
+
+<button type="button" onclick="history.back()">戻る</button>
+
+{% endblock %}

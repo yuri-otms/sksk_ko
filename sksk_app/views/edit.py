@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, request, \
     flash, session
 from flask_login import login_required
 from sqlalchemy import func
+import glob
 
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Style, Question, Hint, Word
@@ -66,9 +67,14 @@ def show_questions():
     elements = Element.query.filter(Element.e_group==e_group_id)
 
     questions_raw = Question.query.filter(Question.element==element.id).order_by(Question.position.asc())
+
     questions = []
     for question in questions_raw:
         style = db.session.get(Style, question.style)
+        file = 0
+        file_name = 'sksk_app/static/audio/' + str(question.id).zfill(5) + '.mp3'
+        if  glob.glob(file_name):
+            file = 1
         one_question = {
             "id":question.id,
             "japanese":question.japanese,
@@ -78,7 +84,8 @@ def show_questions():
             "spoken":question.spoken,
             "sida":question.sida,
             "will":question.will,
-            "released":question.released
+            "released":question.released,
+            "audio":file
         }
         questions.append(one_question)
 
@@ -904,3 +911,61 @@ def add_word_hint_edit():
     question = db.session.get(Question, question_id)
 
     return render_template('edit/add_hint_edit_word.html', question=question, japanese_word=japanese_word, foreign_word=foreign_word)
+
+@edit.route('/create/audio_file')
+@login_required
+def create_audio_file():
+    question_id = request.args.get('q')
+    element_id = request.args.get('e')
+
+    api.GoogleCloud.create_audio_file(question_id)
+    return redirect(url_for('edit.create_audio_file_done', e=element_id))
+
+@edit.route('/create/audio_file_done')
+@login_required
+def create_audio_file_done():
+    element_id = request.args.get('e')
+
+    flash('音声ファイルを作成しました。')
+    return redirect(url_for('edit.show_questions', e=element_id))
+
+
+@edit.route('/create/audio_files', methods=['POST'])
+@login_required
+def create_audio_files():
+    element_id = request.form['element_id']
+    releases = request.form.getlist('question')
+    # 「全て選択」の選択を削除
+    if releases[0] == 'on':
+        releases.pop(0)
+    questions = []
+    for release in releases:
+        file_name = 'sksk_app/static/audio/' + str(release).zfill(5) + '.mp3'
+        if  not glob.glob(file_name):
+            question = db.session.get(Question, release)
+            questions.append(question)
+    
+    releases = []
+    for question in questions:
+        releases.append(question.id)
+    
+
+    return render_template('edit/create_audio_files.html', questions=questions, element_id=element_id, releases=releases)
+
+
+@edit.route('/create/audio_files_created')
+@login_required
+def create_audio_files_execute():
+    element_id = request.args.get('e')
+    releases = request.args.getlist('releases')
+    for release in releases:
+        api.GoogleCloud.create_audio_file(release)
+
+    return redirect(url_for('edit.create_audio_files_done', e=element_id))
+
+@edit.route('/create/audio_files_created_done')
+@login_required
+def create_audio_files_done():
+    element_id = request.args.get('e')
+    flash('音声ファイルを作成しました。')
+    return redirect(url_for('edit.show_questions', e=element_id))

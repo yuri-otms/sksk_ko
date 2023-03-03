@@ -27,6 +27,7 @@
 
 <p>{{question.foreign_l}}</p>
 
+<audio controls src="{{url_for('static', filename=audio_file)}}"></audio>
 
 {% if guest %}
 <form action="{{url_for('question.record_score_temp')}}" method="POST">

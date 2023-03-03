@@ -4,3 +4,5 @@
 sksk_app/test_config.py
 sksk_app/config.py
 __pycache__/
+sksk_app/google.json
+sksk_app/static/audio
