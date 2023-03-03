@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>問題文編集履歴</h2>
+
+<p><a href="{{url_for('admin.index')}}">管理トップページに戻る</a></p>
+
+<table>
+    <tr>
+        <th>ユーザー</th>
+        <th>問題文</th>
+        <th>内容</th>
+        <th>結果</th>
+        <th>日時</th>
+        <th>コメント</th>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{record.user}}</td>
+        <td>{{record.question}}</td>
+        <td>{{record.process}}</td>
+        <td>{{record.result}}</td>
+        <td>{{record.executed_at}}</td>
+        <td>{{record.message}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<p><a href="{{url_for('admin.index')}}">管理トップページに戻る</a></p>
+
+{% endblock %}

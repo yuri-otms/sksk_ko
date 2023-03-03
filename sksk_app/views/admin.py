@@ -3,7 +3,7 @@ from flask import Blueprint, redirect, url_for, render_template, \
 from flask_login import login_required
 from sqlalchemy import not_
 from sksk_app import db
-from sksk_app.models import User, Process
+from sksk_app.models import User, Process,Record
 
 import sksk_app.utils.user as user_setting
 
@@ -222,7 +222,45 @@ def edit_user_done():
     return redirect(url_for('admin.show_user'))
 
 
+@admin.route('/records')
+@login_required
+def show_records():
+    records_raw = Record.query.all()
+    records = []
+    for record_raw in records_raw:
+        if record_raw.process == 1:
+            process = "編集"
+            if record_raw.result == 0:
+                result = "削除"
+            elif record_raw.result == 1:
+                result = "作成"
+            elif record_raw.result == 2:
+                result = "編集"
+        elif record_raw.process == 2:
+            process = "確認"
+        elif record_raw.process == 3:
+            process = "承認"
+            if record_raw.result == 0:
+                result = "非公開"
+            elif record_raw.result == 1:
+                result = "公開"
+            
+        else:
+            process = "管理"
 
+        record = {
+            "id":record_raw.id,
+            "user":record_raw.user,
+            "question":record_raw.question,
+            "process_id":record_raw.process,
+            "process":process,
+            "result_id":record_raw.result,
+            "result":result,
+            "message":record_raw.message,
+            "executed_at":record_raw.executed_at
+        }
+        records.append(record)
+    return render_template('admin/show_records.html', records=records)
 
 
 
