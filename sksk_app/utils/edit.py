@@ -257,7 +257,7 @@ class QuestionManager:
         db.session.commit()
 
         message = '編集'
-        QuestionManager.record_process(user, question_id, 1, 1, message, created_at)
+        QuestionManager.record_process(user, question_id, 1, 2, message, created_at)
         
     
     def delete_question(question_id, user):

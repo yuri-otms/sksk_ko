@@ -168,7 +168,7 @@ class Record(db.Model):
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     question = db.Column(db.Integer)
     process = db.Column(db.Integer, db.ForeignKey('process.id'))
-    result = db.Column(db.Boolean, default=0)
+    result = db.Column(db.Integer, default=0)
     message = db.Column(db.Text)
     executed_at = db.Column(db.DateTime, nullable=False)
 
