@@ -3,7 +3,6 @@
 
 <h2>問題文の登録</h2>
 
-
 <p><a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a></p>
 <p><a href="{{url_for('edit.show_hints', e=element.id)}}">ヒントの登録</a></p>
 
@@ -41,6 +40,7 @@
         <th>編集</th>
         <th>公開</th>
         <th><label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
+        <th>音声</th>
     </tr>
     {% for question in questions %}
     <tr>
@@ -82,8 +82,15 @@
             {% endif %}
         </td>
         <td>
-            <form action="" method="POST">
+            <form>
             <input type="checkbox" class="checks" name="question" value="{{question.id}}">
+        </td>
+        <td>
+            {% if question.audio %}
+            ○
+            {% else %}
+            <a href="{{url_for('edit.create_audio_file', e= element.id, q=question.id)}}">作成</a>
+            {% endif %}
         </td>
     </tr>
 
@@ -278,6 +285,7 @@
 <input type="hidden" name="element_id" value="{{element.id}}">
 <button style="text-align:center" formaction="{{url_for('approve.release_questions')}}" formmethod="POST">まとめて公開</button>
 <button style="text-align:center" formaction="{{url_for('approve.unrelease_questions')}}" formmethod="POST">まとめて非公開</button>
+<button style="text-align:center" formaction="{{url_for('edit.create_audio_files')}}" formmethod="POST">まとめて音声作成</button>
 </form>
 
 

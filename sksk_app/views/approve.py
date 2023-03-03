@@ -72,8 +72,9 @@ def change_question_done():
 @login_required
 def release_questions():
     element_id = request.form['element_id']
-    questions = Question.query.filter(Question.element == element_id)
+    # questions = Question.query.filter(Question.element == element_id)
     releases = request.form.getlist('question')
+    # 「全て選択」の選択を削除
     if releases[0] == 'on':
         releases.pop(0)
     questions = []
@@ -109,6 +110,7 @@ def unrelease_questions():
     element_id = request.form['element_id']
     questions = Question.query.filter(Question.element == element_id)
     releases = request.form.getlist('question')
+    # 「全て選択」の選択を削除
     if releases[0] == 'on':
         releases.pop(0)
     questions = []
