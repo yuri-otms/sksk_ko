@@ -61,7 +61,7 @@
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
-        <td>パスワード</td>
+        <td><a href="{{url_for('admin.edit_password', u=user.id)}}">パスワード変更</a></td>
         <td>
             {% if user.edit %}
             <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id =1)}}">○</a>

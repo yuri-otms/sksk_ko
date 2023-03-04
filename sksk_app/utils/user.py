@@ -78,6 +78,14 @@ class UserManager:
         db.session.merge(user)
         db.session.commit()
 
+    def edit_password(user_id, password):
+
+        user = db.session.get(User, user_id)
+        user.password = generate_password_hash(password, method='sha256')
+
+        db.session.merge(user)
+        db.session.commit()
+
     def add_privilege(user, process):
 
         user = db.session.get(User, user)
