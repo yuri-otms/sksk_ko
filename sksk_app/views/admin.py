@@ -262,5 +262,48 @@ def show_records():
         records.append(record)
     return render_template('admin/show_records.html', records=records)
 
+@admin.route('/edit/password')
+@login_required
+def edit_password():
+    user_id = request.args.get('u')
+    user = db.session.get(User, user_id)
+
+    return render_template('admin/edit_password.html', user=user)
+
+@admin.route('/edit/password_check', methods=['POST'])
+@login_required
+def edit_password_check():
+    user_id = request.form['user_id']
+    password = request.form['password']
+    user = db.session.get(User, user_id)
+
+    return render_template('admin/edit_password_check.html', user=user, password=password)
+
+
+@admin.route('/edit/password_execute', methods=['POST'])
+@login_required
+def edit_password_execute():
+    user_id = request.form['user_id']
+    password = request.form['password']
+
+    user_setting.UserManager.edit_password(user_id, password)
+
+    return redirect(url_for('admin.edit_password_done'))
+
+@admin.route('/edit/password_done')
+@login_required
+def edit_password_done():
+    flash('パスワードを変更しました')
+
+    return redirect(url_for('admin.show_user'))
+
+
+
+
+
+
+
+
+
 
 
