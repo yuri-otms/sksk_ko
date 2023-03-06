@@ -58,21 +58,21 @@ class ReleaseManager:
         executed_at = datetime.now()
         message= 'なし'
 
-        if question.released:
-            question.released = False
+        if question.process == 8:
+            question.process = 9
 
             db.session.merge(question)
             db.session.commit()
 
-            editor.QuestionManager.record_process(user, question_id, 3, 0, message, executed_at)
+            editor.QuestionManager.record_process(user, question_id, 9, message, executed_at)
 
         else:
-            question.released = True
+            question.process = 8
 
             db.session.merge(question)
             db.session.commit()
 
-            editor.QuestionManager.record_process(user, question_id, 3, 1, message, executed_at)
+            editor.QuestionManager.record_process(user, question_id, 8, message, executed_at)
 
         
 
@@ -83,11 +83,11 @@ class ReleaseManager:
 
         for question_id in questions:
             question = db.session.get(Question, question_id)
-            question.released = True
+            question.process = 8
             db.session.merge(question)
             db.session.commit()
 
-            editor.QuestionManager.record_process(user, question_id, 3, 1, message, executed_at)
+            editor.QuestionManager.record_process(user, question_id, 8, message, executed_at)
 
 
     def unrelease_questions(user, questions):
@@ -97,10 +97,10 @@ class ReleaseManager:
 
         for question_id in questions:
             question = db.session.get(Question, question_id)
-            question.released = False
+            question.process = 9
             db.session.merge(question)
             db.session.commit()
 
-            editor.QuestionManager.record_process(user, question_id, 3, 0, message, executed_at)
+            editor.QuestionManager.record_process(user, question_id, 9, message, executed_at)
 
         

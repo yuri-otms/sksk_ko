@@ -84,7 +84,6 @@ def show_questions():
             "spoken":question.spoken,
             "sida":question.sida,
             "will":question.will,
-            "released":question.released,
             "audio":file
         }
         questions.append(one_question)

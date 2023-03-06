@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>問題文の確認依頼</h2>
+
+<p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
+
+<p>以下の問題の確認を依頼しますか？</p>
+
+<form action="{{url_for('req.request_check_execute')}}" method="POST">
+
+<table>
+    <tr>
+        <th>タイトル</th>
+        <input type="hidden" name="title" value="{{title}}">
+        <td>{{title}}</td>
+    </tr>
+    <tr>
+        <th>詳細</th>
+        <input type="hidden" name="detail" value="{{detail}}">
+        <td>{{detail}}</td>
+    </tr>
+</table>
+
+<button>確認依頼を作成する</button>
+<table>
+    <tr>
+        <th>id</th>
+        <th>級</th>
+        <th>項目</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <input type="hidden" name="question_id" value="{{question.id}}">
+        <td>{{question.grade}}</td>
+        <td>{{question.element}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<button>確認依頼を作成する</button>
+<button type="button" onclick="history.back()">戻る</button>
+</form>
+
+<p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
+
+<script>
+    //チェックボックスを全て選択、全て解除
+    let checkAll = document.getElementById("checkAll");
+    let el = document.getElementsByClassName("checks");
+
+    const funcCheckAll = (bool) => {
+        for (let i = 0; i < el.length; i++) {
+            el[i].checked = bool;
+        }
+    }
+    const funcCheck = () => {
+        let count = 0;
+        for (let i = 0; i < el.length; i++) {
+            if (el[i].checked) {
+                count += 1;
+            }
+        }
+        if (el.length == count) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    };
+    checkAll.addEventListener("click",() => {
+        funcCheckAll(checkAll.checked);
+    }, false)
+
+    for (let i = 0; i < el.length; i++) {
+        el[i].addEventListener("click", funcCheck, false)
+    }
+
+
+</script>
+
+{% endblock %}

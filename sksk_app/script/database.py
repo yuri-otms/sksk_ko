@@ -25,6 +25,9 @@ def init():
     description = '입니다, 고 싶다, ㄹ까요'
     editor.GradeManager.add_grade(grade, description)
 
+    user_setting.UserManager.register_privilege()
+    user_setting.UserManager.register_process()
+
     name = 'test'
     email = 'test@test.com'
     password = '1234'
@@ -34,7 +37,23 @@ def init():
     user_setting.UserManager.add_privilege(1, 3)
     user_setting.UserManager.add_privilege(1, 4)
 
-    user_setting.UserManager.register_process()
+    name = 'editor'
+    email = 'editor@test.com'
+    password = '1234'
+    user_setting.UserManager.register_user(name, email, password)
+    user_setting.UserManager.add_privilege(2, 1)
+
+    name = 'checker'
+    email = 'checker@test.com'
+    password = '1234'
+    user_setting.UserManager.register_user(name, email, password)
+    user_setting.UserManager.add_privilege(3, 2)
+
+    name = 'approver'
+    email = 'approver@test.com'
+    password = '1234'
+    user_setting.UserManager.register_user(name, email, password)
+    user_setting.UserManager.add_privilege(4, 3)
 
     style = 'ハムニダ体'
     editor.StyleManager.add_style(style)
@@ -68,8 +87,11 @@ def init():
     japanese = '父は医者です。'
     foreign_l = '아버지는 의사입니다.'
     style = 1
+    spoken = 0
+    sida = 0
+    will = 0
     user = 1
-    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, user)
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
 
     print("Insert User Data ")
 

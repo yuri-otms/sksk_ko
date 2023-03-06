@@ -220,7 +220,8 @@ class QuestionManager:
             will = will,
             position = position,
             created_at = created_at,
-            created_by = user
+            created_by = user,
+            process = 1
         )
 
         db.session.add(new_question)
@@ -228,8 +229,8 @@ class QuestionManager:
 
         question_id = Question.query.with_entities(func.max(Question.id).label('max_id')).one().max_id
 
-        message = '作成'
-        QuestionManager.record_process(user, question_id, 1, 1,message, created_at)
+        message = 'なし'
+        QuestionManager.record_process(user, question_id, 1,message, created_at)
 
     def edit_question(question_id, element, japanese, foreign_l, style, spoken, sida, will, user):
         created_at = datetime.now()
@@ -256,8 +257,8 @@ class QuestionManager:
         db.session.merge(question)
         db.session.commit()
 
-        message = '編集'
-        QuestionManager.record_process(user, question_id, 1, 2, message, created_at)
+        message = 'なし'
+        QuestionManager.record_process(user, question_id, 2, message, created_at)
         
     
     def delete_question(question_id, user):
@@ -269,16 +270,15 @@ class QuestionManager:
         db.session.delete(question)
         db.session.commit()
         
-        message = '削除'
-        QuestionManager.record_process(user, question_id, 1, 1, message, created_at)
+        message = 'なし'
+        QuestionManager.record_process(user, question_id, 3, message, created_at)
 
 
-    def record_process(user, question, process, result, message, time):
+    def record_process(user, question, process, message, time):
         new_record = Record(
             user = user,
             question = question,
             process = process,
-            result = result,
             message = message,
             executed_at = time
         )

@@ -42,15 +42,15 @@ def select_element():
     grade_id = result[0]
     e_group_id = result[1]
 
-    grades = Grade.query.join(E_Group).join(Element).join(Question).filter(Question.released==1)
-    e_groups = E_Group.query.join(Element).join(Question).filter(Question.released==1).filter(E_Group.grade==grade_id)
+    grades = Grade.query.join(E_Group).join(Element).join(Question).filter(Question.process==8)
+    e_groups = E_Group.query.join(Element).join(Question).filter(Question.process==8).filter(E_Group.grade==grade_id)
 
     grade = db.session.get(Grade, grade_id)
     e_group = db.session.get(E_Group, e_group_id)
     grade_position = grade.position
     e_group_position = e_group.position
 
-    elements = Element.query.join(Question).filter(Element.e_group==e_group_id).filter(Question.released==1)
+    elements = Element.query.join(Question).filter(Element.e_group==e_group_id).filter(Question.process==8)
 
     return render_template('question/element.html', grades=grades, e_groups=e_groups, grade_position=grade_position, e_group_position=e_group_position, elements=elements, guest=guest)
 
@@ -63,13 +63,13 @@ def show_first_question():
 
     if not review:
         if guest:
-            questions_raw = Question.query.filter(Question.element==element_id).filter(Question.released==1).order_by(Question.position.asc()).limit(5).all()
+            questions_raw = Question.query.filter(Question.element==element_id).filter(Question.process==8).order_by(Question.position.asc()).limit(5).all()
 
         else:
             user_id = session['user_id']
             #1周目の問題の取得(5問)
             answered_question = Score.query.with_entities(Score.question).filter(Score.user==user_id)
-            questions_raw = Question.query.filter(Question.element==element_id).filter(Question.id.not_in(answered_question)).filter(Question.released==1).order_by(Question.id.asc()).limit(5).all()
+            questions_raw = Question.query.filter(Question.element==element_id).filter(Question.id.not_in(answered_question)).filter(Question.process==8).order_by(Question.id.asc()).limit(5).all()
 
             if not questions_raw:
                 #2周目以降の問題を取得(5問)
@@ -161,7 +161,7 @@ def finish():
     question = db.session.get(Question, questions[0][0])
     element = db.session.get(Element, question.element)
 
-    next_element = Element.query.join(Question).filter(Element.e_group==element.e_group).filter(Element.position > element.position).filter(not_(Element.id==question.element)).filter(Question.released==1).first()
+    next_element = Element.query.join(Question).filter(Element.e_group==element.e_group).filter(Element.position > element.position).filter(not_(Element.id==question.element)).filter(Question.process==8).first()
 
     return render_template('question/finish.html', no=no, correct_answer=correct_answer, correct_ratio=correct_ratio, guest=guest, next_element=next_element, review=review) 
 
