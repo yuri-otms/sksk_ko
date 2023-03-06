@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>各種依頼</h2>
+
+{% if session['edit'] %}
+
+<p><a href="{{url_for('req.not_checked_questions')}}">未確認の問題</a></p>
+
+
+<h3>確認依頼中</h3>
+
+
+{% if requests_not_yet[0] %}
+<table>
+    <tr>
+       <th>id</th>
+       <th>タイトル</th> 
+       <th>日時</th>
+    </tr>
+    {% for request in requests_not_yet %}
+    <tr>
+        <td>{{request.id}}</td>
+        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td>{{request.requested_at}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>現在確認中の依頼はありません。</p>
+{% endif %}
+
+<h3>確認完了</h3>
+
+<table>
+    <tr>
+       <th>id</th>
+       <th>タイトル</th> 
+       <th>日時</th>
+    </tr>
+    {% for request in requests_done %}
+    <tr>
+        <td>{{request.id}}</td>
+        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td>{{request.requested_at}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endif %}
+
+{% if session['check'] %}
+<h3>確認依頼</h3>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>タイトル</th> 
+        <th>日時</th>
+     </tr>
+     {% for request in requests_not_checked %}
+    <tr>
+        <td>{{request.id}}</td>
+        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td>{{request.requested_at}}</td>
+        
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<p>承認依頼</p>
+
+<p>過去の依頼</p>
+
+{% endblock %}

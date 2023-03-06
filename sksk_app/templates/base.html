@@ -33,15 +33,22 @@
                 </li>
                 
                 {% if current_user.is_authenticated %}
-                    {% if session['edit']: %}
+                    {% if session['edit'] %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('edit.index')}}">編集</a>
                     </li>
                     {% endif %}
-                    {% if session['admin']: %}
+                    {% if session['admin'] %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('admin.index')}}">管理</a>
                     </li>
+                    {% endif %}
+
+                    {% if session['edit'] or session['check'] or session['approve'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('req.index')}}">依頼</a>
+                    </li>
+
                     {% endif %}
 
                 <li class="nav-item">

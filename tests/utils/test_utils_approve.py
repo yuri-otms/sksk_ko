@@ -8,7 +8,7 @@ def test_change_question_settings(app):
         approval.ReleaseManager.change_question_settings(user,1)
         question = db.session.get(Question, 1)
 
-    assert question.released == True
+    assert question.process == 8
 
 def test_release_questions(app):
     user = 1
@@ -17,8 +17,8 @@ def test_release_questions(app):
         approval.ReleaseManager.release_questions(user, questions)
         questions = Question.query.all()
 
-    assert questions[0].released == True
-    assert questions[2].released == False
+    assert questions[0].process == 8
+    assert questions[2].process != 8
 
 def test_unrelease_questions(app):
     # 一度公開設定にし、その後に非公開にする
@@ -32,7 +32,7 @@ def test_unrelease_questions(app):
         questions = Question.query.all()
 
 
-    assert questions[0].released == False
-    assert questions[2].released == True
+    assert questions[0].process == 9
+    assert questions[2].process == 8
 
 

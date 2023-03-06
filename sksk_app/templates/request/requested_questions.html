@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>確認依頼詳細</h2>
+
+<p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
+
+<form action="{{url_for('req.question_checked')}}" method="POST">
+<table>
+    <tr>
+        <th>id</th>
+        <td>{{request.id}}</td>
+    </tr>
+    <tr>
+        <th>タイトル</th>
+        <td>{{request.title}}</td>
+    </tr>
+    <tr>
+        <th>詳細</th>
+        <td>{{request.detail}}</td>
+    </tr>
+    <tr>
+        <th>日時</th>
+        <td>{{request.requested_at}}</td>
+    </tr>
+</table>
+
+<h3>依頼した問題文</h3>
+{% if session['check']%}
+修正の必要ないものは「確認」にチェックをお願いします。
+{% endif %}
+<table>
+    <tr>
+        <th>id</th>
+        <th>級</th>
+        <th>項目</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        {% if session['check']%}
+        <th>確認</th>
+        {% endif %}
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <input type="hidden" name="questions" value="{{question.id}}">
+        <td>{{question.grade}}</td>
+        <td>{{question.element}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        {% if session['check']%}
+        <td rowspan="2">
+            <input type="checkbox" name="checked" value="{{question.id}}">
+        </td>
+        {% endif %}
+    </tr>
+    {% if session['check']%}
+    <tr>
+        <td colspan="5">
+            コメント <textarea name="message" cols="40" rows="2"></textarea>
+
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% if session['check'] %}
+<input type="hidden" name="request_id" value="{{request.id}}">
+<button>確認</button>
+<button type="button" onclick="history.back()">戻る</button>
+</form>
+{% endif %}
+
+<p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
+
+
+{% endblock %}

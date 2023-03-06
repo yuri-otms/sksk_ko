@@ -4,7 +4,7 @@ from datetime import datetime
 from flask_login import login_user
 
 from sksk_app import db
-from sksk_app.models import User, Process, Score, Grade, E_Group, Element, Question
+from sksk_app.models import User, Process, Score, Grade, E_Group, Element, Question, Privilege
 
 
 class LoginManager:
@@ -118,9 +118,20 @@ class UserManager:
         db.session.merge(user)
         db.session.commit()
 
+    def register_privilege():
+
+        privileges = ['編集', '確認', '承認', '管理']
+        for privilege in privileges:
+            privilege = Privilege(
+                privilege = privilege
+            )
+            db.session.add(privilege)
+
+        db.session.commit()
+
     def register_process():
 
-        processes = ['編集', '確認', '承認', '管理']
+        processes = ['作成', '編集', '削除', '確認依頼', '確認済み', '確認却下', '再提出', '公開', '非公開']
         for process in processes:
             process = Process(
                 process = process
@@ -128,7 +139,6 @@ class UserManager:
             db.session.add(process)
 
         db.session.commit()
-
 
 class ScoreManager:
 

@@ -89,7 +89,7 @@ def test_register_process(app):
     with app.app_context():
         user_setting.UserManager.register_process()
         processes = Process.query.all()
-        processes_name = ['編集', '確認', '承認', '管理']
+        processes_name = ['作成', '編集', '削除', '確認依頼', '確認済み', '確認却下', '再提出', '公開', '非公開']
         for process in processes:
             assert process.process == processes_name[process.id - 1]
 

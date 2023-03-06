@@ -13,6 +13,9 @@ h1, h2, h3, h4, h4, h5, h6 {
 h2 {
     padding-top:0.5em;
 }
+h3  {
+    font-size:1.3em;
+}
 
 
 table, th, tr, td {
@@ -40,6 +43,13 @@ input {
 input::placeholder  {
   text-align: center;
 
+}
+textarea {
+  margin: 3px;
+  padding: 7px;
+  border:1px solid;
+  border-color: #808080;
+  border-radius: 5px
 }
 button {
   margin: 3px;
