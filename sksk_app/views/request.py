@@ -122,3 +122,27 @@ def question_checked_execute():
 def question_checked_done():
     flash('問題文の確認を行いました。')
     return redirect(url_for('req.index'))
+
+@req.route('/delete/check_request')
+@login_required
+def delete_check_request():
+    request_id = request.args.get('r')
+    question_request = db.session.get(Question_Request, request_id)
+    questions = RequestManager.fetch_questions_with_check_message(request_id)
+
+    return render_template('request/delete_check_request.html', request=question_request, questions=questions)
+
+@req.route('/delete/check_request_deleted', methods=['POST'])
+@login_required
+def delete_check_request_execute():
+    request_id = request.form['request_id']
+    RequestManager.delete_request(request_id)
+
+    return redirect(url_for('req.delete_check_request_done'))
+
+@req.route('/delete/check_request_deleted')
+@login_required
+def delete_check_request_done():
+    flash('確認依頼を削除しました。')
+    return redirect(url_for('req.index'))
+

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>確認依頼の削除</h2>
+
+<p>以下の確認依頼を削除しますか？</p>
+
+<form action="{{url_for('req.delete_check_request_execute')}}" method="POST">
+<table>
+    <tr>
+        <th>id</th>
+        <td>{{request.id}}</td>
+    </tr>
+    <tr>
+        <th>タイトル</th>
+        <td>{{request.title}}</td>
+    </tr>
+    <tr>
+        <th>詳細</th>
+        <td>{{request.detail}}</td>
+    </tr>
+    <tr>
+        <th>依頼日時</th>
+        <td>{{request.requested_at}}</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>級</th>
+        <th>項目</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.grade}}</td>
+        <td>{{question.element}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<input type="hidden" name="request_id" value="{{request.id}}">
+<button>削除</button>
+<button type="button" onclick="history.back()">戻る</button>
+</form>
+
+{% endblock %}
