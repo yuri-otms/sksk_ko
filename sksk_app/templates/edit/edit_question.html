@@ -3,6 +3,7 @@
 
 <h2>問題文の編集</h2>
 
+{{request_id}}
 
 <form action="{{url_for('edit.edit_question_check')}}" method="POST">
 <table>
@@ -84,6 +85,7 @@
         </td>
     </tr>
 </table>
+    <input type="hidden" name="request_id" value="{{request_id}}">
     <input type="hidden" name="question_id" value="{{question.id}}">
     <input type="hidden" name="position" value="{{question.position}}">
     <button>確認</button>

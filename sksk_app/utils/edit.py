@@ -232,7 +232,7 @@ class QuestionManager:
         message = 'なし'
         QuestionManager.record_process(user, question_id, 1,message, created_at)
 
-    def edit_question(question_id, element, japanese, foreign_l, style, spoken, sida, will, user):
+    def edit_question(question_id, element, japanese, foreign_l, style, spoken, sida, will, user, request_id):
         created_at = datetime.now()
 
         question = db.session.get(Question, question_id)
@@ -257,8 +257,13 @@ class QuestionManager:
         db.session.merge(question)
         db.session.commit()
 
-        message = 'なし'
-        QuestionManager.record_process(user, question_id, 2, message, created_at)
+
+        if request_id:
+            message = '再提出のための編集'
+            QuestionManager.record_process(user, question_id, 6, message, created_at)
+        else:
+            message = 'なし'
+            QuestionManager.record_process(user, question_id, 2, message, created_at)
         
     
     def delete_question(question_id, user):

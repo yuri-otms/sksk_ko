@@ -29,8 +29,10 @@ def index():
     
     requests_not_checked = Question_Request.query.filter(Question_Request.process==4)
     
-    requests_done = Question_Request.query.filter(Question_Request.client==user_id).filter(Question_Request.process==5)
+    # 編集ユーザから見た完了依頼
+    requests_done = RequestManager.fetch_checked_request_with_result(user_id)
 
+    # 確認ユーザから見た完了依頼
     requests_checked = Question_Request.query.filter(Question_Request.checked_by==user_id).filter(Question_Request.process==5)
 
     return render_template('request/index.html',requests_not_yet=requests_not_yet, requests_not_checked=requests_not_checked, requests_done=requests_done, requests_checked=requests_checked)
@@ -68,7 +70,7 @@ def request_check_execute():
     detail = request.form['detail']
     user_id = session.get('user_id')
 
-    RequestManager.add_request(questions_requested, title, detail, user_id)
+    RequestManager.add_request(questions_requested, title, detail, user_id, 0)
 
     return redirect(url_for('req.request_check_done'))
 
@@ -84,8 +86,9 @@ def show_requested_questions():
     request_id = request.args.get('r')
     question_request = db.session.get(Question_Request, request_id)
     questions = RequestManager.fetch_questions_with_check_message(request_id)
+    rejected_questions = RequestManager.search_rejected_question(request_id)
 
-    return render_template('request/requested_questions.html', request=question_request, questions=questions)
+    return render_template('request/requested_questions.html', request=question_request, questions=questions, rejected_questions = rejected_questions)
 
 @req.route('/question/checked', methods=['POST'])
 @login_required
@@ -145,4 +148,52 @@ def delete_check_request_execute():
 def delete_check_request_done():
     flash('確認依頼を削除しました。')
     return redirect(url_for('req.index'))
+
+@req.route('/resubmit/check_request')
+@login_required
+def resubmit_check_request():
+    request_id = request.args.get('r')
+    question_request = db.session.get(Question_Request, request_id)
+    questions = RequestManager.fetch_rejected_questions_with_check_message(request_id)
+
+    # 却下された問題のみを表示する
+
+    return render_template('request/resubmit_check_request.html', request=question_request, questions=questions)
+
+@req.route('/resubmit/check_request_check', methods=['POST'])
+@login_required
+def resubmit_check_request_check():
+    request_id = request.form['request_id']
+    question_request = db.session.get(Question_Request, request_id)
+
+    title = request.form['title']
+    detail = request.form['detail']
+
+    questions = RequestManager.fetch_rejected_questions_with_check_message(request_id)
+
+    return render_template('request/resubmit_check_request_check.html',request=question_request, title=title, detail=detail, questions=questions)
+
+@req.route('/resubmit/check_request_resubmitted', methods=['POST'])
+@login_required
+def resubmit_check_request_execute():
+    request_id = request.form['request_id']
+
+    title = request.form['title']
+    detail = request.form['detail']
+    user_id = session.get('user_id')
+
+    questions = RequestManager.search_rejected_question(request_id)
+
+    RequestManager.add_request(questions, title, detail, user_id, request_id)
+
+
+    return redirect(url_for('req.resubmit_check_request_done'))
+
+@req.route('/resubmit/check_request_done')
+@login_required
+def resubmit_check_request_done():
+    flash('確認依頼を再提出しました')
+    return redirect(url_for('req.index'))
+
+
 
