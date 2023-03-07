@@ -65,6 +65,7 @@ class RequestManager:
 
         return questions
 
+    # 確認依頼
     def add_request(questions_requested, title, detail, user_id):
         now = datetime.now()
 
@@ -91,6 +92,20 @@ class RequestManager:
 
             question = db.session.get(Question, question_requested)
             question.process = 4
+            db.session.merge(question)
+            db.session.commit()
+
+    def delete_request(request_id):
+
+        question_request = db.session.get(Question_Request, request_id)
+        question_request.process = 3
+        db.session.merge(question_request)
+        db.session.commit()
+
+        requested_questions = Question.query.join(Requested_Question).filter(Requested_Question.request_id==request_id)
+        for requested_question in requested_questions:
+            question = db.session.get(Question, requested_question.id)
+            question.process = 2
             db.session.merge(question)
             db.session.commit()
 
