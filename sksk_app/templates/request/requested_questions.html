@@ -6,6 +6,8 @@
 
 <p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
 
+{{rejected_questions}}
+
 <form action="{{url_for('req.question_checked')}}" method="POST">
 <table>
     <tr>
@@ -96,6 +98,10 @@
 <button>確認</button>
 <button type="button" onclick="history.back()">戻る</button>
 </form>
+{% endif %}
+
+{% if rejected_questions and request.request_id == 0 %}
+<p><a href="{{url_for('req.resubmit_check_request', r=request.id)}}">再提出</a></p>
 {% endif %}
 
 <p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>

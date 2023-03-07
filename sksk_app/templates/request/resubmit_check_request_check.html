@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>確認依頼の再提出</h2>
+
+<p>以下の内容を再提出してよろしいですか？</p>
+
+<h3>再提出する内容</h3>
+<form action="{{url_for('req.resubmit_check_request_execute')}}" method="POST">
+    <table>
+        <tr>
+            <th>タイトル</th>
+            <td>{{title}}</td>
+            <input type="hidden" name="title" value="{{title}}">
+        </tr>
+        <tr>
+            <th>詳細</th>
+            <td>{{detail}}</td>
+            <input type="hidden" name="detail" value="{{detail}}">
+        </tr>
+    </table>
+
+<h3>再提出する確認依頼</h3>
+    <table>
+        <tr>
+            <th>id</th>
+            <td>{{request.id}}</td>
+        </tr>
+        <tr>
+            <th>タイトル</th>
+            <td>{{request.title}}</td>
+        </tr>
+        <tr>
+            <th>詳細</th>
+            <td>{{request.detail}}</td>
+        </tr>
+        <tr>
+            <th>依頼日時</th>
+            <td>{{request.requested_at}}</td>
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <th>id</th>
+            <th>級</th>
+            <th>項目</th>
+            <th>日本語</th>
+            <th>韓国語</th>
+        </tr>
+        {% for question in questions %}
+        <tr>
+            <td>{{question.id}}</td>
+            <td>{{question.grade}}</td>
+            <td>{{question.element}}</td>
+            <td>{{question.japanese}}</td>
+            <td>{{question.foreign_l}}</td>
+        </tr>
+        <tr>
+            <td colspan="5">{{question.message}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" name="request_id" value="{{request.id}}">
+    <button>確認</button>
+    <button type="button" onclick="history.back()">戻る</button>
+    </form>
+    
+
+
+{% endblock %}

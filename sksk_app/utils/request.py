@@ -17,12 +17,15 @@ class RequestManager:
         index = 0
         for question_raw in questions_raw:
 
-            for checked_condition in checked_conditions:
-                if question_raw.id == int(checked_condition):
-                    checked = "確認済み"
-                    break
-                else:
-                    checked = "再提出依頼"
+            if checked_conditions:
+                for checked_condition in checked_conditions:
+                    if question_raw.id == int(checked_condition):
+                        checked = "確認済み"
+                        break
+                    else:
+                        checked = "再提出依頼"
+            else:
+                checked="再提出依頼"
 
             question = {
                 "id": question_raw.id,
@@ -65,8 +68,73 @@ class RequestManager:
 
         return questions
 
+    def fetch_rejected_questions_with_check_message(request_id):
+
+        rejected_questions = RequestManager.search_rejected_question(request_id)
+
+        questions = []
+        for rejected_question in rejected_questions:
+            record = Record.query.filter(Record.question==rejected_question).order_by(Record.id.desc()).first()
+            question_raw = Question.query.with_entities(Question.id, Grade.grade, Element.element, Element.id.label('element_id'),Question.japanese, Question.foreign_l).join(Element).join(E_Group).join(Grade).filter(Question.id==rejected_question).first()
+
+            question = {
+                "id": question_raw.id,
+                "grade": question_raw.grade,
+                "element": question_raw.element,
+                "element_id": question_raw.element_id,
+                "japanese": question_raw.japanese,
+                "foreign_l": question_raw.foreign_l,
+                "message": record.message
+            }
+            questions.append(question)
+
+        return questions
+    
+
+    def search_rejected_question(request_id):
+        # 却下された問題があるか探す
+        rejected_questions = []
+        requested_questions = Question.query.join(Requested_Question).filter(Requested_Question.request_id==request_id)
+        for requested_question in requested_questions:
+            record = Record.query.filter(Record.question==requested_question.id).order_by(Record.id.desc()).first()
+            if record.process == 6:
+                rejected_questions.append(record.question)
+                
+        return rejected_questions
+    
+    def fetch_checked_request_with_result(user_id):
+        requests_done_raw = Question_Request.query.filter(Question_Request.client==user_id).filter(Question_Request.process==5)
+
+        requests_done = []
+        for request_done_raw in requests_done_raw:
+            # 却下された問題があるか探す
+            condition = 0
+            rejected_questions = RequestManager.search_rejected_question(request_done_raw.id)
+            if rejected_questions:
+                condition = 1
+                resubmit = Question_Request.query.filter(Question_Request.request_id!=0).first()
+                if resubmit:
+                    condition = 2
+            
+            request_done = {
+                "id":request_done_raw.id,
+                "client":request_done_raw.client,
+                "process":request_done_raw.process,
+                "title":request_done_raw.title,
+                "detail":request_done_raw.detail,
+                "requested_at":request_done_raw.requested_at,
+                "checked_by":request_done_raw.checked_by,
+                "finished_at":request_done_raw.finished_at,
+                "condition":condition
+            }
+
+            requests_done.append(request_done)
+
+        return requests_done
+
+
     # 確認依頼
-    def add_request(questions_requested, title, detail, user_id):
+    def add_request(questions_requested, title, detail, user_id, request_id):
         now = datetime.now()
 
         new_request = Question_Request(
@@ -74,7 +142,8 @@ class RequestManager:
             process = 4,
             title = title,
             detail = detail,
-            requested_at = now
+            requested_at = now,
+            request_id = request_id
         )
         db.session.add(new_request)
         db.session.commit()

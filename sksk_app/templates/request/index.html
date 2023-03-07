@@ -39,12 +39,22 @@
        <th>id</th>
        <th>タイトル</th> 
        <th>日時</th>
+       <th>結果の有無</th>
     </tr>
     {% for request in requests_done %}
     <tr>
         <td>{{request.id}}</td>
         <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
         <td>{{request.requested_at}}</td>
+        <td>
+            {% if request.condition == 0 %}
+            確認済み
+            {% elif request.condition == 1 %}
+            再提出あり
+            {% elif request.condition == 2 %}
+            再提出済み
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>

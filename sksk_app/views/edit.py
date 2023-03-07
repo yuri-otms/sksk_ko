@@ -692,6 +692,9 @@ def add_question_done():
 @edit.route('/edit/question')
 @login_required
 def edit_question():
+    request_id = 0
+    if request.args.get('r'):
+        request_id = request.args.get('r')
     question_id = request.args.get('q')
     result = editor.EditManager.fetchAll()
     grade_id = result[0]
@@ -708,11 +711,12 @@ def edit_question():
 
     elements = Element.query.filter(Element.e_group==e_group_id)
     question = editor.QuestionManager.fetch_question_with_attribute(question_id)
-    return render_template('edit/edit_question.html', question=question, grades=grades, e_groups=e_groups, grade=grade, e_group=e_group,element=element, styles=styles, elements=elements)
+    return render_template('edit/edit_question.html', question=question, grades=grades, e_groups=e_groups, grade=grade, e_group=e_group,element=element, styles=styles, elements=elements, request_id=request_id)
 
 @edit.route('/edit/question/ckeck', methods=['POST'])
 @login_required
 def edit_question_check():
+    request_id = request.form['request_id']
     japanese = request.form['japanese']
     foreign_l = request.form['foreign_l']
     style_id = request.form['style']
@@ -750,11 +754,12 @@ def edit_question_check():
 
     question_before = editor.QuestionManager.fetch_question_with_attribute(question_id)
 
-    return render_template('edit/edit_question_check.html', question=question, question_before=question_before)
+    return render_template('edit/edit_question_check.html', question=question, question_before=question_before, request_id=request_id)
 
 @edit.route('/edit/question_edited', methods=['POST'])
 @login_required
 def edit_question_execute():
+    request_id = int(request.form['request_id'])
     question_id = request.form['question_id']
     element_id = int(request.form['element'])
 
@@ -767,16 +772,21 @@ def edit_question_execute():
 
     user = session.get('user_id')
 
-    editor.QuestionManager.edit_question(question_id, element_id, japanese, foreign_l, style_id, spoken, sida, will, user)
+    editor.QuestionManager.edit_question(question_id, element_id, japanese, foreign_l, style_id, spoken, sida, will, user, request_id)
     
-    return redirect(url_for('edit.edit_question_done', e=element_id))
+    return redirect(url_for('edit.edit_question_done', e=element_id, r=request_id))
 
 @edit.route('/edit/question_edited_done')
 @login_required
 def edit_question_done():
     element_id = request.args.get('e')
+    request_id = int(request.args.get('r'))
     flash('問題文を変更しました。')
-    return redirect(url_for('edit.show_questions', e=element_id))
+
+    if request_id:
+        return redirect(url_for('req.resubmit_check_request', r=request_id))
+    else:
+        return redirect(url_for('edit.show_questions', e=element_id))
 
 
 @edit.route('/delete/question/<int:id>')

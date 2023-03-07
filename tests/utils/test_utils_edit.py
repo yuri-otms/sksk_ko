@@ -90,7 +90,7 @@ def test_edit_question(app):
         question = Question.query.filter(Question.japanese==japanese).first()
         foreign_l = '제 가방이에요?'
         style = 2
-        editor.QuestionManager.edit_question(question.id, element, japanese, foreign_l, style, spoken, sida, will,user)
+        editor.QuestionManager.edit_question(question.id, element, japanese, foreign_l, style, spoken, sida, will,user, 0)
         question = db.session.get(Question, question.id)
     
     assert question.foreign_l == '제 가방이에요?'
