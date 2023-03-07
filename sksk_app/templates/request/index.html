@@ -31,6 +31,7 @@
 <p>現在確認中の依頼はありません。</p>
 {% endif %}
 
+
 <h3>確認完了</h3>
 
 <table>
@@ -47,6 +48,7 @@
     </tr>
     {% endfor %}
 </table>
+
 
 {% endif %}
 
@@ -68,6 +70,26 @@
     </tr>
     {% endfor %}
 </table>
+
+<h3>確認完了依頼</h3>
+
+<table>
+    <tr>
+       <th>id</th>
+       <th>タイトル</th> 
+       <th>日時</th>
+       <th>完了</th>
+    </tr>
+    {% for request in requests_checked %}
+    <tr>
+        <td>{{request.id}}</td>
+        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td>{{request.requested_at}}</td>
+        <td>{{request.finished_at}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endif %}
 
 <p>承認依頼</p>

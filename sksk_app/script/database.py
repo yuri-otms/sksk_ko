@@ -90,7 +90,23 @@ def init():
     spoken = 0
     sida = 0
     will = 0
-    user = 1
+    user = 2
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+    japanese = '私は学生です。'
+    foreign_l = '저는 학생입니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+    japanese = '母は公務員です。'
+    foreign_l = '어머니는 공무원입니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+    japanese = '私のカバンですか？'
+    foreign_l = '제 가방입니까?'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+    japanese = 'これはキムチですか？'
+    foreign_l = '이것은 김치입니까?'
     editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
 
     print("Insert User Data ")

@@ -8,6 +8,8 @@
 <p>以下の内容でよろしいですか？</p>
 
 {{request.id}}
+{{checked_conditions}}
+{{messages}}
 
 <h3>依頼した問題文</h3>
 <table>
@@ -53,8 +55,8 @@
             {% endif %}
         {% if question.message %}
         <tr><td colspan="6">コメント: {{question.message}}</td></tr>
-        <input type="hidden" name="message" value="{{question.message}}">
         {% endif %}
+        <input type="hidden" name="message" value="{{question.message}}">
     {% endfor %}
     
 </table>
