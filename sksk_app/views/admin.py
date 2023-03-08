@@ -137,7 +137,12 @@ def add_user_done():
 @admin.route('/delete_user', methods=['GET'])
 @login_required
 def delete_user():
-    user_id = request.args.get('id')
+    user_id = int(request.args.get('id'))
+
+    if user_id == session.get('user_id'):
+        flash('管理ユーザーは自身のアカウントを削除できません。')
+        return redirect(url_for('admin.show_user'))
+
 
     user = User.query.filter_by(id=user_id).first()
 
@@ -146,8 +151,11 @@ def delete_user():
 @admin.route('/user_deleted', methods=['GET'])
 @login_required
 def delete_user_execute():
-    user_id = request.args.get('id')
+    user_id = int(request.args.get('id'))
 
+    if user_id == session.get('user_id'):
+        flash('管理ユーザーは自身のアカウントを削除できません。')
+        return redirect(url_for('admin.show_user'))
 
     user_setting.UserManager.delete_user(user_id)
 

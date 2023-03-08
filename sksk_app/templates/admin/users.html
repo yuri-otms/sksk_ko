@@ -92,7 +92,10 @@
         </td>
         <td>
             <a href="{{url_for('admin.edit_user', id=user.id)}}">編集</a><br>
+            {% if user.id == session['user_id'] %}
+            {% else %}
             <a href="{{url_for('admin.delete_user', id=user.id)}}">削除</a>
+            {% endif %}
         </td>
     </tr>
     {% endfor %}
