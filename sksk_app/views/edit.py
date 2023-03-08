@@ -848,12 +848,18 @@ def confirm_hint_f():
 @edit.route('/add/word/hint', methods=['POST'])
 @login_required
 def add_word_hint():
+
     question_id = request.form['question_id']
     japanese_word = request.form['japanese_word']
     foreign_word = request.form['foreign_word']
     question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
     ja_to_ko = api.Papago.ja_to_ko(japanese_word)
     ko_to_ja = api.Papago.ko_to_ja(foreign_word)
+
+    for hint in question_with_hints['hint']:
+        if hint.foreign_l == foreign_word:
+            flash('同じヒントが既に登録されています。')
+            return redirect(url_for('edit.show_hints', e=question_with_hints['element']))
 
     return render_template('edit/add_word_hint.html', question = question_with_hints, japanese_word=japanese_word, foreign_word=foreign_word, ja_to_ko=ja_to_ko, ko_to_ja=ko_to_ja)
 
