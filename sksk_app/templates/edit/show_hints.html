@@ -48,23 +48,23 @@
     <tr>
         <td>
             <div class="flex">
-            {%for word in question['word'] %}
+            {%for japanese_word in question['japanese_word'] %}
             <form action="{{url_for('edit.confirm_hint_j')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
-                <input type="hidden" name="japanese_word" value="{{word}}">
-                <button>{{word}}</button>
+                <input type="hidden" name="japanese_word" value="{{japanese_word}}">
+                <button>{{japanese_word}}</button>
             </form>
             {% endfor %}
             </div>
         </td>
         <td>
             <div class="flex">
-            {%for foword in question['foword'] %}
-            {% if not foword == '.' %}
+            {%for foreign_word in question['foreign_word'] %}
+            {% if not foreign_word == '.' %}
             <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
                 <input type="hidden" name="foreign_word" value="{{foreign_word}}">
-                <button>{{foword}}</button>
+                <button>{{foreign_word}}</button>
             </form>
             {% else %}
             {% endif %}

@@ -834,16 +834,16 @@ def confirm_hint_j():
 @login_required
 def confirm_hint_f():
     question_id = request.form['question_id']
-    f_word = request.form['f_word']
+    foreign_word = request.form['foreign_word']
     question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
-    f_words = Word.query.filter(Word.foreign_l.like("%" + f_word + "%"))
-    translated_word = api.Papago.ko_to_ja(f_word)
+    foreign_words = Word.query.filter(Word.foreign_l.like("%" + foreign_word + "%"))
+    translated_word = api.Papago.ko_to_ja(foreign_word)
 
     words = editor.HintManager.fetch_word(question_id)
-    hint_existed = editor.HintManager.confirm_f_hint(question_id, f_word)
+    hint_existed = editor.HintManager.confirm_f_hint(question_id, foreign_word)
 
-    return render_template('edit/confirm_hint_f.html', question=question_with_hints, f_word=f_word, f_words=f_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
+    return render_template('edit/confirm_hint_f.html', question=question_with_hints, foreign_word=foreign_word, foreign_words=foreign_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
 
 @edit.route('/add/word/hint', methods=['POST'])
 @login_required
@@ -894,6 +894,14 @@ def add_hint():
 
     question = db.session.get(Question, question_id)
     word = db.session.get(Word, word_id)
+
+    
+    question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
+
+    for hint in question_with_hints['hint']:
+        if hint.foreign_l == word.foreign_l:
+            flash('同じヒントが既に登録されています。')
+            return redirect(url_for('edit.show_hints', e=question_with_hints['element']))
 
     return render_template('edit/add_hint.html', question=question, word=word)
 
