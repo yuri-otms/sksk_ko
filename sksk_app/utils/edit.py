@@ -484,7 +484,12 @@ class HintManager:
         )
 
         db.session.add(new_hint)
-        db.session.commit()        
+        db.session.commit()     
+
+    def delete_hint(question_id, word_id):
+        hint = Hint.query.filter(Hint.question==question_id).filter(Hint.word==word_id).first()
+        db.session.delete(hint)
+        db.session.commit()
 
 class EditManager:
     

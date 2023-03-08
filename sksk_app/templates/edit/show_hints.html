@@ -42,7 +42,8 @@
         <td rowspan="2">
             {%for hint in question['hint'] %}
                 {{hint.japanese}}
-            {% endfor %}
+            {% endfor %} <br>
+            <a href="{{url_for('edit.edit_hint', q=question.id)}}">編集</a>
         </td>
     </tr>
     <tr>

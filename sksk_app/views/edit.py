@@ -939,6 +939,39 @@ def add_word_hint_edit():
 
     return render_template('edit/add_hint_edit_word.html', question=question, japanese_word=japanese_word, foreign_word=foreign_word)
 
+@edit.route('/edit/hint')
+@login_required
+def edit_hint():
+    question_id = request.args.get('q')
+    question =  editor.QuestionManager.fetch_question_with_hints(question_id)
+    return render_template('edit/edit_hint.html', question=question)
+
+
+@edit.route('/delete/hint')
+@login_required
+def delete_hint():
+    question_id = request.args.get('q')
+    word_id = request.args.get('w')
+    question =  editor.QuestionManager.fetch_question_with_hints(question_id)
+    word = db.session.get(Word, word_id)
+    return render_template('edit/delete_hint.html', question=question, word=word)
+
+@edit.route('/delete/hint_deleted', methods=['POST'])
+@login_required
+def delete_hint_execute():
+    question_id = request.form['question_id']
+    word_id = request.form['word_id']
+    editor.HintManager.delete_hint(question_id, word_id)
+
+    return redirect(url_for('edit.delete_hint_done', q=question_id))
+
+@edit.route('/delete/hint_deleted_done')
+@login_required
+def delete_hint_done():
+    question_id = request.args.get('q')
+    flash('ヒントを削除しました。')
+    return redirect(url_for('edit.edit_hint', q=question_id))
+
 @edit.route('/create/audio_file')
 @login_required
 def create_audio_file():

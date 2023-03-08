@@ -46,6 +46,7 @@
             </form>
             {% endfor %}
             </div>
+            別の単語を選択する
         </td>
         <td>
             <div class="flex">
@@ -61,6 +62,7 @@
             {% endif %}
             {% endfor %}
             </div>
+            日本語の単語に対応する単語を選択する
         </td>
     </tr>
 </table>
@@ -94,6 +96,7 @@
     </tr>
     {% endif %}
 </table>
+<p><a href="{{url_for('edit.edit_hint', q=question.id)}}">ヒントの編集</a></p>
 
 <h3>登録されている単語</h3>
 <table>
