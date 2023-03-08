@@ -66,7 +66,7 @@ def show_questions():
 
     elements = Element.query.filter(Element.e_group==e_group_id)
 
-    questions_raw = Question.query.filter(Question.element==element.id).order_by(Question.position.asc())
+    questions_raw = Question.query.filter(Question.element==element.id).filter(Question.process!=3).order_by(Question.position.asc())
 
     questions = []
     for question in questions_raw:
@@ -628,15 +628,17 @@ def add_question():
 def add_question_execute():
     element = request.form['element']
     level = 1
-    japanese1 = request.form['japanese1']
-    foreign_l1 = request.form['foreign_l1']
-    style1 = request.form['style1']
-    spoken1 = int(request.form['spoken1'])
-    sida1 = int(request.form['sida1'])
-    will1 = int(request.form['will1'])
-    user = session.get('user_id')
 
-    editor.QuestionManager.add_question(element, level, japanese1, foreign_l1, style1, spoken1, sida1, will1, user)
+    if request.form['japanese1']:
+        japanese1 = request.form['japanese1']
+        foreign_l1 = request.form['foreign_l1']
+        style1 = request.form['style1']
+        spoken1 = int(request.form['spoken1'])
+        sida1 = int(request.form['sida1'])
+        will1 = int(request.form['will1'])
+        user = session.get('user_id')
+
+        editor.QuestionManager.add_question(element, level, japanese1, foreign_l1, style1, spoken1, sida1, will1, user)
 
     if request.form['japanese2']:
         japanese2 = request.form['japanese2']

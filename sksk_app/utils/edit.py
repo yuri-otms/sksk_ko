@@ -182,7 +182,7 @@ class QuestionManager:
 
         question_exist = Question.query.filter(Question.element==element).first()
         if question_exist:
-            max_position = Question.query.with_entities(func.max(Question.position).label('question_max')).filter(Question.element==element).one()
+            max_position = Question.query.with_entities(func.max(Question.position).label('question_max')).filter(Question.element==element).filter(Question.process!=3).one()
             max = int(max_position.question_max)
             position = max + 1
         else:
@@ -195,13 +195,13 @@ class QuestionManager:
         element = question.element
         position = question.position
 
-        next_question = Question.query.filter(Question.element==element).filter(Question.position>position).order_by(Question.position).first()
+        next_question = Question.query.filter(Question.element==element).filter(Question.position>position).filter(Question.process!=3).order_by(Question.position).first()
         while(next_question):
             next_question.position -= 1
             position = next_question.position
             db.session.merge(next_question)
             db.session.commit()
-            next_question = Question.query.filter(Question.element==element).filter(Question.position>position).order_by(Question.position).first()
+            next_question = Question.query.filter(Question.element==element).filter(Question.position>position).filter(Question.process!=3).order_by(Question.position).first()
 
 
     def add_question(element, level,  japanese, foreign_l, style, spoken, sida, will, user):
@@ -272,7 +272,8 @@ class QuestionManager:
         created_at = datetime.now()
 
         question = db.session.get(Question, question_id)
-        db.session.delete(question)
+        question.process = 3
+        db.session.merge(question)
         db.session.commit()
         
         message = 'なし'
@@ -291,7 +292,7 @@ class QuestionManager:
         db.session.commit()
 
     def fetch_questions_with_hints(element):
-        questions = Question.query.filter(Question.element==element)
+        questions = Question.query.filter(Question.element==element).filter(Question.process!=3)
         questions_with_hints = []
         i = 0
         mecab = MeCab.Tagger()
