@@ -6,9 +6,7 @@
 
 <p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
 
-{{rejected_questions}}
-
-<form action="{{url_for('req.question_checked')}}" method="POST">
+<form>
 <table>
     <tr>
         <th>id</th>
@@ -35,7 +33,8 @@
 </table>
 
 {% if session['edit'] and request.finished_at == None %}
-<p><a href="{{url_for('req.delete_check_request', r= request.id)}}">この確認依頼を削除する</a></p>
+<input type="hidden" name="request_id" value="{{request.id}}">
+<button formaction="{{url_for('req.delete_check_request')}}" formmethod="POST">削除</button>
 {% endif %}
 
 <h3>依頼した問題文</h3>
@@ -95,7 +94,7 @@
 </table>
 {% if session['check'] and request.finished_at == None %}
 <input type="hidden" name="request_id" value="{{request.id}}">
-<button>確認</button>
+<button formaction="{{url_for('req.question_checked')}}" formmethod="POST">確認</button>
 <button type="button" onclick="history.back()">戻る</button>
 </form>
 {% endif %}

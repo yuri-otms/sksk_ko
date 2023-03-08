@@ -111,15 +111,93 @@ def init():
 
     print("Insert User Data ")
 
-@qtdb.cli.command('temp')
+@qtdb.cli.command('add')
 def delete_grade():
-    grade = 1
-    e_group = '指示詞、存在詞、数詞'
-    description = '입니다, 있다, 하나'
-    position = 1
-    editor.E_GroupManager.add_e_group(grade, e_group, description, position)
-    # user = db.session.get(User, 1)
-    # user.check = False
-    # db.session.merge(user)
-    # db.session.commit()
+
+    e_group = 1
+    element = '指示詞の否定'
+    description = '아닙니다'
+    editor.ElementManager.add_element(e_group, element, description)
+
+    element = 2
+    level = 1
+    japanese = '今日は休日ではありません。'
+    foreign_l = '오늘은 휴일이 아닙니다.'
+    style = 1
+    spoken = 0
+    sida = 0
+    will = 0
+    user = 2
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = 'ここは銀行ではありません。'
+    foreign_l = '여기는 은행이 아닙니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '風邪ではありませんか？'
+    foreign_l = '감기가 아닙니까?'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '私のノートではありません。'
+    foreign_l = '제 노트가 아닙니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '弟ではありません。'
+    foreign_l = '남동생이 아닙니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+
+    e_group = 1
+    element = '存在詞'
+    description = '았다, 없다'
+    editor.ElementManager.add_element(e_group, element, description)
+
+    element = 3
+    level = 1
+    japanese = '宿題があります。'
+    foreign_l = '숙제가 있습니다.'
+    style = 1
+    spoken = 0
+    sida = 0
+    will = 0
+    user = 2
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '火曜日に試験があります。'
+    foreign_l = '화요일에 시험이 있습니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '姉と妹がいます。'
+    foreign_l = '언니하고 여동생이 있습니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '日曜日は授業がありませんか？'
+    foreign_l = '일요일은 수업이 없습니까?'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '母は家にいません。'
+    foreign_l = '어머니는 집에 없습니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+
+
+    # e_group = 1
+    # element = ''
+    # description = ''
+    # editor.ElementManager.add_element(e_group, element, description)
+
+    # element = 
+    # level = 1
+    # japanese = ''
+    # foreign_l = ''
+    # style = 1
+    # spoken = 0
+    # sida = 0
+    # will = 0
+    # user = 2
+    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    # japanese = ''
+    # foreign_l = ''
+    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    # japanese = ''
+    # foreign_l = ''
+    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    # japanese = ''
+    # foreign_l = ''
+    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    # japanese = ''
+    # foreign_l = ''
+    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
     print("Execute temp")
