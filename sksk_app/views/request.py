@@ -5,6 +5,7 @@ from sqlalchemy import func, or_
 
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element,Question, Question_Request,Requested_Question, Record
+import sksk_app.utils.edit as editor
 from sksk_app.utils.request import RequestManager
 
 
@@ -80,56 +81,10 @@ def request_check_done():
     flash('問題文の確認を依頼しました。')
     return redirect(url_for('req.index'))
 
-@req.route('/questions/requested')
-@login_required
-def show_requested_questions():
-    request_id = request.args.get('r')
-    question_request = db.session.get(Question_Request, request_id)
-    questions = RequestManager.fetch_questions_with_check_message(request_id)
-    rejected_questions = RequestManager.search_rejected_question(request_id)
-
-    return render_template('request/requested_questions.html', request=question_request, questions=questions, rejected_questions = rejected_questions)
-
-@req.route('/question/checked', methods=['POST'])
-@login_required
-def question_checked():
-    request_id = request.form['request_id']
-    question_request = db.session.get(Question_Request, request_id)
-
-    questions_id = request.form.getlist('questions')
-    checked_conditions = request.form.getlist('checked')
-    messages = request.form.getlist('message')
-
-    questions = RequestManager.fetch_checked_question_infomation(questions_id, checked_conditions, messages)
-
-    return render_template('request/question_checked.html', questions=questions, request=question_request,checked_conditions=checked_conditions,messages=messages)
-
-@req.route('/question/checked_execute', methods=['POST'])
-@login_required
-def question_checked_execute():
-    request_id = request.form['request_id']
-    user_id = session.get('user_id')
-
-    questions_id = request.form.getlist('questions')
-    checked_conditions = request.form.getlist('checked')
-    messages = request.form.getlist('message')
-
-    questions = RequestManager.fetch_checked_question_infomation(questions_id, checked_conditions, messages)
-
-    RequestManager.check_questions(questions, user_id, request_id)
- 
-    return redirect(url_for('req.question_checked_done'))
-
-@req.route('/question/checked_done')
-@login_required
-def question_checked_done():
-    flash('問題文の確認を行いました。')
-    return redirect(url_for('req.index'))
-
-@req.route('/delete/check_request')
+@req.route('/delete/check_request', methods=['POST'])
 @login_required
 def delete_check_request():
-    request_id = request.args.get('r')
+    request_id = request.form['request_id']
     question_request = db.session.get(Question_Request, request_id)
     questions = RequestManager.fetch_questions_with_check_message(request_id)
 
@@ -193,6 +148,54 @@ def resubmit_check_request_execute():
 @login_required
 def resubmit_check_request_done():
     flash('確認依頼を再提出しました')
+    return redirect(url_for('req.index'))
+
+
+
+@req.route('/questions/requested')
+@login_required
+def show_requested_questions():
+    request_id = request.args.get('r')
+    question_request = db.session.get(Question_Request, request_id)
+    questions = RequestManager.fetch_questions_with_check_message(request_id)
+    rejected_questions = RequestManager.search_rejected_question(request_id)
+
+    return render_template('request/requested_questions.html', request=question_request, questions=questions, rejected_questions = rejected_questions)
+
+@req.route('/question/checked', methods=['POST'])
+@login_required
+def question_checked():
+    request_id = request.form['request_id']
+    question_request = db.session.get(Question_Request, request_id)
+
+    questions_id = request.form.getlist('questions')
+    checked_conditions = request.form.getlist('checked')
+    messages = request.form.getlist('message')
+
+    questions = RequestManager.fetch_checked_question_infomation(questions_id, checked_conditions, messages)
+
+    return render_template('request/question_checked.html', questions=questions, request=question_request,checked_conditions=checked_conditions,messages=messages)
+
+@req.route('/question/checked_execute', methods=['POST'])
+@login_required
+def question_checked_execute():
+    request_id = request.form['request_id']
+    user_id = session.get('user_id')
+
+    questions_id = request.form.getlist('questions')
+    checked_conditions = request.form.getlist('checked')
+    messages = request.form.getlist('message')
+
+    questions = RequestManager.fetch_checked_question_infomation(questions_id, checked_conditions, messages)
+
+    RequestManager.check_questions(questions, user_id, request_id)
+ 
+    return redirect(url_for('req.question_checked_done'))
+
+@req.route('/question/checked_done')
+@login_required
+def question_checked_done():
+    flash('問題文の確認を行いました。')
     return redirect(url_for('req.index'))
 
 

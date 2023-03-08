@@ -164,6 +164,22 @@ class RequestManager:
             db.session.merge(question)
             db.session.commit()
 
+    def edit_request(request_id, title, detail, questions):
+
+        question_request = db.session.get(Question_Request, request_id)
+        question_request.title = title
+        question_request.detail = detail
+
+        db.session.merge(question_request)
+        db.session.commit()
+
+    def remove_questions_from_request(request_id, questions):
+
+        for question in questions:
+            requested_question = Requested_Question.query.filter(Requested_Question.request_id==request_id).filter(Requested_Question.question==int(question)).first()
+            db.session.delete(requested_question)
+            db.session.commit()
+
     def delete_request(request_id):
 
         question_request = db.session.get(Question_Request, request_id)
