@@ -5,7 +5,7 @@ from sqlalchemy import func
 import glob
 
 from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Style, Question, Hint, Word
+from sksk_app.models import Grade, E_Group, Element, Style, Question, Hint, Word, User
 import sksk_app.utils.edit as editor
 import sksk_app.utils.api as api
 
@@ -75,12 +75,14 @@ def show_questions():
         file_name = 'sksk_app/static/audio/' + str(question.id).zfill(5) + '.mp3'
         if  glob.glob(file_name):
             file = 1
+        created_by = User.query.filter(User.id==question.created_by).first()
         one_question = {
             "id":question.id,
             "japanese":question.japanese,
             "foreign_l":question.foreign_l,
             "style": style.style,
             "position":question.position,
+            "created_by":created_by.name,
             "spoken":question.spoken,
             "sida":question.sida,
             "will":question.will,
