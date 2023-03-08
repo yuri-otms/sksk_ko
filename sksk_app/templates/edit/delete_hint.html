@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>ヒントの削除</h2>
+
+<p>以下の問題から以下のヒントを削除しますか？</p>
+
+<form action="{{url_for('edit.delete_hint_execute')}}" method="POST">
+<table>
+    <tr>
+        <td>id</td>
+        <td>日本語</td>
+        <td>韓国語</td>
+    </tr>
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+</table>
+
+<h3>削除するヒント</h3>
+
+<table>
+    <tr>
+        <td>日本語</td>
+        <td>韓国語</td>
+    </tr>
+    <tr>
+        <td>{{word.japanese}}</td>
+        <td>{{word.foreign_l}}</td>
+    </tr>
+</table>
+<input type="hidden" name="question_id" value="{{question.id}}">
+<input type="hidden" name="word_id" value="{{word.id}}">
+<button>削除</button>
+<button type="button" onclick="history.back()">戻る</button>
+</form>
+
+{% endblock %}
