@@ -307,21 +307,21 @@ class QuestionManager:
             questions_with_hints.append(question_with_hints)
 
             # 単語の候補
-            questions_with_hints[i]['word']= []
+            questions_with_hints[i]['japanese_word']= []
             node = mecab.parseToNode(questions_with_hints[i]['japanese'])
             while node:
                 p = node.feature.split(',')[0]
                 if p == '名詞' or p == '動詞' or p== '形容詞' or p =='副詞':
-                    questions_with_hints[i]['word'].append(node.feature.split(",")[6])
+                    questions_with_hints[i]['japanese_word'].append(node.feature.split(",")[6])
                 node = node.next
 
             # 韓国語のそれぞれの単語
-            questions_with_hints[i]['foword'] = []
+            questions_with_hints[i]['foreign_word'] = []
             text = questions_with_hints[i]['foreign_l']
             okt = Okt()
             korean_w = okt.morphs(text, norm=True, stem=True)
             for w in korean_w:
-                questions_with_hints[i]['foword'].append(w)
+                questions_with_hints[i]['foreign_word'].append(w)
 
             # 登録済みのヒント
             hints = Hint.query.filter(Hint.question==question.id)

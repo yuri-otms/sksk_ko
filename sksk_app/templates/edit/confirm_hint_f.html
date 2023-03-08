@@ -1,7 +1,7 @@
 {%extends "base.html" %}
 {% block body %}
 
-<h2>{{f_word}}</h2>
+<h2>{{foreign_word}}</h2>
 
 <p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
 
@@ -30,24 +30,24 @@
     <tr>
         <td>
             <div class="flex">
-            {% for word in question['word'] %}
+            {% for japanese_word in question['japanese_word'] %}
             <form action="{{url_for('edit.add_word_hint')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
                 <input type="hidden" name="japanese_word" value="{{japanese_word}}">
                 <input type="hidden" name="foreign_word" value="{{foreign_word}}">
-                <button>{{word}}</button>
+                <button>{{japanese_word}}</button>
             </form>
             {% endfor %}
             </div>
         </td>
         <td>
             <div class="flex">
-            {% for foword in question['foword'] %}
-            {% if not foword == '.' %}
+            {% for foreign_word in question['foreign_word'] %}
+            {% if not foreign_word == '.' %}
             <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
                 <input type="hidden" name="question_id" value="{{question.id}}">
                 <input type="hidden" name="foreign_word" value="{{foreign_word}}">
-                <button>{{foword}}</button>
+                <button>{{foreign_word}}</button>
             </form>
             {% else %}
             {% endif %}
@@ -71,12 +71,12 @@
     </tr>
     {% for word in words %}
     <tr>
-        {% if f_word == word['foreign_l'] %}
+        {% if foreign_word == word['foreign_l'] %}
         <td style="color:red">{{word['japanese']}}</td>
         {% else %}
         <td>{{word['japanese']}}</td>
         {% endif %}
-        {% if f_word == word['foreign_l'] %}
+        {% if foreign_word == word['foreign_l'] %}
         <td style="color:red">{{word['foreign_l']}}</td>
         {% else %}
         <td>{{word['foreign_l']}}</td>
@@ -98,7 +98,7 @@
         <th>韓国語</th>
         <th>操作</th>
     </tr>
-{% for f_word in f_words %}
+{% for foreign_word in foreign_words %}
 <tr>
     <td>{{foreign_word['id']}}</td>
     <td>{{foreign_word['japanese']}}</td>
@@ -106,7 +106,7 @@
     <td><a href="{{url_for('edit.add_hint', q= question.id, w=foreign_word['id'])}}">追加する</a></td>
 </tr>
 {% endfor %}
-{% if not f_words[0] %}
+{% if not foreign_words[0] %}
 <tr>
     <td colspan="4">登録単語なし</td>
 </tr>
