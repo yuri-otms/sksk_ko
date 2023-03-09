@@ -1,5 +1,5 @@
 from flask import request
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from datetime import datetime
 
 from sksk_app import db
@@ -45,15 +45,23 @@ class RequestManager:
 
         questions_raw = Question.query.with_entities(Question.id, Grade.grade, Element.element, Question.japanese, Question.foreign_l).join(Element).join(E_Group).join(Grade).join(Requested_Question).filter(Requested_Question.request_id==request_id)
 
+        question_request = db.session.get(Question_Request, request_id)
+
         questions = []
         for question_raw in questions_raw:
-            record = Record.query.filter(Record.question==question_raw.id).order_by(Record.id.desc()).first()
-            if record.process == 5:
-                process_name = '確認済み'
-            elif record.process == 6:
-                process_name = '確認却下'
+            if question_request.process == 5 or question_request.process == 6:
+                record = Record.query.filter(Record.question==question_raw.id).filter(or_(Record.process==5, Record.process==6)).order_by(Record.id.desc()).first()
+                message = record.message
+                if record.process == 5:
+                    process_name = '確認済み'
+                elif record.process == 6:
+                    process_name = '確認却下'
+                else:
+                    process_name = ''
             else:
                 process_name = ''
+                message = ''
+                
 
             question = {
                 "id": question_raw.id,
@@ -62,7 +70,7 @@ class RequestManager:
                 "japanese": question_raw.japanese,
                 "foreign_l": question_raw.foreign_l,
                 "checked": process_name,
-                "message": record.message
+                "message": message
             }
             questions.append(question)
 
@@ -205,7 +213,6 @@ class RequestManager:
                 process = 6
 
             question.process = process
-
 
             db.session.merge(question)
             db.session.commit()

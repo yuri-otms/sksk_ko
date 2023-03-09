@@ -4,14 +4,15 @@
 
 <h2>各種依頼</h2>
 
+
+<!-- 確認者 -->
 {% if session['edit'] %}
 
+<h3>編集</h3>
+<h4>確認依頼の作成</h4>
 <p><a href="{{url_for('req.not_checked_questions')}}">未確認の問題</a></p>
 
-
-<h3>確認依頼中</h3>
-
-
+<h4>確認依頼中</h4>
 {% if requests_not_yet[0] %}
 <table>
     <tr>
@@ -32,8 +33,9 @@
 {% endif %}
 
 
-<h3>確認完了</h3>
+<h4>確認完了</h4>
 
+{% if requests_done[0] %}
 <table>
     <tr>
        <th>id</th>
@@ -58,12 +60,20 @@
     </tr>
     {% endfor %}
 </table>
-
+{% else %}
+<p>確認が完了した依頼はありません。</p>
+{% endif %}
 
 {% endif %}
 
+<!-- 編集者　終わり -->
+
+<!-- 確認者 -->
 {% if session['check'] %}
-<h3>確認依頼</h3>
+<h3>確認</h3>
+<h4>対応中の確認依頼</h4>
+
+{% if requests_not_checked[0] %}
 
 <table>
     <tr>
@@ -80,8 +90,14 @@
     </tr>
     {% endfor %}
 </table>
+{% else %}
+<p>対応中の確認依頼はありません。</p>
+{% endif %}
 
-<h3>確認完了依頼</h3>
+
+<h4>完了した確認依頼</h4>
+
+{% if requests_checked[0] %}
 
 <table>
     <tr>
@@ -99,11 +115,34 @@
     </tr>
     {% endfor %}
 </table>
+{% else%}
+<p>完了した確認依頼はありません。</p>
+{% endif %}
+
+{% endif %}
+<!-- 確認者　終わり -->
+
+<!-- 承認者 -->
+{% if session['approve'] %}
+<h3>承認</h3>
+
+<h4>公開処理</h4>
+{% if requests_not_approved %}
+<p><a href="{{url_for('approve.not_appoved_questions')}}">未公開の問題</a></p>
+{% else %}
+<p>未公開・確認済みの問題はありません、</p>
+{% endif %}
+
+<h4>未公開処理</h4>
+{% if requests_not_approved %}
+<p><a href="{{url_for('approve.appoved_questions')}}">公開している問題</a></p>
+{% else %}
+<p>公開されている問題はありません、</p>
+{% endif %}
+
 
 {% endif %}
 
-<p>承認依頼</p>
-
-<p>過去の依頼</p>
+<!-- 承認者　終わり -->
 
 {% endblock %}

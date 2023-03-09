@@ -83,6 +83,7 @@ def show_questions():
             "style": style.style,
             "position":question.position,
             "created_by":created_by.name,
+            "process": question.process,
             "spoken":question.spoken,
             "sida":question.sida,
             "will":question.will,

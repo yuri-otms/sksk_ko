@@ -36,7 +36,10 @@ def index():
     # 確認ユーザから見た完了依頼
     requests_checked = Question_Request.query.filter(Question_Request.checked_by==user_id).filter(Question_Request.process==5)
 
-    return render_template('request/index.html',requests_not_yet=requests_not_yet, requests_not_checked=requests_not_checked, requests_done=requests_done, requests_checked=requests_checked)
+    # 承認待ちの完了依頼
+    requests_not_approved = Question_Request.query.filter(Question_Request.process==5)
+
+    return render_template('request/index.html',requests_not_yet=requests_not_yet, requests_not_checked=requests_not_checked, requests_done=requests_done, requests_checked=requests_checked, requests_not_approved=requests_not_approved)
 
 @req.route('/not_checked')
 @login_required
@@ -150,8 +153,6 @@ def resubmit_check_request_done():
     flash('確認依頼を再提出しました')
     return redirect(url_for('req.index'))
 
-
-
 @req.route('/questions/requested')
 @login_required
 def show_requested_questions():
@@ -197,6 +198,8 @@ def question_checked_execute():
 def question_checked_done():
     flash('問題文の確認を行いました。')
     return redirect(url_for('req.index'))
+
+
 
 
 
