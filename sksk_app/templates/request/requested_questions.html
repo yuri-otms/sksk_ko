@@ -51,6 +51,10 @@
         {% if session['check']%}
         <th>確認</th>
         {% endif %}
+        {% if session['approve'] and request.finished_at %}
+        <th>公開<br>
+            <label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
+        {% endif %}
     </tr>
     {% for question in questions %}
     <tr>
@@ -68,6 +72,11 @@
         {% if request.finished_at %}
         <td rowspan="2">
             {{question.checked}}
+        </td>
+        {% endif %}
+        {% if session['approve'] and request.finished_at %}
+        <td rowspan="2"> 
+            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
         </td>
         {% endif %}
     </tr>
@@ -99,11 +108,49 @@
 </form>
 {% endif %}
 
-{% if rejected_questions and request.request_id == 0 %}
+{% if session['approve'] and request.finished_at %}
+<button formaction="" formmethod="">公開</button>
+<button type="button" onclick="history.back()">戻る</button>
+{% endif %}
+
+{% if session['approve'] and rejected_questions and request.request_id == 0 %}
 <p><a href="{{url_for('req.resubmit_check_request', r=request.id)}}">再提出</a></p>
 {% endif %}
 
 <p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
 
+<script>
+    //チェックボックスを全て選択、全て解除
+    let checkAll = document.getElementById("checkAll");
+    let el = document.getElementsByClassName("checks");
+
+    const funcCheckAll = (bool) => {
+        for (let i = 0; i < el.length; i++) {
+            el[i].checked = bool;
+        }
+    }
+    const funcCheck = () => {
+        let count = 0;
+        for (let i = 0; i < el.length; i++) {
+            if (el[i].checked) {
+                count += 1;
+            }
+        }
+        if (el.length == count) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    };
+    checkAll.addEventListener("click",() => {
+        funcCheckAll(checkAll.checked);
+    }, false)
+
+    for (let i = 0; i < el.length; i++) {
+        el[i].addEventListener("click", funcCheck, false)
+    }
+
+
+</script>
 
 {% endblock %}

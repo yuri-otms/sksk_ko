@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, url_for, render_template, \
     request, flash, session
 from flask_login import login_required
+from sqlalchemy import or_
 
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question
@@ -71,8 +72,6 @@ def change_question_done():
 @approve.route('/release/questions', methods=['POST'])
 @login_required
 def release_questions():
-    element_id = request.form['element_id']
-    # questions = Question.query.filter(Question.element == element_id)
     releases = request.form.getlist('question')
     # 「全て選択」の選択を削除
     if releases[0] == 'on':
@@ -82,33 +81,28 @@ def release_questions():
         question = db.session.get(Question, release)
         questions.append(question)
 
-    return render_template('approve/release_questions.html', questions=questions, releases=releases, element_id=element_id)
+    return render_template('approve/release_questions.html', questions=questions, releases=releases)
 
 
 @approve.route('/release/questions_changed', methods=['GET'])
 @login_required
 def release_questions_execute():
-    element_id = request.args.get('element_id')
     releases = request.args.getlist('releases')
     user_id = session.get('user_id')
     approval.ReleaseManager.release_questions(user_id,releases)
 
-    return redirect(url_for('approve.release_questions_done', e=element_id))
+    return redirect(url_for('approve.release_questions_done'))
 
 @approve.route('/release/questions_changed_done')
 @login_required
 def release_questions_done():
-    element_id = request.args.get('e')
     flash('問題文を公開しました。')
-
-    return redirect(url_for('edit.show_questions', e=element_id))
+    return redirect(url_for('req.index'))
 
 
 @approve.route('/unrelease/questions', methods=['POST'])
 @login_required
 def unrelease_questions():
-    element_id = request.form['element_id']
-    questions = Question.query.filter(Question.element == element_id)
     releases = request.form.getlist('question')
     # 「全て選択」の選択を削除
     if releases[0] == 'on':
@@ -118,24 +112,36 @@ def unrelease_questions():
         question = db.session.get(Question, release)
         questions.append(question)
 
-    return render_template('approve/unrelease_questions.html', questions=questions, releases=releases,element_id=element_id )
+    return render_template('approve/unrelease_questions.html', questions=questions, releases=releases)
 
 @approve.route('/unrelease/questions_changed', methods=['GET'])
 @login_required
 def unrelease_questions_execute():
-    element_id = request.args.get('element_id')
     releases = request.args.getlist('releases')
     user_id = session.get('user_id')
     approval.ReleaseManager.unrelease_questions(user_id, releases)
 
-    return redirect(url_for('approve.unrelease_questions_done', e=element_id))
+    return redirect(url_for('approve.unrelease_questions_done'))
 
 @approve.route('/unrelease/questions_changed_done')
 @login_required
 def unrelease_questions_done():
-    element_id = request.args.get('e')
     flash('問題文を非公開しました。')
-    return redirect(url_for('edit.show_questions', e=element_id))
+    return redirect(url_for('req.index'))
+
+@approve.route('/not_approved/questions')
+@login_required
+def not_appoved_questions():
+    edited_questions = Question.query.with_entities(Question.id, Grade.grade, Element.element, Question.japanese, Question.foreign_l).join(Element).join(E_Group).join(Grade).filter(or_(Question.process==5, Question.process==9)).order_by(Question.id)
+    return render_template('approve/not_approved_questions.html', questions=edited_questions)
+
+@approve.route('/approved/questions')
+@login_required
+def appoved_questions():
+    edited_questions = Question.query.with_entities(Question.id, Grade.grade, Element.element, Question.japanese, Question.foreign_l).join(Element).join(E_Group).join(Grade).filter(Question.process==8).order_by(Question.id)
+    return render_template('approve/approved_questions.html', questions=edited_questions)
+
+
 
 
     
