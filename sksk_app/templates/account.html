@@ -21,6 +21,11 @@
     <tr>
         <th>全体の正答率</th>
         <td>{{all_ratio}}</td>
+    <tr>
+        <th>最近の回答が不正解だった問題数</th>
+        <td>{{incorrect_count}}</td>
+    </tr>
+
     </tr>
     {% for grade_info in grades_info %}
     <tr>
@@ -29,8 +34,5 @@
     </tr>
     {% endfor %}
 </table>
-
-{{grades_info}}
-
 
 {% endblock %}

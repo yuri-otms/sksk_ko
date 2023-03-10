@@ -171,33 +171,97 @@ def delete_grade():
     foreign_l = '어머니는 집에 없습니다.'
     editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
 
+    e_group = 1
+    element = '固有数詞'
+    description = '하나, 둘, 셋'
+    editor.ElementManager.add_element(e_group, element, description)
+
+    element = 4
+    level = 1
+    japanese = '私は26歳です。'
+    foreign_l = '저는 스물여섯 살입니다.'
+    style = 1
+    spoken = 0
+    sida = 0
+    will = 0
+    user = 2
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '猫が2匹います。'
+    foreign_l = '고양이가 두 마리 있습니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = 'りんごが3個あります。'
+    foreign_l = '사과가 세 개 있습니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '部屋に本が9冊あります。'
+    foreign_l = '방에 책이 아홉 권 있습니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '教室に学生が8人います。'
+    foreign_l = '교실에 학생이 여덟 명 있습니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+    e_group = 1
+    element = '漢数詞'
+    description = '일, 이, 삼'
+    editor.ElementManager.add_element(e_group, element, description)
+
+    element = 5
+    level = 1
+    japanese = '今日は12月26日です。'
+    foreign_l = '오늘은 십이월 이십육 일입니다.'
+    style = 1
+    spoken = 0
+    sida = 0
+    will = 0
+    user = 2
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '父の誕生日は6月3日です。'
+    foreign_l = '아버지 생일은 유월 삼일입니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = 'このコンピューターは120万ウォンです。'
+    foreign_l = '이 컴퓨터는 백이십만원입니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '姉の部屋は738号室です。'
+    foreign_l = '누나 방은 칠백삼십팔 호실입니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '弟は5年生です。'
+    foreign_l = '남동생은 오학년입니다.'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+
+    e_group = 1
+    element = '疑問詞(いつ、どこ、いくら)'
+    description = '언제, 어디, 얼마'
+    editor.ElementManager.add_element(e_group, element, description)
+
+    element = 6
+    level = 1
+    japanese = '誕生日はいつですか？'
+    foreign_l = '생일은 언제입니까?'
+    style = 1
+    spoken = 0
+    sida = 0
+    will = 0
+    user = 2
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '試験はいつありますか？'
+    foreign_l = '시험은 언제 있습니까?'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '銀行はどこですか？'
+    foreign_l = '은행은 어디입니까?'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = '病院はどこにありますか？'
+    foreign_l = '병원은 어디에 있습니까?'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
+    japanese = 'このカバンはいくらですか？'
+    foreign_l = '이 가방은 얼마입니까?'
+    editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
 
 
-    # e_group = 1
-    # element = ''
-    # description = ''
-    # editor.ElementManager.add_element(e_group, element, description)
+    
+    print("Execute add")
 
-    # element = 
-    # level = 1
-    # japanese = ''
-    # foreign_l = ''
-    # style = 1
-    # spoken = 0
-    # sida = 0
-    # will = 0
-    # user = 2
-    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
-    # japanese = ''
-    # foreign_l = ''
-    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
-    # japanese = ''
-    # foreign_l = ''
-    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
-    # japanese = ''
-    # foreign_l = ''
-    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
-    # japanese = ''
-    # foreign_l = ''
-    # editor.QuestionManager.add_question(element, level , japanese, foreign_l, style, spoken, sida, will, user)
-    print("Execute temp")
+
+@qtdb.cli.command('add2')
+def delete_grade():
+    
+    print("Execute add2")
+
