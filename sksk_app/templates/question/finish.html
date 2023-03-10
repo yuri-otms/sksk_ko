@@ -13,6 +13,7 @@
 
 <p>トップページに戻る</p>
 
+{% if not review == 2 %}
 {% if not correct_ratio == 100 %}
 <p><a href="{{url_for('question.start_review_element', guest=guest)}}">間違えた問題を復習する</a></p>
 {% endif %}
@@ -20,7 +21,7 @@
 {% if next_element %}
     <p><a href="{{url_for('question.show_first_question', e = next_element.id, guest=guest, review=0)}}">次の項目({{next_element.element}})に進む</a></p>
 {% endif %}
-
+{% endif %}
 
 
 <p><a href="{{url_for('pg.toppage')}}">トップページ</a></p>

@@ -1,8 +1,8 @@
 import math
+import random
 from flask import Blueprint, redirect, url_for, render_template, session, request
 from flask_login import login_required, current_user
 from sqlalchemy import not_, func
-
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question, Score
 import sksk_app.utils.edit as editor
@@ -61,12 +61,13 @@ def show_first_question():
     review = int(request.args.get('review'))
     no = 1
 
+    # 通常回答モード
     if not review:
         if guest:
             questions_raw = Question.query.filter(Question.element==element_id).filter(Question.process==8).order_by(Question.position.asc()).limit(5).all()
 
         else:
-            user_id = session['user_id']
+            user_id = session.get('user_id')
             #1周目の問題の取得(5問)
             answered_question = Score.query.with_entities(Score.question).filter(Score.user==user_id)
             questions_raw = Question.query.filter(Question.element==element_id).filter(Question.id.not_in(answered_question)).filter(Question.process==8).order_by(Question.id.asc()).limit(5).all()
@@ -79,6 +80,8 @@ def show_first_question():
         for question in questions_raw:
             questions.append([question.id, 0])
         session['questions'] = questions
+
+
     questions = session.get('questions')
 
     question = editor.QuestionManager.fetch_question_with_hints(questions[0][0])
@@ -176,9 +179,38 @@ def start_review_element():
 
     session['questions'] = questions
     review = 1
-    # question = db.session.get(Question, questions[0][0])
 
     return redirect(url_for('question.show_first_question', e=1, guest=guest, review=review))
+
+@question.route('/review/grade')
+def start_review_grade():
+    user_id = session.get('user_id')
+    guest = 0
+    review = 2
+    no = 1
+    # 間違えた問題の取得
+
+    # select question from score where correct = 0 and id in (select max(id) from score where user = 1 group by question);
+    latest_answers = Score.query.with_entities(func.max(Score.id)).filter(Score.user==user_id).group_by(Score.question)
+    latest_incorrects = Score.query.filter(Score.correct==0).filter(Score.id.in_(latest_answers))
+
+    questions = []
+    for question in latest_incorrects:
+        questions.append([question.question, 0])
+    random.shuffle(questions)
+    # 6つ目以降を削除する
+    del questions[5:]
+
+    session['questions'] = questions
+
+    question = editor.QuestionManager.fetch_question_with_hints(questions[0][0])
+    attribute = editor.QuestionManager.fetch_attribute(question['element'])
+
+    question_id = str(question['id'])
+    audio_file = 'audio/' + question_id.zfill(5) + '.mp3'
+
+    return render_template('question/question.html', question=question, no=no, attribute=attribute, guest=guest, review=review, audio_file=audio_file)
+
 
 
 

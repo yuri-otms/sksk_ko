@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, \
     flash, url_for, redirect,session
 from flask_login import logout_user, login_required
 from datetime import datetime
+from sqlalchemy import func
 
 from sksk_app import db
 from sksk_app.models import User, Score, Question
@@ -11,7 +12,7 @@ auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth.route('/signup')
 def signup():
-    page_title = 'ユーザー登録'
+    page_title = 'ユーザωー登録'
     return render_template('auth/signup.html', page_title=page_title)
 
 # RPGデータ登録
@@ -77,7 +78,15 @@ def account():
         all_ratio = '0%'
     grades_info = user_setting.ScoreManager.culculate_ratio_each_grade(user_id)
 
-    return render_template('account.html', user=user, all_count=all_count,all_ratio=all_ratio, grades_info=grades_info)
+
+    # select question from score where correct = 0 and id in (select max(id) from score where user = 1 group by question);
+    latest_answers = Score.query.with_entities(func.max(Score.id)).filter(Score.user==user_id).group_by(Score.question)
+    incorrect_count = Score.query.filter(Score.correct==0).filter(Score.id.in_(latest_answers)).count()
+
+
+
+
+    return render_template('account.html', user=user, all_count=all_count,all_ratio=all_ratio, grades_info=grades_info, incorrect_count=incorrect_count)
 
 
 @auth.errorhandler(404)

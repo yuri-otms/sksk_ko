@@ -113,7 +113,7 @@
 <button type="button" onclick="history.back()">戻る</button>
 {% endif %}
 
-{% if session['approve'] and rejected_questions and request.request_id == 0 %}
+{% if session['edit'] and rejected_questions and request.request_id == 0 %}
 <p><a href="{{url_for('req.resubmit_check_request', r=request.id)}}">再提出</a></p>
 {% endif %}
 
