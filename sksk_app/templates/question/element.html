@@ -2,29 +2,40 @@
 
 {% block body %}
 
-<h2>項目の選択</h2>
+<h2 class="text-center">項目の選択</h2>
 
-<p>guest {{guest}}</p>
+<div class="row">
+    <div class="col-lg-6 col-sm-12 text-center">
+            <h3 class="text-center">級をクリックして選択</h3>
+            <select class="button text-center" name="grade" id="grade" onchange="location.href=value">
+                {% for grade in grades %}
+                <option value="{{url_for('question.select_element', l=grade.id, guest=guest)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-lg-6 col-sm-12 text-center">
+            <h3 class="text-center">グループをクリックして選択</h3>
+            <select class="button text-center" name="e_group_id" id="e_group" onchange="location.href=value">
+                {% for e_group in e_groups %}
+                <option value="{{url_for('question.select_element',l=grade_id,g=e_group.id, guest=guest)}}">{{e_group.e_group}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
 
-<select name="grade" id="grade" onchange="location.href=value">
-    {% for grade in grades %}
-    <option value="{{url_for('question.select_element', l=grade.id, guest=guest)}}">{{grade.grade}}</option>
+<h2 class="text-center">項目を選択</h2>
+
+<div class="row mx-auto no-gutters">
+    {% for element in elements %}
+    <div class="col-lg-4 col-sm-6 mb-2">
+        <div class="position-relative element">
+            <h5 class="mt-2 mb-2 text-center card-title"><a href="{{url_for('question.show_first_question', e=element.id, guest=guest, review=0)}}" class="stretched-link">{{element.element}}</a></h5>
+            <h6 class="text-center">{{element.description}}</h6>
+        </div>
+    </div>
     {% endfor %}
-</select>
-<br>
-
-<select name="e_group_id" id="e_group" onchange="location.href=value">
-    {% for e_group in e_groups %}
-    <option value="{{url_for('question.select_element',l=grade_id,g=e_group.id, guest=guest)}}">{{e_group.e_group}}</option>
-    {% endfor %}
-</select>
-
-{% for element in elements %}
-<p><a href="{{url_for('question.show_first_question', e=element.id, guest=guest, review=0)}}">{{element.element}}</a></p>
-{% endfor %}
-
-<p><a href="{{url_for('pg.toppage')}}">トップページ</a></p>
-
+</div>
 
 <script>
     

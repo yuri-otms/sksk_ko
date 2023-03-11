@@ -1,20 +1,49 @@
-
 :root {
-    --primary:#0d6efd;
-    --dark:#002a5b;
+    --primary:#b6cdbf;
+    --dark:#e6c5cf;
     --body:#888;
+    --text:#604461;
     --box-shadow:0 8px 22px rgba(0,0,0,0.2);
 }
 
+.wrapper800  {
+  max-width:800px;
+  margin:0 auto;
+  padding:0 4%;
+}
+.wrapper1200  {
+  max-width:1600px;
+  margin:0 auto;
+  padding:0 4%;
+}
+
+body  {
+    background-color: #FFFFFF;
+}
+
+p   {
+    margin-bottom:5px;
+}
+
+a   {
+    text-decoration:none;
+}
+
 h1, h2, h3, h4, h4, h5, h6 {
-    color: var(--dark);
+    color: var(--text);
     font-weight:700;
+    font-family: 'Kaisei Decol', serif;
+}
+h1  {
+    color: #604461;
+    font-size:1.5em;
 }
 h2 {
+    font-size:1.4em;
     padding-top:0.5em;
 }
 h3  {
-    font-size:1.4em;
+    font-size:1.2em;
 }
 h4  {
     font-size:1.1em;
@@ -64,25 +93,30 @@ button {
 }
 select {
   margin: 3px;
-  padding: 7px;
-  border:1px solid;
-  border-color: #808080;
+  padding: 9px;
   border-radius: 5px;
+  background-color: var(--dark);
+  color:#ffffff;
+}
+.select_element:hover select{
+  background-color: var(--primary);
 }
 
+select:hover{
+  background-color: var(--primary);
+
+}
 .navbar-expand-lg  {
-    background-color: var(--dark) !important;
+  background-color: var(--dark) !important;
 }
 .navbar .nav-link{
-    color:#ffffff !important;
-    background-color: var(--dark);
+  color:var(--text) !important;
+  background-color: var(--dark);
 }
 .nav-item {
-    color:#FFFFFF;
-}
-
-.btn {
-    padding:14px 18px;
+    color:#222222;
+    font-weight:700;
+    font-family: 'Kaisei Decol', serif;
 }
 
 .navbar-toggler{
@@ -92,11 +126,15 @@ select {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-  
+.card-title a{
+  color:#ffffff;
+}
 
 .footer{
-    color:#ffffff !important;
+    color:var(--text) !important;
     background-color: var(--dark);
+    font-weight:500;
+    font-family: 'Kaisei Decol', serif;
     
 }
 
@@ -105,7 +143,7 @@ select {
 }
 
 main > .container {
-    padding: 80px 15px 0;
+    padding: 80px 0px 0;
   }
 
   html {
@@ -141,11 +179,6 @@ main > .container {
   display: flex;
   flex-direction: column;
 }
-.service a {
-  color:var(--dark);
-  text-decoration:none;
-}
-
 
 .left {
   margin-right: auto;
@@ -153,7 +186,6 @@ main > .container {
 .card-footer {
   display: flex !important;
 }
-
 
 .card-effect:hover {
   box-shadow:none;
@@ -173,40 +205,63 @@ section {
   padding-bottom:15px;
 }
 
-.service  {
-  position:relative;
-  overflow: hidden;
-}
-
-.service::after {
-  content:"";
-  position:absolute;
-  top:-100%;
-  left:0;
+.button {
+  font-size:1.3em;
+  font-family: 'Kaisei Decol', serif;
+  color:#ffffff;
   background-color: var(--primary);
-  width:100%;
-  height:100%;
-  opacity:0;
-  transition:all 0.35s ease;
-  z-index:-1;
+  border:0;
+  width:250px;
+  padding:10px;
+  border-radius: 8px;
+  margin:7px;
+  margin:0 auto;
 }
 
-.service:hover h5,
-.service:hover a,
-.service:hover div,
-.service:hover p {
-  color:#fff;
+.button a{
+  color: #ffffff;
+}
+.button:hover{
+  color:#ffffff;
+  background-color: var(--text);
+  transition: all 0.35s ease;
+}
+.top-button {
+  margin:10px;
+}
+.element {
+  height:130px;
+  font-size:1.3em;
+  font-family: 'Kaisei Decol', serif;
+  color:#ffffff;
+  background-color: var(--primary);
+  width:250px;
+  padding:10px;
+  margin:10px;
+  border-radius: 8px;
+  margin:0 auto;
+}
+.element:hover  {
+  color:#ffffff;
+  background-color: var(--text);
+  transition: all 0.35s ease;
 }
 
-.btn:hover {
-  border-color: #fff;
+.element option{
+  color: #ffffff;
+}
+.element:hover h6{
+  color:#ffffff;
+  transition: all 0.35s ease;
+}
+.no-padding{
+  padding-right:0px;
+  padding-left:0px;
 }
 
-.service:hover::after {
-  opacity:1;
-  top:0;
-}
-
-.space {
-  margin-bottom:70px;
+/*gridのgutter調整*/
+.row-0{
+    margin-left:0px;
+    margin-right:0px;
+ 
 }

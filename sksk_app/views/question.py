@@ -1,5 +1,6 @@
 import math
 import random
+from datetime import datetime
 from flask import Blueprint, redirect, url_for, render_template, session, request
 from flask_login import login_required, current_user
 from sqlalchemy import not_, func
@@ -9,6 +10,14 @@ import sksk_app.utils.edit as editor
 import sksk_app.utils.user as user_setting
 
 question = Blueprint('question', __name__, url_prefix='/question')
+
+
+@question.before_request
+def load_logged_in_user():
+    this_year = session.get('this_year')
+
+    if not this_year:
+       session['this_year'] = datetime.now().year
 
 @question.route('/check_login')
 def check_login():
