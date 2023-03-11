@@ -3,14 +3,33 @@
 
 <!-- toppage -->
 
-<p><a href="{{url_for('question.select_element', guest=1)}}">スタート</a></p>
+<img src="{{url_for('static', filename='images/Knowledge-bro.png')}}" width="300px" class="mx-auto d-block">
 
-<p><a href="{{url_for('question.check_login')}}">ログインしてスタート</a></p>
 
-<p><a href="{{url_for('question.start_review_grade')}}">間違えた問題の復習</a><br>
-最近間違えた問題からランダムに5問解きます。</p>
+<h2 class="text-center">問題を解く</h2>
 
-<p>{{grade}}</p>
+<div class="text-center ">
 
+    <div class="button position-relative">
+        <a class="stretched-link" href="{{url_for('question.select_element', guest=1)}}">スタート</a></p>
+    </div>
+
+<p>ログインなしで始められます。</p>
+
+<div class="button position-relative">
+    <a class="stretched-link" href="{{url_for('question.check_login')}}">ログインしてスタート</a>
+</div>
+
+<p>ユーザー登録をすることで、記録を残すことができます。</p>
+
+{% if current_user.is_authenticated %}
+
+<div class="button position-relative">
+    <a class="stretched-link" href="{{url_for('question.start_review_grade')}}">間違えた問題の復習</a>
+</div>
+<p>最近間違えた問題からランダムに5問解きます。</p>
+{% endif %}
+
+</div>
 
 {%endblock%}

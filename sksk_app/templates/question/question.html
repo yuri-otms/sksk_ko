@@ -3,14 +3,6 @@
 
 <h2>{{no}}問目</h2>
 
-<p>guest {{guest}}</p>
-
-<p>{{attribute.grade}}:  {{attribute.element}} ({{attribute.description}})</p>
-
-<p>session questions: {{session['questions']}}</p>
-
-<p>review: {{review}}
-
 {% if review == 1 %}
 【復習モード】
 {% endif %}</p>
@@ -41,9 +33,5 @@
     <button name="correct" value="0">不正解</button>
 </form>
 
-
-
-
-<p><a href="{{url_for('pg.toppage')}}">トップページ</a></p>
 
 {% endblock %}

@@ -16,7 +16,11 @@ def load_logged_in_user():
     edit = session.get('edit')
     check = session.get('check')
     approve = session.get('approve')
+    
+    this_year = session.get('this_year')
 
+    if not this_year:
+       session['this_year'] = datetime.now().year
 
     if not (edit or check or approve):
         flash('アクセスが許可されていません')

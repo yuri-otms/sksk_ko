@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, redirect, url_for, render_template, request, \
     flash, session
 from flask_login import login_required
@@ -14,6 +15,11 @@ edit = Blueprint('edit', __name__, url_prefix='/edit')
 @edit.before_request
 def load_logged_in_user():
     edit = session.get('edit')
+
+    this_year = session.get('this_year')
+
+    if not this_year:
+       session['this_year'] = datetime.now().year
 
     if not edit:
         flash('アクセスが許可されていません')

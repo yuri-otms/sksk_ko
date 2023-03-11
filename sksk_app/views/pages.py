@@ -1,7 +1,15 @@
-from flask import Blueprint, redirect, url_for, render_template
+from flask import Blueprint, redirect, url_for, render_template, session
+from datetime import datetime
 from sksk_app.models import Grade
 
 pg = Blueprint('pg', __name__)
+
+@pg.before_request
+def load_logged_in_user():
+    this_year = session.get('this_year')
+
+    if not this_year:
+       session['this_year'] = datetime.now().year
 
 @pg.route('/')
 def toppage():

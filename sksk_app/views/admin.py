@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, redirect, url_for, render_template, \
     request, flash, session
 from flask_login import login_required
@@ -12,6 +13,10 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 @admin.before_request
 def load_logged_in_user():
     admin = session.get('admin')
+    this_year = session.get('this_year')
+
+    if not this_year:
+       session['this_year'] = datetime.now().year
 
     if not admin:
         flash('アクセスが許可されていません')

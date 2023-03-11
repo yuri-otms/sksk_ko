@@ -10,6 +10,14 @@ import sksk_app.utils.user as user_setting
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
+
+@auth.before_request
+def load_logged_in_user():
+    this_year = session.get('this_year')
+
+    if not this_year:
+       session['this_year'] = datetime.now().year
+
 @auth.route('/signup')
 def signup():
     page_title = 'ユーザωー登録'
