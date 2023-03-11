@@ -94,7 +94,9 @@ button {
   padding: 7px;
   background-color: #f5deb3;
   border-radius: 5px;
-  white-space: nowrap
+  white-space: nowrap;
+  text-align: center;
+
 }
 select {
   margin: 3px;
@@ -249,6 +251,7 @@ section {
   font-family: 'Noto Sans JP', sans-serif;
   border:5px solid var(--dark);
   border-radius: 9px;
+  margin-top:15px;
   margin-bottom:10px;
 }
 
@@ -347,7 +350,7 @@ section {
 
 .hint {
   margin:0 auto;
-  margin-top:30px;
+  margin-top:20px;
   padding:7px;
   width:300px;
   background-color: var(--text);
@@ -382,4 +385,24 @@ section {
   color:#ffffff;
   margin-left:7px;
   font-family: 'Noto Sans JP', sans-serif;
+}
+
+.result {
+  text-align: center;
+  margin:20px;
+  margin-bottom:40px;
+}
+
+.result span{
+  background-color: var(--text);
+  color:#ffffff;
+  font-family: 'Kaisei Decol', serif;
+  font-size:1.5em;
+  padding:20px;
+  border-radius: 30px;
+}
+.result p {
+  margin-top:30px;
+  margin-bottom:30px;
+
 }

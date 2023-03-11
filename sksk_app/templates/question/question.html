@@ -2,8 +2,15 @@
 {% block body %}
 
 {% if review == 1 %}
-【復習モード】
+<h2>項目の復習モード</h2>
 {% endif %}
+
+{% if review == 2 %}
+<h2>級全体の復習モード</h2>
+{% endif %}
+
+
+
 
 <div class="question">
 <h2>{{no}}問目</h2>

@@ -1,29 +1,35 @@
-{% extends "base.html" %}
+{% extends "base375.html" %}
 {% block body %}
 
-<h2>完了</h2>
+<h2 class="text-center">5問完了!</h2>
 
-<p>guest {{guest}}</p>
 
-<p>{{no}}問中{{correct_answer}}問正解！</p>
 
-<p>{{correct_ratio}} ％</p>
+<div class="result">
+    <h3>正答率</h3>
+    <p><span>{{correct_ratio}} ％</span></p>
 
-<p>review: {{review}}</p>
+    <h3>正答数</h3>
+    <p><span>{{no}}問中 {{correct_answer}}問正解！</span></p>
+</div>
 
-<p>トップページに戻る</p>
 
 {% if not review == 2 %}
 {% if not correct_ratio == 100 %}
-<p><a href="{{url_for('question.start_review_element', guest=guest)}}">間違えた問題を復習する</a></p>
+<div class="button position-relative mb-2">
+    <a class="stretched-link" href="{{url_for('question.start_review_element', guest=guest)}}">間違えた問題を復習する</a>
+</div>
 {% endif %}
 
 {% if next_element %}
-    <p><a href="{{url_for('question.show_first_question', e = next_element.id, guest=guest, review=0)}}">次の項目({{next_element.element}})に進む</a></p>
+    <div class="button position-relative mb-2">
+    <a class="stretched-link" href="{{url_for('question.show_first_question', e = next_element.id, guest=guest, review=0)}}">次の項目({{next_element.element}})に進む</a>
+    </div>
 {% endif %}
 {% endif %}
 
-
-<p><a href="{{url_for('pg.toppage')}}">トップページ</a></p>
+<div class="button position-relative text-center">
+    <a class="stretched-link" href="{{url_for('pg.toppage')}}">トップページに戻る</a>
+    </div>
 
 {% endblock %}
