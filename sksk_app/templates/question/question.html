@@ -11,49 +11,73 @@
 <p>{{question.japanese}}</p>
 </div>
 
-<!-- <div class="hint">
+<div id="after_button">
+
+<div class="hint">
     <h3>ヒント</h3>
 
     <dl>
     {%for hint in question['hint'] %}
-    <dt>{{hint.japanese}}</dt>
-    <dd>{{hint.foreign_l}}</dd>
+    <dt id="hint{{hint.id}}">{{hint.japanese}}</dt>
+    <dd id="foreign{{hint.id}}">　</dd>
+    <script>
+        'use strict';
+        {
+            document.getElementById("hint{{hint.id}}").onclick = function() {
+                    event.preventDefault;
+                    document.getElementById("foreign{{hint.id}}").innerHTML = "{{hint.foreign_l}}";
+                }
+        };
+    </script>
     {% endfor %}
     </dl>
+    <p class="note">単語をクリックすると、訳が表示されます。</p>
 </div>
 
 <div class="show_answer">
-<button type="button" class="button">答え合わせ</button>
-</div> -->
-
-<div class="answer">
-<p>{{question.foreign_l}}</p>
+<button id="show" type="button" class="button" style="width:300px;">答え合わせ</button>
 </div>
 
-<div class="audio mb-2 text-center" onclick="audio()"><img src="{{url_for('static', filename='images/play.png')}}" alt="再生" width="40"></div>
-<audio id="btn_audio" preload="auto">
-    <source src="{{url_for('static', filename=audio_file)}}" type="audio/mp3">
-</audio>
 
-<div class="correct">
-    {% if guest %}
-    <form action="{{url_for('question.record_score_temp')}}" method="POST">
-    {% else %}
-    <form action="{{url_for('question.record_score')}}" method="POST">
-    {% endif %}
-        <input type="hidden" name="guest" value="{{guest}}">
-        <input type="hidden" name="no" value="{{no}}">
-        <input type="hidden" name="review" value="{{review}}">
-        <button class="currect_button" name="correct" value="1">正解</button>
-        <button class="currect_button" name="correct" value="0" style="-right:0;">不正解</button>
-    </form>
 </div>
+
 
 <script>
+    'use strict';
     function audio() {
     document.getElementById('btn_audio').currentTime = 0; //連続クリックに対応
     document.getElementById('btn_audio').play(); //クリックしたら音を再生
-}
+    }
+    document.getElementById("show").onclick = function() {
+            event.preventDefault;
+            document.getElementById("after_button").innerHTML = `
+            <div class="answer">
+            <p>{{question.foreign_l}}</p>
+            </div>
+
+            <div class="audio-button">
+                <div class="audio mb-2 text-center" onclick="audio()"><img src="{{url_for('static', filename='images/play.png')}}" alt="再生" width="40"></div>
+            </div>
+            <audio id="btn_audio" preload="auto">
+                <source src="{{url_for('static', filename=audio_file)}}" type="audio/mp3">
+            </audio>
+
+            <div class="correct">
+                {% if guest %}
+                <form action="{{url_for('question.record_score_temp')}}" method="POST">
+                {% else %}
+                <form action="{{url_for('question.record_score')}}" method="POST">
+                {% endif %}
+                    <input type="hidden" name="guest" value="{{guest}}">
+                    <input type="hidden" name="no" value="{{no}}">
+                    <input type="hidden" name="review" value="{{review}}">
+                    <button class="currect_button" name="correct" value="1">正解</button>
+                    <button class="currect_button" name="correct" value="0" style="-right:0;">不正解</button>
+                </form>
+            </div>
+            `;
+            };
+
 </script>
 
 

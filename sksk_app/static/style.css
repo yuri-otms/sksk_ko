@@ -247,7 +247,6 @@ section {
   margin:auto;
   font-size:1.5em;
   font-family: 'Noto Sans JP', sans-serif;
-  /* background-color: var(--dark); */
   border:5px solid var(--dark);
   border-radius: 9px;
   margin-bottom:10px;
@@ -269,7 +268,7 @@ section {
   width:300px;
   position: absolute;
   bottom: 0;
-  height:120px;
+  height:125px;
   left: 0;
   right: 0;
   margin: auto;
@@ -309,10 +308,18 @@ section {
   color:#ffffff;
   background-color: var(--text);
   border:0;
-  width:300px;
   padding:10px;
   border-radius: 8px;
   margin:10px auto;
+}
+.audio-button {
+  width:300px;
+  position:absolute;
+  bottom:0;
+  height:205px;
+  right: 0;
+  left: 0;
+  margin: auto;
 }
 .audio:hover  {
   color:#ffffff;
@@ -368,4 +375,11 @@ section {
   text-align: right;
   color: #ffffff;
   font-family: 'Noto Serif KR', serif;
+}
+
+.note {
+  font-size:0.6em;
+  color:#ffffff;
+  margin-left:7px;
+  font-family: 'Noto Sans JP', sans-serif;
 }
