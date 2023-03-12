@@ -589,3 +589,15 @@ section {
   background-color: var(--text);
   transition: all 0.35s ease;
 }
+
+.flash-message  {
+  margin: 0 auto;
+  text-align: center;
+  border:3px solid var(--dark);
+  border-radius:7px;
+  font-size:1.2em;
+  font-family: 'Kaisei Decol', serif;
+  color:var(--text);
+  width:375px;
+  padding:10px;
+}

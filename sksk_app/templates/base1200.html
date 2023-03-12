@@ -76,12 +76,13 @@
     <main>
         <div class="container wrapper1200">
             <div class="row">
-                <div class="col-lg-10 mx-auto">
-    {%for message in get_flashed_messages() %}
-    
-    {{message}}
-
-    {% endfor %}
+                <div class="col-lg-1 mx-auto">
+                    {%for message in get_flashed_messages() %}
+                    <div class="flash-message mb-1">
+                        {{message}}
+                
+                    </div>
+                    {% endfor %}
 
 
     {% block body %}
