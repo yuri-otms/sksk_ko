@@ -25,8 +25,6 @@ class LoginManager:
         session['approve'] = user.approve
         session['admin'] = user.admin
 
-        return user
-
 class UserManager:
 
     def register_user(name, email, password):

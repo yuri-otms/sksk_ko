@@ -1,4 +1,4 @@
-{%extends "base.html" %}
+{%extends "base375.html" %}
 {% block body %}
 
 
@@ -10,7 +10,8 @@
         <form action="{{url_for('auth.login')}}" method="post" class="login-form">
             <input type="text" name="email" placeholder="メールアドレス" required class="form-control">
             <input type="password" name="password" placeholder="パスワード" required class="form-control">
-            <button type="submit" class="btn btn-primary">ログイン</button>
+            <input type="hidden" name="question" value="{{question}}">
+            <button type="submit" class="login-button form-control">ログイン</button>
         </form>
     </div>
 

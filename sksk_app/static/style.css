@@ -547,3 +547,45 @@ section {
 .request-title  {
   width:250px;
 }
+
+.login-button {
+  font-size:1.3em;
+  font-family: 'Kaisei Decol', serif;
+  color:#ffffff;
+  background-color: var(--primary);
+  border:0;
+  padding:10px;
+  border-radius: 8px;
+  margin:7px;
+  margin:0 auto;
+}
+
+.login-button a{
+  color: #ffffff;
+}
+.login-button:hover{
+  color:#ffffff;
+  background-color: var(--text);
+  transition: all 0.35s ease;
+}
+
+.login-back {
+  font-size:1.3em;
+  font-family: 'Kaisei Decol', serif;
+  color:#ffffff;
+  background-color: var(--dark);
+  border:0;
+  padding:10px;
+  border-radius: 8px;
+  margin:7px;
+  margin:0 auto;
+}
+
+.login-back a{
+  color: #ffffff;
+}
+.login-back:hover{
+  color:#ffffff;
+  background-color: var(--text);
+  transition: all 0.35s ease;
+}
