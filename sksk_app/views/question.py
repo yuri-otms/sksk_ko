@@ -24,19 +24,7 @@ def check_login():
     if current_user.is_authenticated:
         return redirect(url_for('question.confirm_login'))
     else:
-        return redirect(url_for('question.login'))
-
-@question.route('/login', methods=['POST', 'GET'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        user_setting.LoginManager.login(email, password)
-
-        return redirect(url_for('question.check_login'))
-
-    page_title = 'ログイン'
-    return render_template('question/login.html', page_title=page_title)
+        return redirect(url_for('auth.login', question=1))
 
 @question.route('/confirm_login')
 @login_required

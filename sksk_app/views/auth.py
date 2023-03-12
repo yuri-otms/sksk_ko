@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, \
     flash, url_for, redirect,session
 from flask_login import logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from sqlalchemy import func
 
@@ -20,12 +21,11 @@ def load_logged_in_user():
 
 @auth.route('/signup')
 def signup():
-    page_title = 'ユーザωー登録'
+    page_title = 'ユーザー登録'
     return render_template('auth/signup.html', page_title=page_title)
 
-# RPGデータ登録
-@auth.route('/signup', methods=['post'])
-def signup_post():
+@auth.route('/signup/check', methods=['post'])
+def signup_check():
     name = request.form['name']
     email = request.form['email']
     password = request.form['password']
@@ -34,6 +34,16 @@ def signup_post():
     if user:
         flash('メールアドレスが既に登録されています。')
         return redirect(url_for('auth.signup'))
+     
+    return render_template('auth/signup_check.html', name=name, email=email, password=password)
+
+
+# RPGデータ登録
+@auth.route('/signup', methods=['post'])
+def signup_post():
+    name = request.form['name']
+    email = request.form['email']
+    password = request.form['password']
 
     user_setting.UserManager.register_user(name, email, password)
 
@@ -42,9 +52,7 @@ def signup_post():
 # RPG画面表示
 @auth.route("/signup_done")
 def signup_done():
-
     flash('ユーザー登録を行いました。')
-
     return redirect(url_for('auth.login'))
 
 
@@ -53,11 +61,21 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        user_setting.LoginManager.login(email, password)
-        return redirect(url_for('pg.toppage'))
+        question = int(request.form['question'])
 
+        user_setting.LoginManager.login(email, password)
+
+        if question:
+            return redirect(url_for('question.check_login'))
+        else:
+            return redirect(url_for('pg.toppage'))
+
+    if request.args.get('question'):
+        question = int(request.args.get('question'))
+    else:
+        question = 0
     page_title = 'ログイン'
-    return render_template('auth/login.html',page_title=page_title)
+    return render_template('auth/login.html',page_title=page_title, question=question)
 
 
 @auth.route('/logout')
