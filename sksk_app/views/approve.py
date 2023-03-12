@@ -103,7 +103,7 @@ def release_questions_execute():
 @login_required
 def release_questions_done():
     flash('問題文を公開しました。')
-    return redirect(url_for('req.index'))
+    return redirect(url_for('approve.not_appoved_questions'))
 
 
 @approve.route('/unrelease/questions', methods=['POST'])
@@ -138,8 +138,14 @@ def unrelease_questions_done():
 @approve.route('/not_approved/questions')
 @login_required
 def not_appoved_questions():
-    edited_questions = Question.query.with_entities(Question.id, Grade.grade, Element.element, Question.japanese, Question.foreign_l).join(Element).join(E_Group).join(Grade).filter(or_(Question.process==5, Question.process==9)).order_by(Question.id)
-    return render_template('approve/not_approved_questions.html', questions=edited_questions)
+    questions_raw = Question.query.filter(or_(Question.process==5, Question.process==9)).order_by(Question.id)
+
+    questions = []
+    for question_raw in questions_raw:
+        question = editor.QuestionManager.fetch_question_with_attribute(question_raw.id)
+        questions.append(question)
+
+    return render_template('approve/not_approved_questions.html', questions=questions)
 
 @approve.route('/approved/questions')
 @login_required

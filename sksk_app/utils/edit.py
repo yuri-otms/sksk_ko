@@ -1,6 +1,7 @@
 from flask import request
 from sqlalchemy import func
 from datetime import datetime
+import glob
 
 import MeCab
 from konlpy.tag import Okt
@@ -414,6 +415,11 @@ class QuestionManager:
         e_group = db.session.get(E_Group, element.e_group)
         grade = db.session.get(Grade, e_group.grade)
         
+        file = 0
+        file_name = 'sksk_app/static/audio/' + str(question.id).zfill(5) + '.mp3'
+        if  glob.glob(file_name):
+            file = 1
+
         question_added = {
             "id":question.id,
             "grade":grade.grade,
@@ -428,6 +434,7 @@ class QuestionManager:
             "sida":int(question.sida),
             "will":int(question.will),
             "position": question.position,
+            "audio":file
         }
 
         return question_added
