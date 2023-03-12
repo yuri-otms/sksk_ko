@@ -40,10 +40,13 @@
         <th>外国語</th>
         <th>作成者</th>
         <th>編集</th>
-        <th>公開</th>
+        <th>状態</th>
         <th><label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
         <th>音声</th>
     </tr>
+    {% if not questions[0] %}
+    <tr><td colspan="8">問題文はありません</td></tr>
+    {% endif %}
     {% for question in questions %}
     <tr>
         <td>{{question.id}}</td>
@@ -55,21 +58,35 @@
             <a class="action" href="{{url_for('edit.delete_question', id=question.id)}}">削除</a>
         </td>
         <td>
-            {% if question.process == 8 %}
-            ○
-            {% else %}
-            ×
+            {% if question.process == 4 %}
+            確認依頼
+            {% elif question.process == 5 %}
+            確認済み
+            {% elif question.process == 6 %}
+            確認却下
+            {% elif question.process == 7 %}
+            再提出
+            {% elif question.process == 8 %}
+            公開
+            {% elif question.process == 9 %}
+            非公開
+
+
             {% endif %}
         </td>
         <td>
+            {% if question.process == 5 or question.process == 8 %}
             <form>
             <input type="checkbox" class="checks" name="question" value="{{question.id}}">
+            {% endif %}
         </td>
         <td>
             {% if question.audio %}
             ○
             {% else %}
-            <a class="action" href="{{url_for('edit.create_audio_file', e= element.id, q=question.id)}}">作成</a>
+                {% if question.process == 5 or question.process == 8 %}
+                <a class="action" href="{{url_for('edit.create_audio_file', e= element.id, q=question.id, a=0)}}">作成</a>
+                {% endif %}
             {% endif %}
         </td>
     </tr>

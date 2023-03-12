@@ -16,9 +16,16 @@
         <th>項目</th>
         <th>日本語</th>
         <th>韓国語</th>
+        <th>音声</th>
         <th>公開<br>
         <label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
     </tr>
+    {% if not questions[0] %}
+    <tr>
+        <td colspan="7">現在、確認済みの未公開の問題文はありません。
+        </td>
+    </tr>
+    {% endif %}
     {% for question in questions %}
     <tr>
         <td>{{question.id}}</td>
@@ -26,7 +33,17 @@
         <td>{{question.element}}</td>
         <td>{{question.japanese}}</td>
         <td>{{question.foreign_l}}</td>
-        <td><input type="checkbox" class="checks" name="question" value="{{question.id}}"></td>
+        <td>{% if not question.audio %}
+            <a class="action" href="{{url_for('edit.create_audio_file', e=question.element_id, q=question.id, a=1)}}">作成</a>
+            {% else %}
+            ○
+            {% endif %}
+        </td>
+        <td>
+            {% if question.audio %}
+            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>

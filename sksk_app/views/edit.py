@@ -1010,17 +1010,23 @@ def delete_hint_done():
 def create_audio_file():
     question_id = request.args.get('q')
     element_id = request.args.get('e')
+    approve = int(request.args.get('a'))
 
     api.GoogleCloud.create_audio_file(question_id)
-    return redirect(url_for('edit.create_audio_file_done', e=element_id))
+
+    return redirect(url_for('edit.create_audio_file_done', e=element_id, a=approve))
 
 @edit.route('/create/audio_file_done')
 @login_required
 def create_audio_file_done():
     element_id = request.args.get('e')
+    approve = int(request.args.get('a'))
 
     flash('音声ファイルを作成しました。')
-    return redirect(url_for('edit.show_questions', e=element_id))
+    if approve:
+        return redirect(url_for('approve.not_appoved_questions'))
+    else:
+        return redirect(url_for('edit.show_questions', e=element_id))
 
 
 @edit.route('/create/audio_files', methods=['POST'])
