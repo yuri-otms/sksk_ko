@@ -1,14 +1,17 @@
-{% extends "base.html" %}
+{% extends "base1200.html" %}
 
 {% block body %}
 
 <h2>公開されている問題</h2>
 
-<p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
+<div class="button position-relative" style="margin:10px;">
+    <a class="stretched-link" href="{{url_for('req.index')}}">依頼インデックスへ</a>
+</div>
+
 
 <form action="{{url_for('approve.unrelease_questions')}}" method="POST">
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>級</th>
         <th>項目</th>
@@ -28,11 +31,15 @@
     </tr>
     {% endfor %}
 </table>
-<button>非公開にする</button>
-<button type="button" onclick="history.back()">戻る</button>
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">非公開にする</button>
+</div>
 </form>
 
-<p><a href="{{url_for('req.index')}}">依頼インデックスへ</a></p>
+<div class="button position-relative" style="margin:10px;">
+    <a class="stretched-link" href="{{url_for('req.index')}}">依頼インデックスへ</a>
+</div>
 
 <script>
     //チェックボックスを全て選択、全て解除

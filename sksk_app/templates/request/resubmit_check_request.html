@@ -4,35 +4,47 @@
 
 <h2>確認依頼の再提出</h2>
 
-<h3>確認依頼を再提出する</h3>
+<h3>確認依頼の詳細</h3>
 
-<form action="{{url_for('req.resubmit_check_request_check')}}" method="POST">
-    タイトル<input type="text" name="title" value="問題文の確認依頼(再提出)" style="width:300px;"><br>
-    詳細<textarea name="detail" style="width:400px;"></textarea><br>
 
-<h3>再提出する確認依頼</h3>
-
-    <table>
-        <tr>
-            <th>id</th>
-            <td>{{request.id}}</td>
-        </tr>
+<table class="table">
+    <form action="{{url_for('req.resubmit_check_request_check')}}" method="POST">
         <tr>
             <th>タイトル</th>
-            <td>{{request.title}}</td>
+            <td>
+                <input type="text" name="title" value="問題文の確認依頼(再提出)" style="width:300px;">
+            </td>
         </tr>
         <tr>
             <th>詳細</th>
+            <td><textarea name="detail" style="width:300px;"></textarea></td>
+        </tr>
+    </table>
+
+
+<h3>再提出する確認依頼</h3>
+
+    <table class="table list">
+        <tr>
+            <th style="background-color:#e6c5cf;">id</th>
+            <td>{{request.id}}</td>
+        </tr>
+        <tr>
+            <th style="background-color:#e6c5cf;">タイトル</th>
+            <td>{{request.title}}</td>
+        </tr>
+        <tr>
+            <th style="background-color:#e6c5cf;">詳細</th>
             <td>{{request.detail}}</td>
         </tr>
         <tr>
-            <th>依頼日時</th>
+            <th style="background-color:#e6c5cf;">依頼日時</th>
             <td>{{request.requested_at}}</td>
         </tr>
     </table>
 
-    <table>
-        <tr>
+    <table class="table list">
+        <tr class="title">
             <th>id</th>
             <th>級</th>
             <th>項目</th>
@@ -47,7 +59,7 @@
             <td>{{question.element}}</td>
             <td>{{question.japanese}}</td>
             <td>{{question.foreign_l}}</td>
-            <td><a href="{{url_for('edit.edit_question',q=question.id, e=question.element_id, r=request.id)}}">編集</a></td>
+            <td><a class="action" href="{{url_for('edit.edit_question',q=question.id, e=question.element_id, r=request.id)}}">編集</a></td>
         </tr>
         <tr>
             <td colspan="6">{{question.message}}</td>
@@ -55,8 +67,10 @@
         {% endfor %}
     </table>
     <input type="hidden" name="request_id" value="{{request.id}}">
-    <button>確認</button>
-    <button type="button" onclick="history.back()">戻る</button>
+    <div class="right">
+        <button class="back" type="button" onclick="history.back()">戻る</button>
+        <button class="add">確認</button>
+    </div>
     </form>
     
 {% endblock %}

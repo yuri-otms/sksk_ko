@@ -7,24 +7,34 @@
 
 <!-- 確認者 -->
 {% if session['edit'] %}
+<div class="component">
 
 <h3>編集</h3>
 <h4>確認依頼の作成</h4>
-<p><a href="{{url_for('req.not_checked_questions')}}">未確認の問題</a></p>
+
+<div class="button text-center position-relative" style="margin:5px;">
+<a class="stretched-link" href="{{url_for('req.not_checked_questions')}}">未確認の問題</a>
+</div>
 
 <h4>確認依頼中</h4>
 {% if requests_not_yet[0] %}
-<table>
-    <tr>
-       <th>id</th>
-       <th>タイトル</th> 
-       <th>日時</th>
+<table class="request-table">
+    <tr class="title">
+       <th class="request-id">id</th>
+       <th class="request-title">タイトル</th> 
+       <th>依頼日時</th>
+       <th>削除</th>
     </tr>
     {% for request in requests_not_yet %}
     <tr>
         <td>{{request.id}}</td>
-        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td class="td-middle"><a class="action" href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
         <td>{{request.requested_at}}</td>
+        <td><form>
+            <input type="hidden" name="request_id" value="{{request.id}}">
+            <button class="action" formaction="{{url_for('req.delete_check_request')}}" formmethod="POST" style="margin:0px;padding:5px;">削除</button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
 </table>
@@ -36,17 +46,17 @@
 <h4>確認完了</h4>
 
 {% if requests_done[0] %}
-<table>
-    <tr>
-       <th>id</th>
-       <th>タイトル</th> 
-       <th>日時</th>
-       <th>結果の有無</th>
+<table class="request-table">
+    <tr class="title">
+       <th class="request-id">id</th>
+       <th class="request-title">タイトル</th> 
+       <th>依頼日時</th>
+       <th>結果</th>
     </tr>
     {% for request in requests_done %}
     <tr>
         <td>{{request.id}}</td>
-        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td><a class="action" href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
         <td>{{request.requested_at}}</td>
         <td>
             {% if request.condition == 0 %}
@@ -64,28 +74,32 @@
 <p>確認が完了した依頼はありません。</p>
 {% endif %}
 
+</div>
 {% endif %}
-
 <!-- 編集者　終わり -->
+
 
 <!-- 確認者 -->
 {% if session['check'] %}
+<div class="component">
 <h3>確認</h3>
 <h4>対応中の確認依頼</h4>
 
 {% if requests_not_checked[0] %}
 
-<table>
-    <tr>
-        <th>id</th>
-        <th>タイトル</th> 
-        <th>日時</th>
+<table class="request-table">
+    <tr class="title">
+        <th class="request-id">id</th>
+        <th class="request-title">タイトル</th> 
+        <th>依頼日時</th>
+        <th></th>
      </tr>
      {% for request in requests_not_checked %}
     <tr>
         <td>{{request.id}}</td>
-        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td><a class="action" href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
         <td>{{request.requested_at}}</td>
+        <td></td>
         
     </tr>
     {% endfor %}
@@ -99,17 +113,17 @@
 
 {% if requests_checked[0] %}
 
-<table>
-    <tr>
-       <th>id</th>
-       <th>タイトル</th> 
-       <th>日時</th>
+<table class="request-table">
+    <tr class="title">
+       <th class="request-id">id</th>
+       <th class="request-title">タイトル</th> 
+       <th>依頼日時</th>
        <th>完了</th>
     </tr>
     {% for request in requests_checked %}
     <tr>
         <td>{{request.id}}</td>
-        <td><a href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
+        <td><a class="action" href="{{url_for('req.show_requested_questions', r=request.id)}}">{{request.title}}</a></td>
         <td>{{request.requested_at}}</td>
         <td>{{request.finished_at}}</td>
     </tr>
@@ -119,30 +133,35 @@
 <p>完了した確認依頼はありません。</p>
 {% endif %}
 
+</div>
 {% endif %}
 <!-- 確認者　終わり -->
 
 <!-- 承認者 -->
 {% if session['approve'] %}
+<div class="component">
 <h3>承認</h3>
 
 <h4>公開処理</h4>
 {% if requests_not_approved %}
-<p><a href="{{url_for('approve.not_appoved_questions')}}">未公開の問題</a></p>
+<div class="button text-center position-relative" style="margin:5px;">
+<a class="stretched-link" href="{{url_for('approve.not_appoved_questions')}}">未公開の問題</a>
+</div>
 {% else %}
 <p>未公開・確認済みの問題はありません、</p>
 {% endif %}
 
 <h4>未公開処理</h4>
 {% if requests_not_approved %}
-<p><a href="{{url_for('approve.appoved_questions')}}">公開している問題</a></p>
+<div class="button text-center position-relative" style="margin:5px;">
+<a class="stretched-link" href="{{url_for('approve.appoved_questions')}}">公開している問題</a>
+</div>
 {% else %}
 <p>公開されている問題はありません、</p>
 {% endif %}
 
-
+</div>
 {% endif %}
-
 <!-- 承認者　終わり -->
 
 {% endblock %}
