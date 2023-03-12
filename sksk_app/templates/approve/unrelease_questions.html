@@ -6,8 +6,8 @@
 
 <p>以下の問題を非公開にしますか。</p>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>日本語</th>
         <th>韓国語</th>
@@ -29,9 +29,11 @@
     {% endfor %}
 </table>
 
-<p><a href="{{url_for('approve.unrelease_questions_execute', releases=releases, element_id=element_id)}}">非公開にする</a></p>
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <a class="button" href="{{url_for('approve.unrelease_questions_execute', releases=releases, element_id=element_id)}}">非公開にする</a>
 
-<button type="button" onclick="history.back()">戻る</button>
+</div>
 
 
 {% endblock %}
