@@ -1,12 +1,12 @@
-{%extends "base.html" %}
+{%extends "base1200.html" %}
 {% block body %}
 
 <h2>問題文の編集</h2>
 
 <form action="{{url_for('edit.edit_question_check')}}" method="POST">
-<table>
-    <tr>
-        <th>レベル</th>
+<table class="table list">
+    <tr class="title">
+        <th>級</th>
         <th>項目グループ</th>
         <th>項目</th>
         <th>文体</th>
@@ -65,11 +65,11 @@
         <td>{{question.position}}</td>
     </tr>
 </table>
-<table>
-    <tr>
+<table class="list table">
+    <tr class="title">
         <th>id</th>
         <th>日本語</th>
-        <th>翻訳</th>
+        <th>外国語</th>
     </tr>
     <tr>
         <td>{{question.id}}</td>
@@ -86,11 +86,12 @@
     <input type="hidden" name="request_id" value="{{request_id}}">
     <input type="hidden" name="question_id" value="{{question.id}}">
     <input type="hidden" name="position" value="{{question.position}}">
-    <button>確認</button>
-    <button type="button" onclick="history.back()">戻る</button>
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">確認</button>
+</div>
 </form>
 
-<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
 
 <script>
     

@@ -1,4 +1,4 @@
-{%extends "base.html" %}
+{%extends "base1200.html" %}
 {% block body %}
 
 <h2>ヒントの追加</h2>
@@ -8,8 +8,8 @@
 
 <form action="{{url_for('edit.add_word_hint')}}" method="POST">
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>日本語</th>
         <th>韓国語</th>
     </tr>
@@ -23,8 +23,8 @@
     </tr>
 </table>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>日本語</th>
         <th>韓国語</th>
@@ -35,15 +35,16 @@
         <td>{{question.foreign_l}}</td>
     </tr>
 </table>
-
+<div class="right">
     <input type="hidden" name="question_id" value="{{question.id}}">
-    <button type="button" onclick="history.back()">戻る</button>
-    <button>確認</button>
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">確認</button>
+</div>
 </form>
 
 
 
-<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
+<p><a class="button" href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
 
 
 {% endblock %}

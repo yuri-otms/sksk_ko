@@ -28,16 +28,25 @@ def load_logged_in_user():
 @edit.route('/index')
 @login_required
 def index():
-    grade_id = editor.EditManager.fetch_grade()
+    #選択された項目グループの項目を表示
+    result = editor.EditManager.fetchAll()
+    grade_id = result[0]
+    e_group_id = result[1]
+    element_id = result[2]
+
     grade = db.session.get(Grade, grade_id)
-    grade_position = grade.position
+    e_group = db.session.get(E_Group, e_group_id)
+    element = db.session.get(Element, element_id)
+
     grades = Grade.query.all()
     e_groups = E_Group.query.filter(E_Group.grade==grade_id)
-    return render_template('edit/index.html', grade_id=grade_id, grades=grades, e_groups=e_groups, grade_position=grade_position)
+    elements = Element.query.filter(Element.e_group==e_group_id)
 
-@edit.route('/show', methods=['GET'])
+    return render_template('edit/index.html', grade=grade, grades=grades, e_group=e_group, e_groups=e_groups, element=element, elements=elements)
+
+@edit.route('/show/elements', methods=['GET'])
 @login_required
-def show():
+def show_elements():
     #選択された項目グループの項目を表示
     result = editor.EditManager.fetchAll()
     grade_id = result[0]
@@ -52,7 +61,28 @@ def show():
     elements = Element.query.filter(Element.e_group==e_group_id).order_by(Element.position.asc())
 
 
-    return render_template('edit/show.html', grades = grades, e_groups=e_groups, elements=elements,grade=grade,e_group=e_group)
+    return render_template('edit/show_elements.html', grades = grades, e_groups=e_groups, elements=elements,grade=grade,e_group=e_group)
+
+@edit.route('/show/grade')
+@login_required
+def show_grades():
+    grades = Grade.query.order_by(Grade.position.asc())
+
+    return render_template('edit/show_grades.html', grades=grades)
+
+@edit.route('/show/e_group')
+@login_required
+def show_e_groups():
+    result = editor.EditManager.fetchAll()
+    grade_id = result[0]
+    e_group_id = result[1]
+    grades = Grade.query.order_by(Grade.position.asc())
+    e_groups = E_Group.query.filter(E_Group.grade==grade_id).order_by(E_Group.position.asc())
+
+    e_group = db.session.get(E_Group, e_group_id)
+    grade = db.session.get(Grade, grade_id)
+
+    return render_template('edit/show_e_groups.html', grades=grades, grade=grade,e_group=e_group, e_groups=e_groups)
 
 @edit.route('/show/questions', methods=['GET'])
 def show_questions():
@@ -129,12 +159,10 @@ def show_hints():
 def add_grade():
     grade_name = request.form['grade']
     description = request.form['description']
-    position = request.form['position']
 
     grade = Grade(
         grade = grade_name,
-        description = description,
-        position = position
+        description = description
     
     )
 
@@ -157,14 +185,14 @@ def add_grade_execute():
     element = '新規項目'
     description = '新規項目'
     position = 1
-    editor.ElementManager.add_element(e_group_id, element, description, position)
+    editor.ElementManager.add_element(e_group_id, element, description)
     return redirect(url_for('edit.add_grade_done'))
 
 @edit.route('/add/grade/done')
 @login_required
 def add_grade_done():
     flash('レベルを登録を行いました。')
-    return redirect(url_for('edit.show'))
+    return redirect(url_for('edit.show_grades'))
 
 @edit.route('/edit/grade')
 @login_required
@@ -203,7 +231,7 @@ def edit_grade_execute():
 def edit_grade_done():
     flash('級を変更しました')
 
-    return redirect(url_for('edit.show'))
+    return redirect(url_for('edit.show_grades'))
 
 @edit.route('/delete/grade')
 @login_required
@@ -224,7 +252,7 @@ def delete_grade_execute():
 @login_required
 def delete_grade_done():
     flash('級を削除しました。')
-    return redirect(url_for('edit.show'))
+    return redirect(url_for('edit.show_grades'))
 
 @edit.route('/add/e_group', methods=['POST'])
 @login_required
@@ -232,14 +260,12 @@ def add_e_group():
     grade_id = request.form['grade']
     e_group = request.form['e_group_name']
     description = request.form['description']
-    position = request.form['position']
 
     grade = db.session.get(Grade, grade_id)
     e_group = E_Group(
         grade = grade,
         e_group = e_group,
-        description = description,
-        position = position
+        description = description
     )
 
     return render_template('edit/add_e_group.html', e_group=e_group, grade_name=grade.grade)
@@ -265,7 +291,7 @@ def add_e_group_execute():
 def add_e_group_done():
     grade_id = request.args.get('l')
     flash('項目グループを登録しました')
-    return redirect(url_for('edit.show', l=grade_id))
+    return redirect(url_for('edit.show_e_groups', l=grade_id))
 
 @edit.route('/edit/e_group')
 @login_required
@@ -311,7 +337,7 @@ def edit_e_group_execute():
 def edit_e_group_done():
     e_group_id = request.args.get('g')
     flash('項目グループを変更しました。')
-    return redirect(url_for('edit.show', g=e_group_id))
+    return redirect(url_for('edit.show_e_groups', g=e_group_id))
 
 @edit.route('/delete/e_group')
 @login_required
@@ -338,7 +364,7 @@ def delete_e_group_done():
     grade_id = request.args.get('l')
     flash('項目グループを削除しました。')
 
-    return redirect(url_for('edit.show', l=grade_id))
+    return redirect(url_for('edit.show_e_groups', l=grade_id))
 
 
 # 項目の追加
@@ -378,7 +404,7 @@ def add_element_done():
     grade_id = request.args.get('l')
     e_group_id = request.args.get('g')
     flash('項目を登録しました')
-    return redirect(url_for('edit.show', l=grade_id, g=e_group_id))
+    return redirect(url_for('edit.show_elements', l=grade_id, g=e_group_id))
 
 
 @edit.route('/edit/element')
@@ -437,7 +463,7 @@ def edit_element_execute():
 def edit_element_done():
     e_group_id = request.args.get('g')
     flash('項目を変更しました。')
-    return redirect(url_for('edit.show', g=e_group_id))
+    return redirect(url_for('edit.show_elements', g=e_group_id))
 
 @edit.route('/delete/element')
 @login_required
@@ -461,7 +487,7 @@ def delete_element_execute():
 @login_required
 def delete_element_done():
     e_group_id = request.args.get('g')
-    return redirect(url_for('edit.show', g=e_group_id))
+    return redirect(url_for('edit.show_elements', g=e_group_id))
 
 # 質問の追加・編集・削除
 @edit.route('/add/question', methods=['POST'])

@@ -1,12 +1,12 @@
-{%extends "base.html" %}
+{%extends "base1200.html" %}
 {% block body %}
 
 <h2>項目の追加</h2>
 
 <p>以下の項目を追加しますか？</p>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>項目グループ</th>
         <th>項目</th>
         <th>説明</th>
@@ -25,10 +25,10 @@
     <input type="hidden" name="element_name" value="{{element.element}}">
     <input type="hidden" name="description" value="{{element.description}}">
     <input type="hidden" name="position" value="{{element.position}}">
-    <button>追加</button>
-    <button type="button" onclick="history.back()">戻る</button>
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">追加</button>
+</div>
 </form>
-
-<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
 
 {% endblock %}

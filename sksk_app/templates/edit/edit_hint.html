@@ -1,13 +1,10 @@
-{% extends "base.html" %}
+{% extends "base1200.html" %}
 {% block body %}
 
 <h2>ヒントの編集</h2>
 
-<p><a href="{{url_for('edit.show_hints', e=question.element)}}">ヒントの登録に戻る</a></p>
-
-
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <td>id</td>
         <td>日本語</td>
         <td>韓国語</td>
@@ -20,8 +17,8 @@
 </table>
 
 {% if question.hint[0] %}
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <td>日本語</td>
         <td>韓国語</td>
         <td>削除</td>
@@ -30,12 +27,12 @@
     <tr>
         <td>{{hint.japanese}}</td>
         <td>{{hint.foreign_l}}</td>
-        <td><a href="{{url_for('edit.delete_hint', q=question.id, w=hint.id)}}">削除</a></td>
+        <td><a class="action" href="{{url_for('edit.delete_hint', q=question.id, w=hint.id)}}">削除</a></td>
     </tr>
     {% endfor %}
 </table>
 {% endif %}
 
-<p><a href="{{url_for('edit.show_hints', e=question.element)}}">ヒントの登録に戻る</a></p>
+<p><a class="button" href="{{url_for('edit.show_hints', e=question.element)}}">ヒントの登録に戻る</a></p>
 
 {% endblock %}

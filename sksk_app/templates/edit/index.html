@@ -1,58 +1,67 @@
-{% extends "base.html" %}
+{% extends "base1200.html" %}
 {% block body %}
 
-<h2>出題編集</h2>
+<h2>級・項目グループ・項目の編集</h2>
 
-<p><a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a></p>
-
-
-<div class="flex">
-    <select name="l" id="grade1" onchange="location.href=value">
-        {% for grade in grades %}
-        <option value="{{url_for('edit.index', l=grade.id)}}">{{grade.grade}}</option>
-        {% endfor %}
-    </select> 
-
-<form action="{{url_for('edit.show_questions')}}" method="GET">
-
-    
-    <select name="g" id="e_group1">
-        {% for e_group in e_groups %}
-        <option value="{{e_group.id}}">{{e_group.e_group}}</option>
-        {% endfor %}
-    </select>
-    <button>問題文の登録</button>
+<div class="edit-list">
+    <a class="button" href="{{url_for('edit.show_grades')}}">級の編集</a>
+    <a class="button" href="{{url_for('edit.show_e_groups')}}">項目グループの編集</a>
+    <a class="button" href="{{url_for('edit.show_elements')}}">項目の編集</a>
 </div>
+
+<h2>問題文・ヒントの編集</h2>
+
+<div class="edit-list">
+
+<table>
+    <tr>
+        <td>
+            <h4>級の選択</h4>
+            <select name="l" id="grade" onchange="location.href=value" class="select-attribute">
+                {% for grade in grades %}
+                <option value="{{url_for('edit.index', l=grade.id)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select> 
+        </td>
+        <td>
+            <h4>項目グループの選択</h4>
+            <select name="g" id="e_group" onchange="location.href=value" class="select-attribute">
+                {% for e_group in e_groups %}
+                <option value="{{url_for('edit.index', g=e_group.id)}}">{{e_group.e_group}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <form method="GET">
+            <h4>項目の選択</h4>
+            <select name="e" id="element" class="select-attribute">
+                {% for element in elements %}
+                <option value="{{element.id}}">{{element.element}}</option>
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <button class="button" formaction="{{url_for('edit.show_questions')}}">問題文の編集<br>
+                <span class="note"></span></button>
+            <button class="button" formaction="{{url_for('edit.show_hints')}}">ヒントの編集<br>
+            <span class="note">少し時間がかかります</span></button>
+
+
+        </td>
+    </tr>
+</table>
 </form>
-
-<div class="flex">
-    <select name="l" id="grade2" onchange="location.href=value">
-        {% for grade in grades %}
-        <option value="{{url_for('edit.index', l=grade.id)}}">{{grade.grade}}</option>
-        {% endfor %}
-    </select> 
-
-<form action="{{url_for('edit.show_hints')}}" method="GET">
-
-    
-    <select name="g" id="e_group2">
-        {% for e_group in e_groups %}
-        <option value="{{e_group.id}}">{{e_group.e_group}}</option>
-        {% endfor %}
-    </select>
-    <button>ヒントの登録</button>
-</div>
-</form>
-<p>(少し時間がかかります。)</p>
-
 
 
 
 <script>
 
-    let selected_grade = '{{grade_position}}' - 1;
-    document.getElementById("grade1").options[selected_grade].selected = true;
-    document.getElementById("grade2").options[selected_grade].selected = true;
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+    document.getElementById("e_group").options[selected_e_group].selected = true;
 
 </script>
 

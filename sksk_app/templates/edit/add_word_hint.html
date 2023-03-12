@@ -1,13 +1,12 @@
-{%extends "base.html" %}
+{%extends "base1200.html" %}
 {% block body %}
 
 <h2>ヒントの追加</h2>
-<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
 
 <p>この単語を登録、ヒントに追加しますか？</p>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th></th>
         <th>日本語</th>
         <th>韓国語</th>
@@ -40,17 +39,18 @@
         </td>
     </tr>
 </table>
-<div class="flex">
+
+<div class="right">
 <form action="{{url_for('edit.add_word_hint_edit')}}" method="POST">
     <input type="hidden" name="question_id" value="{{question.id}}">
     <input type="hidden" name="japanese_word" value="{{japanese_word}}">
     <input type="hidden" name="foreign_word" value="{{foreign_word}}">
-    <button>編集</button>
+    <button class="add">編集</button>
 </form>
 </div>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>日本語</th>
         <th>韓国語</th>
@@ -62,17 +62,19 @@
     </tr>
 </table>
 
+<div class="right">
 <form action="{{url_for('edit.add_word_hint_execute')}}" method="POST">
     <input type="hidden" name="question_id" value="{{question.id}}">
     <input type="hidden" name="japanese_word" value="{{japanese_word}}">
     <input type="hidden" name="foreign_word" value="{{foreign_word}}">
-    <button type="button" onclick="history.back()">戻る</button>
-    <button>追加</button>
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">追加</button>
 </form>
+</div>
 
 
 
-<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
+<p><a class="button" href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
 
 
 {% endblock %}

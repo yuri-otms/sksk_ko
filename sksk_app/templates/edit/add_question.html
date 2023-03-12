@@ -1,4 +1,4 @@
-{%extends "base.html" %}
+{%extends "base1200.html" %}
 {% block body %}
 
 <h2>問題文の追加</h2>
@@ -7,9 +7,9 @@
 
 <form action="{{url_for('edit.add_question_execute')}}" method="POST">
 {% for question in questions %}
-<table>
-    <tr>
-        <th>レベル</th>
+<table class="table list">
+    <tr class="title">
+        <th>級</th>
         <th>項目グループ</th>
         <th>項目</th>
         <th>文体</th>
@@ -45,8 +45,8 @@
         </td>
     </tr>
 </table>
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th></th>
         <th>日本語</th>
         <th>翻訳</th>
@@ -146,10 +146,11 @@
     <input type="hidden" name="will5" value="">
     {% endif %}
 
-    <button>追加</button>
-    <button type="button" onclick="history.back()">戻る</button>
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">追加</button>
+</div>
 </form>
 
-<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
 
 {% endblock %}
