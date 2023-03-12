@@ -54,7 +54,7 @@ class GoogleCloud:
         client = texttospeech.TextToSpeechClient()
         synthesis_input = texttospeech.SynthesisInput(text=text)
         voice = texttospeech.VoiceSelectionParams(
-            language_code="ko-KR", ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+            language_code="ko-KR", ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
         )
         audio_config = texttospeech.AudioConfig(
             audio_encoding=texttospeech.AudioEncoding.MP3,
