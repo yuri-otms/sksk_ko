@@ -1,62 +1,7 @@
-{%extends "base.html" %}
+{%extends "base1200.html" %}
 {% block body %}
 
-<h2>{{foreign_word}}</h2>
-
-<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
-
-<table>
-    <tr>
-        <th>日本語(候補)</th>
-        <th>韓国語</th>
-    </tr>
-    <tr>
-        <td>{{translated_word}}</td>
-        <td>{{foreign_word}}</td>
-    </tr>
-</table>
-
-<table>
-    <tr>
-        <th>id</th>
-        <th>日本語</th>
-        <th>韓国語</th>
-    </tr>
-    <tr>
-        <td rowspan="2">{{question.id}}</td>
-        <td>{{question.japanese}}</td>
-        <td>{{question.foreign_l}}</td>
-    </tr>
-    <tr>
-        <td>
-            <div class="flex">
-            {% for japanese_word in question['japanese_word'] %}
-            <form action="{{url_for('edit.add_word_hint')}}" method="POST">
-                <input type="hidden" name="question_id" value="{{question.id}}">
-                <input type="hidden" name="japanese_word" value="{{japanese_word}}">
-                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
-                <button>{{japanese_word}}</button>
-            </form>
-            {% endfor %}
-            </div>
-        </td>
-        <td>
-            <div class="flex">
-            {% for foreign_word in question['foreign_word'] %}
-            {% if not foreign_word == '.' %}
-            <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
-                <input type="hidden" name="question_id" value="{{question.id}}">
-                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
-                <button>{{foreign_word}}</button>
-            </form>
-            {% else %}
-            {% endif %}
-            {% endfor %}
-            </div>
-        </td>
-    </tr>
-</table>
-
+<h2 class="mb-4"><span class="hint-option">{{foreign_word}}</span></h2>
 
 <h3>登録されているヒント</h3>
 
@@ -64,20 +9,21 @@
 <p style="color:red">登録されています。</p>
 {% endif %}
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>日本語</th>
         <th>韓国語</th>
     </tr>
     {% for word in words %}
-    <tr>
-        {% if foreign_word == word['foreign_l'] %}
-        <td style="color:red">{{word['japanese']}}</td>
+    {% if foreign_word == word['foreign_l'] %}
+    <tr class="warning">
+        <td>{{word['japanese']}}</td>
         {% else %}
+        <tr>
         <td>{{word['japanese']}}</td>
         {% endif %}
         {% if foreign_word == word['foreign_l'] %}
-        <td style="color:red">{{word['foreign_l']}}</td>
+        <td>{{word['foreign_l']}}</td>
         {% else %}
         <td>{{word['foreign_l']}}</td>
         {% endif %}
@@ -89,22 +35,94 @@
     </tr>
     {% endif %}
 </table>
-<p><a href="{{url_for('edit.edit_hint', q=question.id)}}">ヒントの編集</a></p>
 
-<h3>登録されている単語</h3>
-<table>
-    <tr>
+<div class="right">
+    <p><a class="button" href="{{url_for('edit.edit_hint', q=question.id)}}">ヒントの編集</a></p>
+    </div>
+
+<h3>外国語文の単語から追加</h3>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>日本語</th>
         <th>韓国語</th>
-        <th>操作</th>
+    </tr>
+    <tr>
+        <td rowspan="2" class="td-middle">{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+    <tr>
+        <td>
+            <h4>韓国語の単語に対応する単語を選択して登録</h4>
+            <div class="flex" style="justify-content: center; ">
+            {% for japanese_word in question['japanese_word'] %}
+            <form action="{{url_for('edit.add_word_hint')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="japanese_word" value="{{japanese_word}}">
+                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
+                <button class="hint-word">{{japanese_word}}</button>
+            </form>
+            {% endfor %}
+            </div>
+        </td>
+        <td>
+            <h4>別の単語を選択する</h4>
+            <div class="flex" style="justify-content: center; ">
+            {% for foreign_word in question['foreign_word'] %}
+            {% if not foreign_word == '.' %}
+            <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
+                <button class="add-hint">{{foreign_word}}</button>
+            </form>
+            {% else %}
+            {% endif %}
+            {% endfor %}
+            </div>
+        </td>
+    </tr>
+</table>
+
+<h3>自動翻訳から追加</h3>
+<table class="table list">
+    <tr class="title">
+        <th>日本語(自動翻訳)</th>
+        <th>韓国語</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td class="td-middle">{{translated_word}}</td>
+        <td class="td-middle">{{foreign_word}}</td>
+        <td>
+            <form action="{{url_for('edit.add_word_hint')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="japanese_word" value="{{translated_word}}">
+                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
+                <button class="add">追加</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<h3>すでに登録されている単語を追加</h3>
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        <th></th>
     </tr>
 {% for foreign_word in foreign_words %}
 <tr>
-    <td>{{foreign_word['id']}}</td>
-    <td>{{foreign_word['japanese']}}</td>
-    <td>{{foreign_word['foreign_l']}}</td>
-    <td><a href="{{url_for('edit.add_hint', q= question.id, w=foreign_word['id'])}}">追加する</a></td>
+    <td class="td-middle">{{foreign_word['id']}}</td>
+    <td class="td-middle">{{foreign_word['japanese']}}</td>
+    <td class="td-middle">{{foreign_word['foreign_l']}}</td>
+    <td>
+        <div style="margin:15px;">
+        <a class="add" href="{{url_for('edit.add_hint', q= question.id, w=foreign_word['id'])}}">追加</a>
+        </div>
+    </td>
 </tr>
 {% endfor %}
 {% if not foreign_words[0] %}
@@ -114,8 +132,7 @@
 {% endif %}
 </table>
 
-
-<p><a href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
-
+<p>
+    <a class="button" href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
 
 {% endblock %}

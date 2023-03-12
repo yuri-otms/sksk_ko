@@ -1,4 +1,4 @@
-{%extends "base.html" %}
+{%extends "base1200.html" %}
 {% block body %}
 
 <h2>問題文の削除</h2>
@@ -6,9 +6,9 @@
 <p>以下の問題文を削除しますか？</p>
 
 <form action="{{url_for('edit.delete_question_execute')}}" method="POST">
-<table>
-    <tr>
-        <th>レベル</th>
+<table class="table list">
+    <tr class="title">
+        <th>級</th>
         <th>項目グループ</th>
         <th>項目</th>
         <th>文体</th>
@@ -22,8 +22,8 @@
         <td>{{question.position}}</td>
     </tr>
 </table>
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>日本語</th>
         <th>翻訳</th>
@@ -38,10 +38,10 @@
 
     <input type="hidden" name="question_id" value="{{question.id}}">
     <input type="hidden" name="element_id" value="{{question.element_id}}">
-    <button>削除</button>
-    <button type="button" onclick="history.back()">戻る</button>
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">削除</button>
+</div>
 </form>
-
-<a href="{{url_for('edit.show')}}">レベル・項目グループ・項目の登録</a>
 
 {% endblock %}
