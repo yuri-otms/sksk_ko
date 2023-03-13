@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, redirect, url_for, render_template, request, \
-    flash, session
+    flash, session, Markup
 from flask_login import login_required
 from sqlalchemy import func
 import glob
@@ -499,10 +499,41 @@ def add_question():
     grade = db.session.get(Grade, e_group.grade)
     questions = []
 
+
+    message_no_korean = Markup('韓国語文が入力されていません。<br><button class="add" type="button" onclick="history.back()">入力した内容を復旧する</button>')
+    message_no_japanese = Markup('日本語文が入力されていません。<br><button class="add" type="button" onclick="history.back()">入力した内容を復旧する</button>')
+
+    # 全ての欄が空欄の場合
+    if not request.form['japanese1'] and not request.form['japanese2'] and not request.form['japanese3'] and not request.form['japanese4'] and not request.form['japanese5'] and not request.form['foreign_l1'] and not request.form['foreign_l2'] and not request.form['foreign_l3'] and not request.form['foreign_l4'] and not request.form['foreign_l5'] :
+        flash('問題文が入力されていません')
+        return redirect(url_for('edit.show_questions', e=element_id))
+    
+    # 韓国語文のみ入力されて日本語文が空欄の場合
+    if request.form['foreign_l1'] and not request.form['japanese1']:
+        flash(message_no_japanese)
+        return redirect(url_for('edit.show_questions', e=element_id))
+    if request.form['foreign_l2'] and not request.form['japanese2']:
+        flash(message_no_japanese)
+        return redirect(url_for('edit.show_questions', e=element_id))
+    if request.form['foreign_l3'] and not request.form['japanese3']:
+        flash(message_no_japanese)
+        return redirect(url_for('edit.show_questions', e=element_id))
+    if request.form['foreign_l4'] and not request.form['japanese4']:
+        flash(message_no_japanese)
+        return redirect(url_for('edit.show_questions', e=element_id))
+    if request.form['foreign_l5'] and not request.form['japanese5']:
+        flash(message_no_japanese)
+        return redirect(url_for('edit.show_questions', e=element_id))
+
+    
     # 1つ目の問題文
     if request.form['japanese1']:
         japanese1 = request.form['japanese1']
-        foreign_l1 = request.form['foreign_l1']
+        if request.form['foreign_l1']:
+            foreign_l1 = request.form['foreign_l1']
+        else:
+            flash(message_no_korean)
+            return redirect(url_for('edit.show_questions', e=element_id))
         style_id1 = request.form['style1']
         spoken1 = request.form['spoken1']
         sida1 = request.form['sida1']
@@ -533,6 +564,11 @@ def add_question():
     # 2つ目の問題文
     if request.form['japanese2']:
         japanese2 = request.form['japanese2']
+        if request.form['foreign_l2']:
+            foreign_l1 = request.form['foreign_l2']
+        else:
+            flash(message_no_korean)
+            return redirect(url_for('edit.show_questions', e=element_id))
         foreign_l2 = request.form['foreign_l2']
         style_id2 = request.form['style2']
         spoken2 = request.form['spoken2']
@@ -564,6 +600,11 @@ def add_question():
     # 3つ目の問題文
     if request.form['japanese3']:
         japanese3 = request.form['japanese3']
+        if request.form['foreign_l3']:
+            foreign_l1 = request.form['foreign_l3']
+        else:
+            flash(message_no_korean)
+            return redirect(url_for('edit.show_questions', e=element_id))
         foreign_l3 = request.form['foreign_l3']
         style_id3 = request.form['style3']
         spoken3 = request.form['spoken3']
@@ -595,6 +636,11 @@ def add_question():
     # 4つ目の問題文
     if request.form['japanese4']:
         japanese4 = request.form['japanese4']
+        if request.form['foreign_l4']:
+            foreign_l1 = request.form['foreign_l4']
+        else:
+            flash(message_no_korean)
+            return redirect(url_for('edit.show_questions', e=element_id))
         foreign_l4 = request.form['foreign_l4']
         style_id4 = request.form['style4']
         spoken4 = request.form['spoken4']
@@ -626,6 +672,11 @@ def add_question():
     # 5つ目の問題文
     if request.form['japanese5']:
         japanese5 = request.form['japanese5']
+        if request.form['foreign_l5']:
+            foreign_l1 = request.form['foreign_l5']
+        else:
+            flash(message_no_korean)
+            return redirect(url_for('edit.show_questions', e=element_id))
         foreign_l5 = request.form['foreign_l5']
         style_id5 = request.form['style5']
         spoken5 = request.form['spoken5']
