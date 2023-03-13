@@ -55,10 +55,6 @@
         {% if session['check']%}
         <th>確認</th>
         {% endif %}
-        {% if session['approve'] and request.finished_at %}
-        <th>公開<br>
-            <label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
-        {% endif %}
     </tr>
     {% for question in questions %}
     <tr>
@@ -76,11 +72,6 @@
         {% if request.finished_at %}
         <td rowspan="2">
             {{question.checked}}
-        </td>
-        {% endif %}
-        {% if session['approve'] and request.finished_at %}
-        <td rowspan="2"> 
-            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
         </td>
         {% endif %}
     </tr>
@@ -115,10 +106,6 @@
 </form>
 {% endif %}
 
-{% if session['approve'] and request.finished_at %}
-<button formaction="" formmethod="">公開</button>
-<button type="button" onclick="history.back()">戻る</button>
-{% endif %}
 
 {% if session['edit'] and rejected_questions and request.request_id == 0 %}
 <div class="right">

@@ -75,7 +75,8 @@
             {% endif %}
         </td>
         <td>
-            {% if question.process == 5 or question.process == 8 %}
+            {% if question.audio %}
+            {% else %}
             <form>
             <input type="checkbox" class="checks" name="question" value="{{question.id}}">
             {% endif %}

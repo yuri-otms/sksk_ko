@@ -376,12 +376,18 @@ class QuestionManager:
     
     def fetch_question_with_hints(question_id):
         question = db.session.get(Question, question_id)
+        style = db.session.get(Style, question.style)
         question_with_hints = {
             'id': int(question.id),
             'japanese':question.japanese,
             'foreign_l':question.foreign_l,
             'element':question.element,
-            'hint':None
+            'hint':None,
+            'style_id':question.style,
+            'style':style.style,
+            'spoken':question.spoken,
+            'sida':question.sida,
+            'will':question.will
         }
 
         # 登録済みのヒント

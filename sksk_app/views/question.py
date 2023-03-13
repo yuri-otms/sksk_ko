@@ -80,6 +80,7 @@ def show_first_question():
         session['questions'] = questions
 
 
+
     questions = session.get('questions')
 
     question = editor.QuestionManager.fetch_question_with_hints(questions[0][0])
