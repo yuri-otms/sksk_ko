@@ -68,6 +68,7 @@ def show_first_question():
             #1周目の問題の取得(5問)
             answered_question = Score.query.with_entities(Score.question).filter(Score.user==user_id)
             questions_raw = Question.query.filter(Question.element==element_id).filter(Question.id.not_in(answered_question)).filter(Question.process==8).order_by(Question.id.asc()).limit(5).all()
+            
 
             if not questions_raw:
                 #2周目以降の問題を取得(5問)
