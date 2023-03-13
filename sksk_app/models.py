@@ -18,7 +18,6 @@ class User(UserMixin, db.Model):
     admin = db.Column(db.Boolean, nullable=False, default=False)
     registered_at = db.Column(db.DateTime, nullable=False, default=False)
     score = db.relationship("Score", backref='user_score')
-    score = db.relationship("Score", backref='user_score')
 
 
     def __init__(self, name=None, email=None, password=None,
@@ -240,6 +239,7 @@ class Word(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     japanese = db.Column(db.String(100))
     foreign_l = db.Column(db.String(100))
+    hint = db.relationship("Hint", cascade="all,delete", backref='word_hint')
 
     def __init__(self, japanese=None, foreign_l=None):
         self.japanese = japanese

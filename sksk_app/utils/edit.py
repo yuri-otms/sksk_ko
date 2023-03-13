@@ -449,7 +449,21 @@ class WordManager:
         )
 
         db.session.add(new_word)
-        db.session.commit()    
+        db.session.commit()
+
+    def edit_word(word_id, japanese_word, foreign_word):
+        word = db.session.get(Word, word_id)
+        word.japanese = japanese_word
+        word.foreign_l = foreign_word
+
+        db.session.merge(word)
+        db.session.commit()
+
+    def delete_word(word_id):
+        word = db.session.get(Word, word_id)
+        db.session.delete(word)
+        db.session.commit()
+
 
 class HintManager:
 

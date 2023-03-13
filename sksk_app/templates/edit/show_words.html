@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>単語の一覧</h2>
+
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        <th>編集</th>
+        <th>削除</th>
+    </tr>
+    {% for word in words %}
+    <tr>
+        <td>{{word.id}}</td>
+        <td>{{word.japanese}}</td>
+        <td>{{word.foreign_l}}</td>
+        <td><a class="action" href="{{url_for('edit.edit_word', w=word.id)}}">編集</a></td>
+        <td><a class="action" href="{{url_for('edit.delete_word', w=word.id)}}">削除</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

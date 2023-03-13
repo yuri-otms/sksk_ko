@@ -1073,3 +1073,74 @@ def create_audio_files_done():
     element_id = request.args.get('e')
     flash('音声ファイルを作成しました。')
     return redirect(url_for('edit.show_questions', e=element_id))
+
+@edit.route('/word/show')
+@login_required
+def show_words():
+    words = Word.query.all()
+    return render_template('edit/show_words.html', words=words)
+
+@edit.route('/edit/word')
+@login_required
+def edit_word():
+    word_id = request.args.get('w')
+    word = db.session.get(Word, word_id)
+
+    translated_foreign_l = api.Papago.ko_to_ja(word.foreign_l)
+    translated_japanese = api.Papago.ja_to_ko(word.japanese)
+
+    questions = Question.query.join(Hint).filter(Hint.word==word_id)
+
+    return render_template('edit/edit_word.html', word=word, translated_foreign_l=translated_foreign_l, translated_japanese=translated_japanese, questions=questions)
+
+@edit.route('/edit/word/check', methods=['POST'])
+@login_required
+def edit_word_check():
+    word_id = request.form['word_id']
+    japanese = request.form['japanese']
+    foreign_l = request.form['foreign_l']
+
+    word = db.session.get(Word, word_id)
+
+    return render_template('edit/edit_word_check.html', word=word, japanese=japanese, foreign_l=foreign_l)
+
+@edit.route('/edit/word/execute', methods=['POST'])
+@login_required
+def edit_word_execute():
+    word_id = request.form['word_id']
+    japanese = request.form['japanese']
+    foreign_l = request.form['foreign_l']
+
+    editor.WordManager.edit_word(word_id, japanese, foreign_l)
+
+    return redirect(url_for('edit.edit_word_done'))
+
+@edit.route('/edit/word/done')
+@login_required
+def edit_word_done():
+    flash('単語を変更しました。')
+    return redirect(url_for('edit.show_words'))
+
+@edit.route('/delete/word')
+@login_required
+def delete_word():
+    word_id = request.args.get('w')
+    word = db.session.get(Word, word_id)
+
+    questions = Question.query.join(Hint).filter(Hint.word==word_id)
+
+    return render_template('edit/delete_word.html', word=word, questions=questions)
+
+@edit.route('/delete/word/execute', methods=['POST'])
+@login_required
+def delete_word_execute():
+    word_id = request.form['word_id']
+
+    editor.WordManager.delete_word(word_id)
+    return redirect(url_for('edit.delete_word_done'))
+
+@edit.route('/delete/word/done')
+@login_required
+def delete_word_done():
+    flash('単語を削除しました。')
+    return redirect(url_for('edit.show_words'))
