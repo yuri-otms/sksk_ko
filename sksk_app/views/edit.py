@@ -1034,6 +1034,11 @@ def create_audio_file_done():
 def create_audio_files():
     element_id = request.form['element_id']
     releases = request.form.getlist('question')
+
+    if not releases:
+        flash('問題文の最低1つにチェックを入れてください')
+        return redirect(url_for('edit.show_questions', e=element_id))
+
     # 「全て選択」の選択を削除
     if releases[0] == 'on':
         releases.pop(0)
