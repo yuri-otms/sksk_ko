@@ -40,6 +40,34 @@
     <p><a class="button" href="{{url_for('edit.edit_hint', q=question.id)}}">ヒントの編集</a></p>
     </div>
 
+
+<h3>すでに登録されている単語を追加</h3>
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        <th></th>
+    </tr>
+{% for foreign_word in foreign_words %}
+<tr>
+    <td class="td-middle">{{foreign_word['id']}}</td>
+    <td class="td-middle">{{foreign_word['japanese']}}</td>
+    <td class="td-middle">{{foreign_word['foreign_l']}}</td>
+    <td>
+        <div style="margin:15px;">
+        <a class="add" href="{{url_for('edit.add_hint', q= question.id, w=foreign_word['id'])}}">追加</a>
+        </div>
+    </td>
+</tr>
+{% endfor %}
+{% if not foreign_words[0] %}
+<tr>
+    <td colspan="4">登録単語なし</td>
+</tr>
+{% endif %}
+</table>
+
 <h3>外国語文の単語から追加</h3>
 <table class="table list">
     <tr class="title">
@@ -105,32 +133,7 @@
     </tr>
 </table>
 
-<h3>すでに登録されている単語を追加</h3>
-<table class="table list">
-    <tr class="title">
-        <th>id</th>
-        <th>日本語</th>
-        <th>韓国語</th>
-        <th></th>
-    </tr>
-{% for foreign_word in foreign_words %}
-<tr>
-    <td class="td-middle">{{foreign_word['id']}}</td>
-    <td class="td-middle">{{foreign_word['japanese']}}</td>
-    <td class="td-middle">{{foreign_word['foreign_l']}}</td>
-    <td>
-        <div style="margin:15px;">
-        <a class="add" href="{{url_for('edit.add_hint', q= question.id, w=foreign_word['id'])}}">追加</a>
-        </div>
-    </td>
-</tr>
-{% endfor %}
-{% if not foreign_words[0] %}
-<tr>
-    <td colspan="4">登録単語なし</td>
-</tr>
-{% endif %}
-</table>
+
 
 <p>
     <a class="button" href="{{url_for('edit.show_hints', e=question.element)}}">問題一覧に戻る</a></p>
