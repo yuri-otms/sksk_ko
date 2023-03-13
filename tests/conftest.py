@@ -66,6 +66,18 @@ def app():
         word = 1
         editor.HintManager.add_hint(question, word)
 
+
+        style = 'ハムニダ体'
+        editor.StyleManager.add_style(style)
+        style = 'ヘヨ体'
+        editor.StyleManager.add_style(style)
+        style = 'ヘ体'
+        editor.StyleManager.add_style(style)
+        style = 'ハンダ体'
+        editor.StyleManager.add_style(style)
+        style = 'ハオ体'
+        editor.StyleManager.add_style(style)
+
         name = 'test'
         email = 'test@test.com'
         password = '1234'

@@ -601,3 +601,17 @@ section {
   width:300px;
   padding:10px;
 }
+.question-attribute {
+  width:310px;
+  margin:5px;
+  margin-top:20px;
+}
+
+.question-attribute span{
+  color:var(--text);
+  background-color:var(--primary);
+  font-size:1em;
+  font-family: 'Kaisei Decol', serif;
+  padding:10px 7px;
+  border-radius:7px;
+}

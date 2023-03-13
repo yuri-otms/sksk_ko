@@ -18,6 +18,21 @@
 <p>{{question.japanese}}</p>
 </div>
 
+<div class="question-attribute">
+    <span>{{question.style}}</span>
+    {%if question.spoken %}
+    <span>口語</span>
+    {% endif %}
+    {%if question.sida %}
+    <span>시다</span>
+    {% endif %}
+    {%if question.will %}
+    <span>겠</span>
+    {% endif %}
+</div>
+
+
+
 <div id="after_button">
 
 <div class="hint">

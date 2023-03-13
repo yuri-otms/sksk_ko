@@ -120,8 +120,8 @@ class RequestManager:
             rejected_questions = RequestManager.search_rejected_question(request_done_raw.id)
             if rejected_questions:
                 condition = 1
-                resubmit = Question_Request.query.filter(Question_Request.request_id!=0).first()
-                if resubmit:
+                resubmit = Question_Request.query.filter(Question_Request.id==request_done_raw.id).filter(Question_Request.request_id==0).first()
+                if not resubmit:
                     condition = 2
             
             request_done = {

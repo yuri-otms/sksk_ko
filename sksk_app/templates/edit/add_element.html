@@ -10,13 +10,11 @@
         <th>項目グループ</th>
         <th>項目</th>
         <th>説明</th>
-        <th>項番</th>
     </tr>
     <tr>
         <td>{{e_group_name}}</td>
         <td>{{element.element}}</td>
         <td>{{element.description}}</td>
-        <td>{{element.position}}</td>
     </tr>
 </table>
 
@@ -24,7 +22,6 @@
     <input type="hidden" name="e_group" value="{{element.e_group}}">
     <input type="hidden" name="element_name" value="{{element.element}}">
     <input type="hidden" name="description" value="{{element.description}}">
-    <input type="hidden" name="position" value="{{element.position}}">
 <div class="right">
     <button class="back" type="button" onclick="history.back()">戻る</button>
     <button class="add">追加</button>
