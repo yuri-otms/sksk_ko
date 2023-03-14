@@ -153,10 +153,10 @@ def delete_user():
 
     return render_template('admin/delete_user.html', user = user)
 
-@admin.route('/user_deleted', methods=['GET'])
+@admin.route('/user_deleted', methods=['POST'])
 @login_required
 def delete_user_execute():
-    user_id = int(request.args.get('id'))
+    user_id = int(request.form['id'])
 
     if user_id == session.get('user_id'):
         flash('管理ユーザーは自身のアカウントを削除できません。')
@@ -249,7 +249,6 @@ def show_records():
             "question":record_raw.question,
             "process_id":record_raw.process,
             "process":process,
-            "result_id":record_raw.result,
             "message":record_raw.message,
             "executed_at":record_raw.executed_at
         }
