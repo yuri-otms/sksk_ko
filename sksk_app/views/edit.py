@@ -500,8 +500,8 @@ def add_question():
     questions = []
 
 
-    message_no_korean = Markup('韓国語文が入力されていません。<br><button class="add" type="button" onclick="history.back()">入力した内容を復旧する</button>')
-    message_no_japanese = Markup('日本語文が入力されていません。<br><button class="add" type="button" onclick="history.back()">入力した内容を復旧する</button>')
+    message_no_korean = Markup('韓国語文が入力されていません。<br><button class="add" style="font-size:0.9em;" type="button" onclick="history.back()">入力した内容を復旧する</button>')
+    message_no_japanese = Markup('日本語文が入力されていません。<br><button class="add" style="font-size:0.9em;" type="button" onclick="history.back()">入力した内容を復旧する</button>')
 
     # 全ての欄が空欄の場合
     if not request.form['japanese1'] and not request.form['japanese2'] and not request.form['japanese3'] and not request.form['japanese4'] and not request.form['japanese5'] and not request.form['foreign_l1'] and not request.form['foreign_l2'] and not request.form['foreign_l3'] and not request.form['foreign_l4'] and not request.form['foreign_l5'] :

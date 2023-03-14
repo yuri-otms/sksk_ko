@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, \
-    flash, url_for, redirect,session
+    flash, url_for, redirect,session, Markup
 from flask_login import logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -10,7 +10,6 @@ from sksk_app.models import User, Score, Question
 import sksk_app.utils.user as user_setting
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
-
 
 @auth.before_request
 def load_logged_in_user():
@@ -83,6 +82,10 @@ def logout():
     logout_user()
     session.pop('user_id', None)
     session.pop('user', None)
+    session.pop('edit', None)
+    session.pop('check', None)
+    session.pop('approve', None)
+    session.pop('admin', None)
 
     flash('ログアウトしました')
     return redirect(url_for('pg.toppage'))
@@ -112,7 +115,119 @@ def account():
 
 
 
-    return render_template('account.html', user=user, all_count=all_count,all_ratio=all_ratio, grades_info=grades_info, incorrect_count=incorrect_count)
+    return render_template('auth/account.html', user=user, all_count=all_count,all_ratio=all_ratio, grades_info=grades_info, incorrect_count=incorrect_count)
+
+@auth.route('/edit/account')
+@login_required
+def edit_account():
+    user_id = session.get('user_id')
+    user = db.session.get(User, user_id)
+
+    return render_template('auth/edit_account.html', user=user)
+
+@auth.route('/edit/account/check', methods=['POST'])
+@login_required
+def edit_account_check():
+    user_id = session.get('user_id')
+    user = db.session.get(User, user_id)
+    name = request.form['name']
+    email = request.form['email']
+
+    # emailに重複がないか調べる
+    email_exist = User.query.filter(User.id==user_id).filter(User.email==email).first()
+    if not email_exist:
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash('メールアドレスが既に登録されています。')
+            return redirect(url_for('auth.edit_account'))
+
+
+    return render_template('auth/edit_account_check.html', user=user, name=name, email=email)
+
+@auth.route('/edit/account/execute', methods=['POST'])
+@login_required
+def edit_account_execute():
+    user_id = session.get('user_id')
+    name = request.form['name']
+    email = request.form['email']
+
+    user_setting.UserManager.edit_user_name_email(user_id, name, email)
+
+    session['user_name'] = name
+
+    return redirect(url_for('auth.edit_account_done'))
+
+@auth.route('/edit/account/done')
+@login_required
+def edit_account_done():
+    flash('ユーザー情報を変更しました')
+    return redirect(url_for('auth.account'))
+
+@auth.route('/edit/password')
+@login_required
+def edit_password():
+    user_id = session.get('user_id')
+    user = db.session.get(User, user_id)
+
+    return render_template('auth/edit_password.html', user=user)
+
+
+@auth.route('/edit/password/execute', methods=['POST'])
+@login_required
+def edit_password_execute():
+    user_id = session.get('user_id')
+    user = db.session.get(User, user_id)
+    
+    current_password = request.form['current_password']
+    new_password1 = request.form['new_password1']
+    new_password2 = request.form['new_password2']
+
+    
+    if not check_password_hash(user.password, current_password):
+        flash('現在のパスワードが異なります')
+        return redirect(url_for('auth.edit_password'))
+    
+    if new_password1 !=new_password2 :
+        flash('新しいパスワードが一致しません')
+        return redirect(url_for('auth.edit_password'))
+    
+    user_setting.UserManager.edit_password(user_id, new_password1)
+    
+    return redirect(url_for('auth.edit_password_done'))
+
+@auth.route('/edit/password/done')
+@login_required
+def edit_password_done():
+    flash('パスワードを変更しました。')
+    return redirect(url_for('auth.account'))
+
+@auth.route('/delete/account')
+@login_required
+def delete_account():
+    user_id = session.get('user_id')
+    user = db.session.get(User, user_id)
+    return render_template('auth/delete_account.html', user=user)
+
+@auth.route('/delete/account/execute', methods=['POST'])
+@login_required
+def delete_account_execute():
+    user_id = session.get('user_id')
+    user_setting.UserManager.delete_user(user_id)
+    return redirect(url_for('auth.delete_account_done'))
+
+@auth.route('/delete/account/done')
+@login_required
+def delete_account_done():
+    message = Markup('アカウントを削除しました。<br>ご利用ありがとうございました。')
+    flash(message)
+    logout_user()
+    session.pop('user_id', None)
+    session.pop('user', None)
+    session.pop('edit', None)
+    session.pop('check', None)
+    session.pop('approve', None)
+    session.pop('admin', None)
+    return redirect(url_for('pg.toppage'))
 
 
 @auth.errorhandler(404)

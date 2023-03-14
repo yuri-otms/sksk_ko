@@ -45,9 +45,9 @@ def test_delete_user(app):
         register_test_user(app)
         user = User.query.filter(User.name==TEST_NAME).first()
         user_setting.UserManager.delete_user(user.id)
-        user = User.query.filter(User.name==TEST_NAME).first()
+        deleted_user = User.query.filter(User.id==user.id).first()
 
-    assert user is None
+    assert deleted_user.email is None
 
 
 def test_edit_user(app):

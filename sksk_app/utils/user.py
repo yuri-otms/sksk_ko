@@ -14,7 +14,7 @@ class LoginManager:
         
         if not user or not check_password_hash(user.password, password):
             flash('パスワードが異なります')
-            return redirect(url_for('question.login'))
+            return redirect(url_for('auth.login'))
 
         flash('ログインしました')
         login_user(user)
@@ -59,7 +59,11 @@ class UserManager:
 
     def delete_user(id):
         user = db.session.get(User, id)
-        db.session.delete(user)
+
+        user.name = None
+        user.email = None
+
+        db.session.merge(user)
         db.session.commit()
 
     def edit_user(id, name, email, edit, check, approve, admin):
@@ -72,6 +76,15 @@ class UserManager:
         user.check = check
         user.approve = approve
         user.admin = admin
+
+        db.session.merge(user)
+        db.session.commit()
+
+    def edit_user_name_email(id, name, email):
+        user = db.session.get(User, id)
+
+        user.name = name
+        user.email = email
 
         db.session.merge(user)
         db.session.commit()
@@ -164,7 +177,7 @@ class ScoreManager:
                 grade_ratio = {
                     'id': grade.id,
                     'grade': grade.grade,
-                    'ratio': 0
+                    'ratio': '0%'
                 }
             else:
                 grade_ratio = {
