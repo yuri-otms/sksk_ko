@@ -1,0 +1,26 @@
+{% extends "base375.html" %}
+
+{% block body %}
+
+<h2>アカウント情報の変更</h2>
+
+<form action="{{url_for('auth.edit_account_execute')}}" method="POST">
+<p>以下の内容に変更しますか？</p>
+
+<dl class="account-info">
+    <dt>ユーザー名</dt>
+        <dd>{{name}}</dd>
+    <dt>メールアドレス</dt>
+        <dd>{{email}}</dd>
+</dl>
+
+<div class="right">
+    <input type="hidden" name="name" value="{{name}}">
+    <input type="hidden" name="email" value="{{email}}">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">変更</button>
+</div>
+</form>
+
+
+{% endblock %}

@@ -481,6 +481,7 @@ section {
 
 .right  {
   text-align: right;
+  margin-bottom:10px;
 }
 
 .edit-list  {
@@ -614,4 +615,20 @@ section {
   font-family: 'Kaisei Decol', serif;
   padding:10px 7px;
   border-radius:7px;
+}
+
+.account-info {
+  margin-top:20px;
+}
+.account-info dt{
+  font-size:1.1em;
+  font-family: 'Kaisei Decol', serif;
+  color:var(--text);
+  background-color:var(--primary);
+  padding:5px 10px;
+  border-radius:7px;
+}
+.account-info dd{
+  padding-left:25px;
+  padding-right:20px;
 }
