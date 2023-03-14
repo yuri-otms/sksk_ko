@@ -5,8 +5,8 @@
 
 <p>以下のユーザーを削除してよろしいですか？</p>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>ユーザー名</th>
         <th>Email</th>
@@ -52,10 +52,14 @@
     </tr>
 </table>
 
-<a href="{{url_for('admin.delete_user_execute', id=user.id)}}">削除</a>
-<a href="{{url_for('admin.show_user')}}">戻る</a>
+<div class="right">
+    <form action="{{url_for('admin.delete_user_execute')}}" method="POST">
+        <input type="hidden" name="id" value="{{user.id}}">
+        <button class="back" type="button" onclick="history.back()">戻る</button>
+        <button class="add">削除</button>
+    </form>
+</div>
 
 
-<p><a href="{{url_for('admin.show_user')}}">ユーザー編集</a></p>
 
 {%endblock%}

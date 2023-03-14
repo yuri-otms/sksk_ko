@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "base1200.html" %}
 {% block body %}
 
 <h2>ユーザー編集</h2>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>id</th>
         <th>ユーザー名</th>
         <th>Email</th>
@@ -19,13 +19,13 @@
         <form action="{{url_for('admin.add_user')}}" method="POST">
         <td>新規</td>
         <td>
-            <input type="text" name="name" placeholder="ユーザー名">
+            <input type="text" name="name" placeholder="ユーザー名" required>
         </td>
         <td>
-            <input type="text" name="email" placeholder="メールアドレス">
+            <input type="text" name="email" placeholder="メールアドレス" required>
         </td>
         <td>
-            <input type="text" name="password" placeholder="パスワード">
+            <input type="text" name="password" placeholder="パスワード" required>
         </td>
         <td>
             <select name="edit">
@@ -52,7 +52,7 @@
             </select>
         </td>
         <td>
-            <button>確認</button>
+            <button class="add">確認</button>
         </td>
         </form>
     </tr>
@@ -61,48 +61,53 @@
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
-        <td><a href="{{url_for('admin.edit_password', u=user.id)}}">パスワード変更</a></td>
+        <td><a class="action" href="{{url_for('admin.edit_password', u=user.id)}}">パスワード変更</a></td>
         <td>
             {% if user.edit %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id =1)}}">○</a>
+            <a class="action" href="{{url_for('admin.delete_privilege', user_id=user.id, process_id =1)}}">○</a>
             {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id =1)}}">×</a>
+            <a class="action" href="{{url_for('admin.add_privilege', user_id=user.id, process_id =1)}}">×</a>
             {% endif %}
         </td>
         <td>
             {% if user.check %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=2)}}">○</a>
+            <a class="action" href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=2)}}">○</a>
             {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=2)}}">×</a>
+            <a class="action" href="{{url_for('admin.add_privilege', user_id=user.id, process_id=2)}}">×</a>
             {% endif %}
         </td>
         <td>
             {% if user.approve %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=3)}}">○</a>
+            <a class="action" href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=3)}}">○</a>
             {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=3)}}">×</a>
+            <a class="action" href="{{url_for('admin.add_privilege', user_id=user.id, process_id=3)}}">×</a>
             {% endif %}
         </td>
         <td>
             {% if user.admin %}
-            <a href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=4)}}">○</a>
+            <a class="action" href="{{url_for('admin.delete_privilege', user_id=user.id, process_id=4)}}">○</a>
             {% else %}
-            <a href="{{url_for('admin.add_privilege', user_id=user.id, process_id=4)}}">×</a>
+            <a class="action" href="{{url_for('admin.add_privilege', user_id=user.id, process_id=4)}}">×</a>
             {% endif %}
         </td>
         <td>
-            <a href="{{url_for('admin.edit_user', id=user.id)}}">編集</a><br>
+            <div class="mb-3">
+            <a class="action" href="{{url_for('admin.edit_user', id=user.id)}}">編集</a>
+            </div>
             {% if user.id == session['user_id'] %}
             {% else %}
-            <a href="{{url_for('admin.delete_user', id=user.id)}}">削除</a>
+            <div>
+            <a class="action" href="{{url_for('admin.delete_user', id=user.id)}}">削除</a>
             {% endif %}
+            </div>
         </td>
     </tr>
     {% endfor %}
 </table>
 
-<h3></h3>
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('admin.index')}}">管理画面</a>
+</div>
 
-<p><a href="{{url_for('admin.index')}}">管理画面</a></p>
 
 {%endblock%}

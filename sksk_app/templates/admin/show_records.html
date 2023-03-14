@@ -1,13 +1,15 @@
-{% extends "base.html" %}
+{% extends "base1200.html" %}
 
 {% block body %}
 
 <h2>問題文編集履歴</h2>
 
-<p><a href="{{url_for('admin.index')}}">管理トップページに戻る</a></p>
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('admin.index')}}">管理トップページに戻る</a>
+</div>
 
-<table>
-    <tr>
+<table class="table list">
+    <tr class="title">
         <th>ユーザー</th>
         <th>問題文</th>
         <th>内容</th>
@@ -26,6 +28,8 @@
 </table>
 
 
-<p><a href="{{url_for('admin.index')}}">管理トップページに戻る</a></p>
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('admin.index')}}">管理トップページに戻る</a>
+</div>
 
 {% endblock %}

@@ -230,7 +230,7 @@ class QuestionManager:
 
         question_id = Question.query.with_entities(func.max(Question.id).label('max_id')).one().max_id
 
-        message = 'なし'
+        message = ''
         QuestionManager.record_process(user, question_id, 1,message, created_at)
 
     def edit_question(question_id, element, japanese, foreign_l, style, spoken, sida, will, user, request_id):
@@ -263,7 +263,7 @@ class QuestionManager:
             message = '再提出のための編集'
             QuestionManager.record_process(user, question_id, 6, message, created_at)
         else:
-            message = 'なし'
+            message = ''
             QuestionManager.record_process(user, question_id, 2, message, created_at)
         
     
@@ -277,7 +277,7 @@ class QuestionManager:
         db.session.merge(question)
         db.session.commit()
         
-        message = 'なし'
+        message = ''
         QuestionManager.record_process(user, question_id, 3, message, created_at)
 
 
