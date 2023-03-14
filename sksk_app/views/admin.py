@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import Blueprint, redirect, url_for, render_template, \
     request, flash, session
 from flask_login import login_required
-from sqlalchemy import not_
+from sqlalchemy import not_, or_
 from sksk_app import db
 from sksk_app.models import User, Process,Record
 
@@ -238,7 +238,20 @@ def edit_user_done():
 @admin.route('/records')
 @login_required
 def show_records():
-    records_raw = Record.query.all()
+
+    # ユーザーidを取得、変更履歴
+    if request.args.get('u'):
+        if request.args.get('u') == '0':
+            records_raw = Record.query.all()
+            user_id = 0
+        else:
+            user_id = int(request.args.get('u'))
+            records_raw = Record.query.filter(Record.user==user_id)
+    else:
+        records_raw = Record.query.all()
+        user_id = 0
+
+    # 変更履歴の取得
     records = []
     for record_raw in records_raw:
         process = db.session.get(Process, record_raw.process).process
@@ -253,7 +266,36 @@ def show_records():
             "executed_at":record_raw.executed_at
         }
         records.append(record)
-    return render_template('admin/show_records.html', records=records)
+
+    # 有効なユーザーの表示(何かしら権限のあるユーザー)
+    users_raw = User.query.filter(or_(User.edit==1,User.check==1, User.approve==1, User.admin==1))
+    users = []
+    number = 1
+    user = {"number":0, "id":0, "name":'全体'}
+    for user_raw in users_raw:
+        if user_raw.name != None:
+            user_added = {
+                "number":number,
+                "id":user_raw.id,
+                "name":user_raw.name
+            }
+            users.append(user_added)
+            if user_added['id'] == user_id:
+                user.update(user_added)
+            number += 1
+
+    # 全体の表示用情報
+    all = {
+        "number":0,
+        "id":0,
+        "name":'全体'
+    }
+    users.insert(0, all)
+
+
+
+
+    return render_template('admin/show_records.html', records=records, users=users, user=user)
 
 @admin.route('/edit/password')
 @login_required

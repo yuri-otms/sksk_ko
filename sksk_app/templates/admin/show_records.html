@@ -8,6 +8,18 @@
     <a class="stretched-link" href="{{url_for('admin.index')}}">管理トップページに戻る</a>
 </div>
 
+<select name="user" id="user" onchange="location.href=value" class="select-attribute mb-4">
+    {% for user in users %}
+    <option value="{{url_for('admin.show_records', u=user.id)}}">{{user.name}}</option>
+    {% endfor %}
+</select>
+
+{% if user.id==0 %}
+<h3>全体の履歴</h3>
+{% else %}
+<h3>ユーザー名: {{user.name}}の履歴</h3>
+{% endif %}
+
 <table class="table list">
     <tr class="title">
         <th>ユーザー</th>
@@ -16,6 +28,11 @@
         <th>日時</th>
         <th>コメント</th>
     </tr>
+    {% if not records[0] %}
+    <tr>
+        <td colspan="5">該当の問題文はありません。</td>
+    </tr>
+    {% endif %}
     {% for record in records %}
     <tr>
         <td>{{record.user}}</td>
@@ -31,5 +48,14 @@
 <div class="button text-center position-relative" style="margin:5px;">
     <a class="stretched-link" href="{{url_for('admin.index')}}">管理トップページに戻る</a>
 </div>
+
+
+
+<script>
+
+    let selected_user = '{{user.number}}';
+    document.getElementById("user").options[selected_user].selected = true;
+
+</script>
 
 {% endblock %}
