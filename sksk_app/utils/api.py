@@ -7,6 +7,15 @@ import sksk_app.config as config
 from sksk_app import db
 from sksk_app.models import Question
 
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from email.mime.text import MIMEText
+import base64
+
+
+
+def message_base64_encode(message):
+    return base64.urlsafe_b64encode(message.as_bytes()).decode()
 
 
 class Papago:
@@ -68,3 +77,22 @@ class GoogleCloud:
 
         with open(file_name, "wb") as out:
             out.write(response.audio_content)
+
+
+    def send_email(sender, to, subject, message_body):
+
+        scopes = ['https://www.googleapis.com/auth/gmail.send']
+        creds = Credentials.from_authorized_user_file('sksk_app/token.json', scopes)
+        service = build('gmail', 'v1', credentials=creds)
+
+        message = MIMEText(message_body)
+        message['To'] = to
+        message['From'] = sender
+        message['Subject'] = subject
+        raw = {'raw': message_base64_encode(message)}
+
+        service.users().messages().send(
+            userId='me',
+            body=raw
+        ).execute()
+
