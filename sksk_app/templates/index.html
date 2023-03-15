@@ -5,34 +5,57 @@
 
 <img src="{{url_for('static', filename='images/Knowledge-bro.png')}}" width="300px" class="mx-auto d-block">
 
+<div class="img-credits">
+<a href="https://storyset.com/education">Education illustrations by Storyset</a>
+</div>
 
-<h2 class="text-center">問題を解く</h2>
+<div class="toppage-demo">
+    デモ版公開中
+</div>
+<div class="toppage-footer mt-0">
+    <a href="">デモ版の注意点</a>
+</div>
 
-<div class="text-center ">
+
+<h2 class="text-center mt-4 mb-4">問題を解く</h2>
+
+<div class="text-center">
 
     <div class="button position-relative">
         <a class="stretched-link" href="{{url_for('question.select_element', guest=1)}}">スタート</a></p>
     </div>
 
-<p>ログインなしで始められます。</p>
+<div class="toppage-note">
+ログインなしで始められます。
+</div>
 
-<div class="button position-relative">
+<div class="button position-relative mt-4">
     <a class="stretched-link" href="{{url_for('question.check_login')}}">ログインしてスタート</a>
 </div>
 
-<p>ユーザー登録をすることで、記録を残すことができます。</p>
+<div class="toppage-note">
+ユーザー登録をすることで、記録を残すことができます。
+</div>
 
 {% if current_user.is_authenticated %}
 
-<div class="button position-relative">
+<div class="button position-relative mt-4">
     <a class="stretched-link" href="{{url_for('question.start_review_grade')}}">間違えた問題の復習</a>
 </div>
-<p>最近間違えた問題からランダムに5問解きます。</p>
+
+<div class="toppage-note">
+最近間違えた問題からランダムに5問解きます。
+</div>
 {% endif %}
 
 
 
-<p style="color:gray; margin-top:30px;">「サクッと作文」とは / <a href="{{url_for('pg.contact')}}">お問い合わせ</a></p>
+<div class="toppage-footer">
+<p style="color:gray; margin-top:30px;">
+<a href="{{url_for('pg.about')}}">「サクッと作文」について</a>
+ / <a href="{{url_for('pg.contact')}}">お問い合わせ</a>
+</div>
+
 </div>
 
 

@@ -24,7 +24,7 @@ def howto():
 
 @pg.route('/about')
 def about():
-    page_title = "ABOUT"
+    page_title = "「サクッと作文」について"
     return render_template("about.html", page_title=page_title)
 
 @pg.route('/contact')

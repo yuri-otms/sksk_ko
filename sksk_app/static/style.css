@@ -631,10 +631,62 @@ section {
 .account-info dd{
   padding-left:25px;
   padding-right:20px;
+  padding:7px 25px;
 }
 
 .must {
   font-size:0.8em;
   color:red;
   font-weight: bold;
+}
+
+.img-credits  {
+  text-align: center;
+  font-size:0.9em;
+}
+.img-credits a{
+  color:var(--dark)
+}
+.img-credits a:hover{
+  color:var(--text);
+  transition: all 0.35s ease;
+}
+.toppage-note {
+  margin-top:15px;
+  color:var(--text);
+  font-size:1em;
+}
+.toppage-footer {
+  color:gray;
+  margin-top:30px;
+  font-size:0.9em;
+  text-align: center;
+}
+ a{
+  color:gray;
+}
+.toppage-footer a:hover{
+  color:var(--text);
+  transition: all 0.35s ease;
+}
+
+.about h2{
+  font-size:2.5em;
+  text-align: center;
+}
+.about h3{
+  font-size:1.8em;
+  text-align: center;
+}
+.toppage-demo {
+  text-align: center;
+  font-family: 'Kaisei Decol', serif;
+  padding:15px;
+  border-radius: 8px;
+  background-color: var(--text);
+  color:#ffffff;
+  width:250px;
+  margin:0 auto;
+  margin-top:15px;
+  margin-bottom:5px;
 }
