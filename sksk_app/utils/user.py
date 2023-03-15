@@ -11,8 +11,12 @@ class LoginManager:
     def login(email, password):
 
         user = User.query.filter_by(email=email).first()
+
+        if not user:
+            flash('Eメールアドレスが登録されていません')
+            return redirect(url_for('auth.login'))
         
-        if not user or not check_password_hash(user.password, password):
+        if not check_password_hash(user.password, password):
             flash('パスワードが異なります')
             return redirect(url_for('auth.login'))
 
