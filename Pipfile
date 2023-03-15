@@ -14,6 +14,9 @@ konlpy = "*"
 mecab-python3 = "*"
 numpy = "*"
 google-cloud-texttospeech = "*"
+google-api-python-client = "*"
+google-auth-httplib2 = "*"
+google-auth-oauthlib = "*"
 
 [dev-packages]
 

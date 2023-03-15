@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>お問い合わせ</h2>
+
+<p>以下の内容で送信してよろしいですか？</p>
+
+<form action="{{url_for('pg.contact_execute')}}" method="POST">
+<dl class="account-info">
+    <dt>お名前</dt>
+    <dd>{{name}}</dd>
+    <dt>メールアドレス</dt>
+    <dd>{{email}}</dd>
+    <dt>件名</dt>
+    <dd>{{title}}</dd>
+    <dt>本文</dt>
+    <dd>{{message}}</dd>
+</dl>
+<div class="right">
+    <input type="hidden" name="name" value="{{name}}">
+    <input type="hidden" name="email" value="{{email}}">
+    <input type="hidden" name="title" value="{{title}}">
+    <input type="hidden" name="message" value="{{message}}">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">送信</button>
+</div>
+
+</form>
+
+
+{% endblock %}

@@ -632,3 +632,9 @@ section {
   padding-left:25px;
   padding-right:20px;
 }
+
+.must {
+  font-size:0.8em;
+  color:red;
+  font-weight: bold;
+}
