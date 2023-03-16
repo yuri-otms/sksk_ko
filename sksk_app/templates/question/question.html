@@ -18,7 +18,7 @@
 <p>{{question.japanese}}</p>
 </div>
 
-<div class="question-attribute">
+<div class="question-attribute mx-auto">
     <span>{{question.style}}</span>
     {%if question.spoken %}
     <span>口語</span>
@@ -93,8 +93,8 @@
                     <input type="hidden" name="guest" value="{{guest}}">
                     <input type="hidden" name="no" value="{{no}}">
                     <input type="hidden" name="review" value="{{review}}">
-                    <button class="currect_button" name="correct" value="1">正解</button>
-                    <button class="currect_button" name="correct" value="0" style="-right:0;">不正解</button>
+                    <button class="correct-button" name="correct" value="1">正解</button>
+                    <button class="correct-button" name="correct" value="0" style="-right:0;">不正解</button>
                 </form>
             </div>
             `;

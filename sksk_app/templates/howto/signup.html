@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="about">
+
+<h2>ユーザー登録をする</h2>
+
+<p class="mt-3"><a class="action" href="{{url_for('pg.howto')}}">使い方トップページ</a></p>
+
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/signup_button.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            画面右上の「ユーザー登録」をクリックします。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/input_three.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            ユーザー名、メールアドレス、パスワードを入力します。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/agree_terms_of_policy.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            <a href="{{url_for('pg.terms_of_service')}}">利用規約</a>をお読みになり、同意する場合チェックを入れ、「確認」をクリックします。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/register.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            内容を確認の上、「登録」をクリックします。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/finish_register.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            「ユーザー登録を行いました」と表示されたら、「ログイン」にてメールアドレス、パスワードを入力し、「ログイン」をクリックします。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/login_done.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            「ログインしました」と表示されます。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/name_display.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            ログインできると、右上にユーザー名が表示されます（パソコン・タブレットの場合）
+        </div>
+    </div>
+</div>
+
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/menu_right.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            スマートフォンの場合は、右上のメニューアイコンをクリックします。
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/name_display_in_menu.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            メニューの中にユーザー名が表示されます。
+        </div>
+    </div>
+</div>
+
+
+<p class="mt-3"><a class="action" href="{{url_for('pg.howto')}}">使い方トップページ</a></p>
+
+
+</div>
+
+{% endblock %}
