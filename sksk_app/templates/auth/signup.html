@@ -9,8 +9,10 @@
         <form action="{{url_for('auth.signup_check')}}" method="post" class="login-form">
             <input type="text" name="name" placeholder="ユーザー名" required class="form-control">
             <input type="text" name="email" placeholder="メールアドレス" required class="form-control">
-            <input type="password" name="password" placeholder="パスワード" required class="form-control">
-            <button type="submit" class="login-button form-control">登録</button>
+            <input type="password" name="password" placeholder="パスワード" required class="form-control mb-4">
+            <p><a href="{{url_for('pg.terms_of_service')}}">利用規約</a>をお読みの上、同意しますか？</p>
+            <input class="mb-4" type="checkbox" name="term" value="agree" required>同意する
+            <button type="submit" class="login-button form-control">確認</button>
         </form>
     </div>
 

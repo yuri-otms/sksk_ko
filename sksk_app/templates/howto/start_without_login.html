@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="about">
+
+<h2>ログインしないで問題を解く</h2>
+
+<p class="mt-3"><a class="action" href="{{url_for('pg.howto')}}">使い方トップページ</a></p>
+
+<h3>文法項目を選ぶ</h3>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+        <img class="howto-img" src="{{url_for('static', filename='images/start_without_login.png')}}">
+    </div>
+        </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+        本アプリはログインをせずに利用できます。
+        <a href="{{url_for('pg.toppage')}}">トップページ</a>の<a href="{{url_for('question.select_element', guest=1)}}">スタート</a>をクリックします。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/select_grade.png')}}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            解きたい問題の難易度（ハングル検定の級）を選択します。<br>
+            ※現在はハングル検定5級のみです。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/select_group.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            難易度を選んだら、項目のグループを選択すると、項目が表示されます。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/select_element.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            表示された項目の中から、解きたいものをクリックします。
+        </div>
+    </div>
+</div>
+
+<h3>問題を解く</h3>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/question.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            日本語文が表示されるので、口頭で、もしくはメモアプリ・ノートに答えを書きます。<br>
+            日本語文の下には文体（ハムニダ体、ヘヨ体、ヘ体、ハンダ体、ハオ体）、口語、敬語、意志の接尾辞（겠）の有無が表示されます。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/hint.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            問題文の下の「ヒント」から、わからない単語の日本語訳をクリックします。
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/hint_appear.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            ヒントの韓国語が表示されます。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/show_answer.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            回答できたら、「答え合わせ」をクリックします。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/answer.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            解答が表示されます。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/audio.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            音楽マークのボタンをクリックすると、合成音声が流れます。<br>
+            <a href="https://cloud.google.com/text-to-speech">Google Text-to-Speech</a>を使用しています。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/record_result.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            解答の結果をクリックします。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/result.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            5問（それ以下の場合もあり）解くと、結果が表示されます。<br>
+            間違えた問題を解き直したい時は「間違えた問題を復習する」、<br>
+            次の項目に進む場合は「次の項目に進む」を選びます。
+        </div>
+    </div>
+</div>
+
+<p class="mt-3"><a class="action" href="{{url_for('pg.howto')}}">使い方トップページ</a></p>
+
+
+</div>
+
+{%endblock%}

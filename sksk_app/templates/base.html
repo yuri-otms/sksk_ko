@@ -5,7 +5,6 @@
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <title>{{page_title}}{% if page_title%} - {% endif %}サクッと作文 韓国語</title>
-    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,7 +88,13 @@
     <footer class="footer mt-auto">
         <div class="text-center">
             <div class="container">
-                        <p class="pt-3">(c){{session['this_year']}} サクッと作文 韓国語</p>
+                <div class="toppage-footer">
+                <a href="{{url_for('pg.about')}}">「サクッと作文」について</a><br>
+                 <a href="{{url_for('pg.terms_of_service')}}">利用規約</a> <a href="{{url_for('pg.privacy_policy')}}">プライバシーポリシー</a> <a href="{{url_for('pg.contact')}}">お問い合わせ</a>
+                </div>
+                <p class="pt-3">(c){{session['this_year']}} サクッと作文 韓国語</p>
+
+                        
             </div>
         </div>
     </footer>

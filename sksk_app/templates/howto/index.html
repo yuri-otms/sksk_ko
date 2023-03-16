@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="about">
+
+<h2>使い方</h2>
+
+<dl class="howto-index mt-4">
+    <dt class="position-relative">
+        <a class="stretched-link" href="{{url_for('pg.start_without_login')}}">ログインしないで問題を解く</a>
+    </dt>
+        <dd>一番シンプルな使い方です。アカウント作成不要で問題を解けます。</dd>
+    <dt class="position-relative">
+        <a class="stretched-link" href="{{url_for('pg.signup')}}">ユーザー登録をする</a>
+    </dt>
+        <dd>ユーザー登録することにより、解いた問題の正解不正解が記憶され、間違えた問題の復習もスムーズに行うことができます。</dd>
+</dl>
+
+</div>
+
+{% endblock %}

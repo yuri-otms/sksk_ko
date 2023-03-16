@@ -17,15 +17,21 @@ def load_logged_in_user():
 def toppage():
     return render_template("index.html")
 
-@pg.route('/howto')
-def howto():
-    page_title = "使い方"
-    return render_template("howto.html", page_title=page_title)
-
 @pg.route('/about')
 def about():
-    page_title = "「サクッと作文」について"
-    return render_template("about.html", page_title=page_title)
+    page_title = '「サクッと作文」について'
+    return render_template('about.html', page_title=page_title)
+
+
+@pg.route('/terms_of_service')
+def terms_of_service():
+    page_title = '利用規約'
+    return render_template('terms_of_service.html', page_title=page_title)
+
+@pg.route('/privacy_policy')
+def privacy_policy():
+    page_title = 'プライバシーポリシー'
+    return render_template('privacy_policy.html', page_title=page_title)
 
 @pg.route('/contact')
 def contact():
@@ -66,3 +72,17 @@ def contact_done():
     return redirect(url_for('pg.toppage'))
 
 
+@pg.route('/howto')
+def howto():
+    page_title = '使い方'
+    return render_template('howto/index.html', page_title=page_title)
+
+@pg.route('/howto/start_without_login')
+def start_without_login():
+    page_title = 'ログインしないで問題を解く'
+    return render_template('howto/start_without_login.html', page_title=page_title)
+
+@pg.route('/howto/signup')
+def signup():
+    page_title = 'ユーザー登録をする'
+    return render_template('howto/signup.html', page_title=page_title)

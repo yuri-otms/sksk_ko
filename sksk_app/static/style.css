@@ -96,6 +96,7 @@ button {
   border-radius: 5px;
   white-space: nowrap;
   text-align: center;
+  border:0;
 }
 select {
   margin: 3px;
@@ -120,6 +121,8 @@ select:hover{
 .navbar .nav-link{
   color:var(--text) !important;
   background-color: var(--dark);
+  padding-left:10px;
+  border-radius:10px;
 }
 .nav-item {
     color:#222222;
@@ -154,16 +157,16 @@ main > .container {
   html {
     position: relative;
     min-height: 100%;
-    padding-bottom:60px;
+    padding-bottom:100px;
   }
   body {
-    margin-bottom: 60px;
+    margin-bottom: 100px;
   }
   footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px;
+    height: 100px;
   }
 
 .value {
@@ -273,7 +276,7 @@ section {
   width:300px;
   position: absolute;
   bottom: 0;
-  height:125px;
+  height:165px;
   left: 0;
   right: 0;
   margin: auto;
@@ -283,14 +286,14 @@ section {
   width:308px;
   position: absolute;
   bottom: 0;
-  height:125px;
+  height:165px;
   left: 0;
   right: 0;
   margin: auto;
   padding:0;
 }
 
-.currect_button{
+.correct-button{
   width: 146px;
   font-size:1.3em;
   font-family: 'Kaisei Decol', serif;
@@ -302,7 +305,7 @@ section {
   padding:10px 20px;
 }
 
-.currect_button:hover{
+.correct-button:hover{
   color:#ffffff;
   background-color: var(--text);
   transition: all 0.35s ease;
@@ -321,7 +324,7 @@ section {
   width:300px;
   position:absolute;
   bottom:0;
-  height:205px;
+  height:240px;
   right: 0;
   left: 0;
   margin: auto;
@@ -556,9 +559,10 @@ section {
   background-color: var(--primary);
   border:0;
   padding:10px;
+  padding-left:12px;
   border-radius: 8px;
-  margin:7px;
   margin:0 auto;
+  margin-left:3px;
 }
 
 .login-button a{
@@ -603,7 +607,7 @@ section {
   padding:10px;
 }
 .question-attribute {
-  width:310px;
+  width:300px;
   margin:5px;
   margin-top:20px;
 }
@@ -658,8 +662,8 @@ section {
 }
 .toppage-footer {
   color:gray;
-  margin-top:30px;
   font-size:0.9em;
+  margin-top:10px;
   text-align: center;
 }
  a{
@@ -689,4 +693,69 @@ section {
   margin:0 auto;
   margin-top:15px;
   margin-bottom:5px;
+}
+
+.howto-img  {
+  padding:15px;
+  border:1px solid lightgrey;
+  width:300px;
+  border-radius: 10px;
+}
+
+.howto-card {
+  width:300px;
+
+  margin:10px auto;
+}
+.howto-note {
+  background-color: var(--dark);
+  border-radius: 10px;
+  margin:10px auto;
+  width:300px;
+  padding:10px;
+}
+.howto-note a:hover{
+  color:var(--text);
+}
+
+.howto-index dt {
+  background-color:var(--primary);
+  margin:10px;
+  padding:7px 12px;
+  border-radius:7px;
+  width:300px;
+}
+
+.howto-index a{
+  color:var(--text);
+}
+.howto-index a:hover{
+  color:#ffffff;
+  transition: all 0.35s ease;
+}
+.howto-index dt:hover{
+  background-color:var(--text);
+  transition: all 0.35s ease;
+
+}
+.howto-index dd {
+  padding:6px 25px;
+}
+
+.terms h2 {
+  font-size:1.7em;
+  margin-bottom:20px;
+}
+.terms p {
+  margin-bottom:20px;
+  padding:0.5em 1em;
+}
+.terms h3 {
+  margin-bottom:20px;
+}
+.terms ol {
+  margin-top:0.5em;
+}
+.terms li {
+  padding-bottom:0.5em;
 }
