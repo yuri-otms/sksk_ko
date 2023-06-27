@@ -11,7 +11,6 @@ import sksk_app.utils.user as user_setting
 
 question = Blueprint('question', __name__, url_prefix='/question')
 
-
 @question.before_request
 def load_logged_in_user():
     this_year = session.get('this_year')
@@ -98,6 +97,7 @@ def record_score_temp():
     review = int(request.form['review'])
     correct = int(request.form['correct'])
     questions = session.get('questions')
+
 
     index = no -1
     questions[index][1] = correct

@@ -69,6 +69,7 @@ def login():
         else:
             return redirect(url_for('pg.toppage'))
 
+
     if request.args.get('question'):
         question = int(request.args.get('question'))
     else:

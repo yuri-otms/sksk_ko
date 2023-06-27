@@ -6,7 +6,7 @@
     --box-shadow:0 8px 22px rgba(0,0,0,0.2);
 }
 
-.wrapper800  {
+/* .wrapper800  {
   max-width:800px;
   margin:0 auto;
   padding:0 4%;
@@ -20,7 +20,7 @@
   max-width:375px;
   margin:0 auto;
   padding:0 4%;
-}
+} */
 
 body  {
     background-color: #FFFFFF;

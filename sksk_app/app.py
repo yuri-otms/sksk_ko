@@ -2,9 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
-
-import sksk_app.config as config
-
 db = SQLAlchemy()
 
 def create_app(test_config=None):
@@ -15,10 +12,7 @@ def create_app(test_config=None):
         app.config.from_pyfile('config.py', silent=True)
     else:
         app.config.from_pyfile('test_config.py', silent=True)
-    
-    app.config['SECRET_KEY'] = config.SECRET_KEY
 
-    from sksk_app.models import db
     db.init_app(app) 
 
     from sksk_app.script.database import qtdb

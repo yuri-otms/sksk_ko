@@ -13,3 +13,4 @@ sksk_app/test_translation.py
 sksk_app/test_text_to_speech.py
 sksk_app/test_gmail.py
 sksk_app/static/audio
+docker/.env
