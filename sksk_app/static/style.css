@@ -6,21 +6,24 @@
     --box-shadow:0 8px 22px rgba(0,0,0,0.2);
 }
 
-/* .wrapper800  {
+.wrapper800  {
   max-width:800px;
   margin:0 auto;
   padding:0 4%;
+  overflow:hidden;
 }
 .wrapper1200  {
   max-width:1200px;
   margin:0 auto;
   padding:0 4%;
+  overflow:hidden;
 }
 .wrapper375  {
   max-width:375px;
   margin:0 auto;
   padding:0 4%;
-} */
+  overflow:hidden;
+}
 
 body  {
     background-color: #FFFFFF;
@@ -41,7 +44,7 @@ h1, h2, h3, h4, h4, h5, h6 {
 }
 h1  {
     color: #604461;
-    font-size:1.5em;
+    font-size:1.4em;
 }
 h2 {
     font-size:1.2em;
@@ -121,7 +124,7 @@ select:hover{
 .navbar .nav-link{
   color:var(--text) !important;
   background-color: var(--dark);
-  padding-left:10px;
+  padding-left:5px;
   border-radius:10px;
 }
 .nav-item {
@@ -322,11 +325,11 @@ section {
 }
 .audio-button {
   width:300px;
-  position:absolute;
+  /* position:absolute;
   bottom:0;
   height:240px;
   right: 0;
-  left: 0;
+  left: 0; */
   margin: auto;
 }
 .audio:hover  {
