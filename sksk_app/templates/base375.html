@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <title>{{page_title}}{% if page_title%} - {% endif %}サクッと作文 韓国語</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -14,7 +14,7 @@
 </head>
 <body>
     <!-- nav -->
-    <!-- <nav class="navbar navbar-expand-lg fixed-top bg-dark p-0"> -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark p-0">
         <div class="container">
           <a class="nav-link" href="{{url_for('pg.toppage')}}"><h1 class="p-3">サクッと作文　韓国語</h1></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
