@@ -317,6 +317,7 @@ class QuestionManager:
                     questions_with_hints[i]['japanese_word'].append(node.feature.split(",")[6])
                 node = node.next
 
+
             # 韓国語のそれぞれの単語
             questions_with_hints[i]['foreign_word'] = []
             text = questions_with_hints[i]['foreign_l']
