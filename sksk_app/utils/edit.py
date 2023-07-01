@@ -4,10 +4,11 @@ from datetime import datetime
 import glob
 
 import MeCab
-from konlpy.tag import Okt
+# from konlpy.tag import Okt
 
 from sksk_app import db
 from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record, Score
+import sksk_app.utils.k2jamo as k2jamo
 
 class GradeManager:
     def add_grade(grade, description):
@@ -321,10 +322,31 @@ class QuestionManager:
             # 韓国語のそれぞれの単語
             questions_with_hints[i]['foreign_word'] = []
             text = questions_with_hints[i]['foreign_l']
-            okt = Okt()
-            korean_w = okt.morphs(text, norm=True, stem=True)
-            for w in korean_w:
-                questions_with_hints[i]['foreign_word'].append(w)
+
+            tokenizer = MeCab.Tagger('-d /usr/src/dict/handic')
+            input = k2jamo.substitute(text)
+            node = tokenizer.parseToNode(input)
+            
+            while node:
+                p = node.feature.split(',')[0]
+                if p == 'Noun':
+                    questions_with_hints[i]['foreign_word'].append(node.feature.split(",")[6])
+                
+                # if p == 'Verb' or p== 'Adjective' or p =='Adverb':
+                #     questions_with_hints[i]['foreign_word'].append(node.feature.split(",")[5][:-2])
+
+
+                if p == 'Verb' or p== 'Adjective' or p =='Adverb':
+                    word = node.feature.split(",")[5]
+                    if word[-1].isdigit():
+                        questions_with_hints[i]['foreign_word'].append(word[:-2])
+                    else:
+                        questions_with_hints[i]['foreign_word'].append(word)
+                node = node.next
+            # okt = Okt()
+            # korean_w = okt.morphs(text, norm=True, stem=True)
+            # for w in korean_w:
+            #     questions_with_hints[i]['foreign_word'].append(w)
 
             # 登録済みのヒント
             hints = Hint.query.filter(Hint.question==question.id)
@@ -358,12 +380,32 @@ class QuestionManager:
             node = node.next
 
         # 韓国語のそれぞれの単語
+
         question_with_hints['foreign_word'] = []
         text = question_with_hints['foreign_l']
-        okt = Okt()
-        korean_w = okt.morphs(text, norm=True, stem=True)
-        for word in korean_w:
-            question_with_hints['foreign_word'].append(word)
+        # okt = Okt()
+        # korean_w = okt.morphs(text, norm=True, stem=True)
+        # for word in korean_w:
+        #     question_with_hints['foreign_word'].append(word)
+
+        # questions_with_hints[i]['foreign_word'] = []
+        # text = questions_with_hints[i]['foreign_l']
+
+        tokenizer = MeCab.Tagger('-d /usr/src/dict/handic')
+        input = k2jamo.substitute(text)
+        node = tokenizer.parseToNode(input)
+        while node:
+            p = node.feature.split(',')[0]
+            if p == 'Noun':
+                question_with_hints['foreign_word'].append(node.feature.split(",")[6])
+            
+            if p == 'Verb' or p== 'Adjective' or p =='Adverb':
+                word = node.feature.split(",")[5]
+                if word[-1].isdigit():
+                    question_with_hints['foreign_word'].append(word[:-2])
+                else:
+                    question_with_hints['foreign_word'].append(word)
+            node = node.next
 
 
         # 登録済みのヒント

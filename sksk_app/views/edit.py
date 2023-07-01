@@ -150,8 +150,8 @@ def show_hints():
     elements = Element.query.filter(Element.e_group==e_group_id)
 
     questions_with_hints = editor.QuestionManager.fetch_questions_with_hints(element.id)
-
-    return render_template('edit/show_hints.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints)
+    aaa="bbb"
+    return render_template('edit/show_hints.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints, aaa=aaa)
 
 
 @edit.route('/add/grade', methods=['POST'])
@@ -906,17 +906,19 @@ def delete_question_done():
 @edit.route('/confirm/hint/j', methods=['POST'])
 @login_required
 def confirm_hint_j():
-    question_id = request.form['question_id']
-    japanese_word = request.form['japanese_word']
-    question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
+    # question_id = request.form['question_id']
+    # japanese_word = request.form['japanese_word']
+    # question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
-    japanese_words = Word.query.filter(Word.japanese.like("%" + japanese_word + "%"))
-    translated_word = api.Papago.ja_to_ko(japanese_word)
+    # japanese_words = Word.query.filter(Word.japanese.like("%" + japanese_word + "%"))
+    # translated_word = api.Papago.ja_to_ko(japanese_word)
 
-    words = editor.HintManager.fetch_word(question_id)
-    hint_existed = editor.HintManager.confirm_j_hint(question_id, japanese_word)
+    # words = editor.HintManager.fetch_word(question_id)
+    # hint_existed = editor.HintManager.confirm_j_hint(question_id, japanese_word)
 
-    return render_template('edit/confirm_hint_j.html', question=question_with_hints, japanese_word=japanese_word, japanese_words=japanese_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
+    return render_template('edit/confirm_hint_j.html')
+    # return render_template('edit/confirm_hint_j.html', question=question_with_hints, japanese_word=japanese_word, japanese_words=japanese_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
+
 
 @edit.route('/confirm/hint/f', methods=['POST'])
 @login_required
