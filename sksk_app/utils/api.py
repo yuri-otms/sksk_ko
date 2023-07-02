@@ -13,10 +13,8 @@ from email.mime.text import MIMEText
 import base64
 
 
-
 def message_base64_encode(message):
     return base64.urlsafe_b64encode(message.as_bytes()).decode()
-
 
 class Papago:
     def ja_to_ko(word):
