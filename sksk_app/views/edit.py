@@ -150,8 +150,8 @@ def show_hints():
     elements = Element.query.filter(Element.e_group==e_group_id)
 
     questions_with_hints = editor.QuestionManager.fetch_questions_with_hints(element.id)
-    aaa="bbb"
-    return render_template('edit/show_hints.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints, aaa=aaa)
+
+    return render_template('edit/show_hints.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints)
 
 
 @edit.route('/add/grade', methods=['POST'])
