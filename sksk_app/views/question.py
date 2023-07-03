@@ -194,8 +194,7 @@ def start_review_grade():
     latest_incorrects = Score.query.filter(Score.correct==0).filter(Score.id.in_(latest_answers))
     
     if not latest_incorrects.all():
-        flash('最近間違えた問題はありません。')
-        flash(type(latest_incorrects.all()))
+        flash('最近間違えた問題はありません')
         return render_template("index.html")
 
     questions = []
