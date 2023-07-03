@@ -1,7 +1,7 @@
 import math
 import random
 from datetime import datetime
-from flask import Blueprint, redirect, url_for, render_template, session, request
+from flask import Blueprint, redirect, url_for, render_template, session, request, flash
 from flask_login import login_required, current_user
 from sqlalchemy import not_, func
 from sksk_app import db
@@ -192,6 +192,11 @@ def start_review_grade():
     # select question from score where correct = 0 and id in (select max(id) from score where user = 1 group by question);
     latest_answers = Score.query.with_entities(func.max(Score.id)).filter(Score.user==user_id).group_by(Score.question)
     latest_incorrects = Score.query.filter(Score.correct==0).filter(Score.id.in_(latest_answers))
+    
+    if not latest_incorrects.all():
+        flash('最近間違えた問題はありません。')
+        flash(type(latest_incorrects.all()))
+        return render_template("index.html")
 
     questions = []
     for question in latest_incorrects:
