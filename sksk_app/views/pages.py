@@ -86,3 +86,8 @@ def start_without_login():
 def signup():
     page_title = 'ユーザー登録をする'
     return render_template('howto/signup.html', page_title=page_title)
+
+@pg.route('/demo')
+def demo():
+    page_title = 'デモ版の注意点'
+    return render_template('demo.html', page_title=page_title)
