@@ -565,7 +565,7 @@ section {
   padding-left:12px;
   border-radius: 8px;
   margin:0 auto;
-  margin-left:3px;
+  box-sizing:border-box;
 }
 
 .login-button a{
@@ -763,3 +763,11 @@ section {
   padding-bottom:0.5em;
 }
 
+
+input,
+select,
+textarea {
+  margin-left:0;
+  margin-right:0;
+  box-sizing:border-box;
+}
