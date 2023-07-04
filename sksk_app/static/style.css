@@ -316,6 +316,7 @@ section {
 .audio  {
   font-size:1.3em;
   font-family: 'Kaisei Decol', serif;
+  height:60px;
   color:#ffffff;
   background-color: var(--text);
   border:0;
