@@ -136,13 +136,15 @@ def show_hints():
     e_group_id = result[1]
     element_id = result[2]
         
+
     element = db.session.get(Element, element_id)
 
     grade = db.session.get(Grade, grade_id)
-    grade_position = grade.position
+    e_group = db.session.get(E_Group, e_group_id)
+    # grade_position = grade.position
 
-    e_group_id = editor.EditManager.fetchE_Group(grade_id)
-    e_group_position = db.session.get(E_Group, e_group_id).position
+    # e_group_id = editor.EditManager.fetchE_Group(grade_id)
+    # e_group_position = db.session.get(E_Group, e_group_id).position
     grades = Grade.query.all()
     e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     styles = Style.query.all()
@@ -151,7 +153,7 @@ def show_hints():
 
     questions_with_hints = editor.QuestionManager.fetch_questions_with_hints(element.id)
 
-    return render_template('edit/show_hints.html',grade_id=grade_id, grade_position= grade_position, e_group_position=e_group_position, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints)
+    return render_template('edit/show_hints.html',grade=grade,e_group=e_group, grades=grades, e_groups=e_groups, styles=styles, e_group_id=e_group_id, elements=elements, element=element, questions=questions_with_hints)
 
 
 @edit.route('/add/grade', methods=['POST'])
