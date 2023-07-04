@@ -19,11 +19,16 @@
 
 <h2 class="text-center mt-4 mb-4">問題を解く</h2>
 
+
+
 <div class="text-center">
 
-    <div class="button position-relative">
-        <a class="stretched-link" href="{{url_for('question.select_element', guest=1)}}">スタート</a></p>
-    </div>
+
+{% if not current_user.is_authenticated %}
+
+<div class="button position-relative">
+    <a class="stretched-link" href="{{url_for('question.select_element', guest=1)}}">スタート</a></p>
+</div>
 
 <div class="toppage-note">
 ログインなしで始められます。
@@ -34,17 +39,29 @@
 </div>
 
 <div class="toppage-note">
-ユーザー登録をすることで、記録を残すことができます。
+ユーザー登録をすることで、<br>
+記録を残すことができます。
 </div>
 
+{% endif %}
+
 {% if current_user.is_authenticated %}
+
+<div class="button position-relative mt-4">
+    <a class="stretched-link" href="{{url_for('question.check_login')}}">スタート</a>
+</div>
+
+<!-- <div class="toppage-note">
+
+</div> -->
 
 <div class="button position-relative mt-4">
     <a class="stretched-link" href="{{url_for('question.start_review_grade')}}">間違えた問題の復習</a>
 </div>
 
 <div class="toppage-note">
-最近間違えた問題からランダムに5問解きます。
+最近間違えた問題から<br>
+ランダムに5問解きます。
 </div>
 {% endif %}
 
