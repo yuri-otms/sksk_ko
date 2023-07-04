@@ -3,6 +3,7 @@
 
 <h2>ヒントの登録</h2>
 
+
 <table class="list">
     <tr>
         <td>
@@ -91,12 +92,13 @@
 
 <script>
     
-    let selected_grade = '{{grade_position}}' - 1;
-    let selected_e_group = '{{e_group_position}}' - 1;
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
     let selected_element = '{{element.position}}' - 1;
     document.getElementById("grade").options[selected_grade].selected = true;
     document.getElementById("e_group").options[selected_e_group].selected = true;
     document.getElementById("element").options[selected_element].selected = true;
+
 
 </script>
 {%endblock%}
