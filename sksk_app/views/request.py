@@ -58,6 +58,9 @@ def not_checked_questions():
 @login_required
 def request_check():
     checks = request.form.getlist('question')
+    if checks == []:
+        flash('問題が選択されていません。')
+        return redirect(url_for('req.not_checked_questions'))
     title = request.form['title']
     detail = request.form['detail']
     if checks[0] == 'on':
@@ -67,6 +70,8 @@ def request_check():
         question = Question.query.with_entities(Question.id, Grade.grade, Element.element, Question.japanese, Question.foreign_l).join(Element).join(E_Group).join(Grade).filter(Question.id==check).first()
         questions.append(question)
 
+    # return render_template('request/request_check.html', checks=checks)
+    
     return render_template('request/request_check.html', questions=questions, title=title, detail=detail)
 
 
