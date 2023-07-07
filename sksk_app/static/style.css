@@ -699,6 +699,13 @@ section {
   margin-bottom:5px;
 }
 
+.toppage-copy {
+  text-align:center;
+  font-family: 'Kaisei Decol', serif;
+  color: var(--text);
+  margin:20px 10px;
+}
+
 .howto-img  {
   padding:15px;
   border:1px solid lightgrey;
