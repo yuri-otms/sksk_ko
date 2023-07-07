@@ -779,6 +779,9 @@ textarea {
   margin-right:0;
   box-sizing:border-box;
 }
+select  {
+  appearance:none;
+}
 
 strong  {
   color:red;

@@ -1079,7 +1079,7 @@ def create_audio_file_done():
 
     flash('音声ファイルを作成しました。')
     if approve:
-        return redirect(url_for('approve.not_appoved_questions'))
+        return redirect(url_for('approve.not_approved_questions'))
     else:
         return redirect(url_for('edit.show_questions', e=element_id))
 

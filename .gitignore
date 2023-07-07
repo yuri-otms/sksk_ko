@@ -7,7 +7,7 @@ __pycache__/
 sksk_app/google.json
 sksk_app/credentials.json
 sksk_app/credentials_webapp.json
-sksk_app/able-marking-380619-842c165bf56d.json
+sksk_app/credentials_webapp_old.json
 sksk_app/token.py
 sksk_app/token.json
 sksk_app/test_translation.py
