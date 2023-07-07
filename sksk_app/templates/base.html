@@ -28,6 +28,9 @@
                 </li>
                 {% endif %}
                 <li class="nav-item">
+                <a class="nav-link" href="{{url_for('pg.about')}}">「サクッと作文」について</a>
+                </li>
+                <li class="nav-item">
                 <a class="nav-link" href="{{url_for('pg.howto')}}">使い方</a>
                 </li>
                 
@@ -89,8 +92,10 @@
         <div class="text-center">
             <div class="container">
                 <div class="toppage-footer">
-                <a href="{{url_for('pg.about')}}">「サクッと作文」について</a><br>
-                 <a href="{{url_for('pg.terms_of_service')}}">利用規約</a> <a href="{{url_for('pg.privacy_policy')}}">プライバシーポリシー</a> <a href="{{url_for('pg.contact')}}">お問い合わせ</a>
+
+                 <a href="{{url_for('pg.terms_of_service')}}">利用規約</a> 
+                 <a href="{{url_for('pg.privacy_policy')}}">プライバシーポリシー</a><br>
+                 <a href="{{url_for('pg.contact')}}">お問い合わせ</a>
                 </div>
                 <p class="pt-3">(c){{session['this_year']}} サクッと作文 韓国語</p>
 
