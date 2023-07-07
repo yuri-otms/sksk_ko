@@ -78,7 +78,12 @@ def change_question_done():
 @approve.route('/release/questions', methods=['POST'])
 @login_required
 def release_questions():
-    releases = request.form.getlist('question')
+   
+    if request.form.getlist('question'):
+        releases = request.form.getlist('question')
+    else:
+        flash('問題が選択されていません。')
+        return redirect(url_for('approve.not_approved_questions'))
     # 「全て選択」の選択を削除
     if releases[0] == 'on':
         releases.pop(0)
@@ -103,13 +108,17 @@ def release_questions_execute():
 @login_required
 def release_questions_done():
     flash('問題文を公開しました。')
-    return redirect(url_for('approve.not_appoved_questions'))
+    return redirect(url_for('approve.not_approved_questions'))
 
 
 @approve.route('/unrelease/questions', methods=['POST'])
 @login_required
 def unrelease_questions():
-    releases = request.form.getlist('question')
+    if request.form.getlist('question'):
+        releases = request.form.getlist('question')
+    else:
+        flash('問題が選択されていません')
+        return redirect(url_for('approve.approved_questions'))
     # 「全て選択」の選択を削除
     if releases[0] == 'on':
         releases.pop(0)
@@ -137,7 +146,7 @@ def unrelease_questions_done():
 
 @approve.route('/not_approved/questions')
 @login_required
-def not_appoved_questions():
+def not_approved_questions():
     questions_raw = Question.query.filter(or_(Question.process==5, Question.process==9)).order_by(Question.id)
 
     questions = []
@@ -149,7 +158,7 @@ def not_appoved_questions():
 
 @approve.route('/approved/questions')
 @login_required
-def appoved_questions():
+def approved_questions():
     edited_questions = Question.query.with_entities(Question.id, Grade.grade, Element.element, Question.japanese, Question.foreign_l).join(Element).join(E_Group).join(Grade).filter(Question.process==8).order_by(Question.id)
     return render_template('approve/approved_questions.html', questions=edited_questions)
 

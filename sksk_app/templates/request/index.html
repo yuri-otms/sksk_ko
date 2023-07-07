@@ -146,7 +146,7 @@
 <h4>公開処理</h4>
 {% if requests_not_approved %}
 <div class="button text-center position-relative" style="margin:5px;">
-<a class="stretched-link" href="{{url_for('approve.not_appoved_questions')}}">未公開の問題</a>
+<a class="stretched-link" href="{{url_for('approve.not_approved_questions')}}">未公開の問題</a>
 </div>
 {% else %}
 <p>未公開・確認済みの問題はありません、</p>
@@ -155,7 +155,7 @@
 <h4>未公開処理</h4>
 {% if requests_not_approved %}
 <div class="button text-center position-relative" style="margin:5px;">
-<a class="stretched-link" href="{{url_for('approve.appoved_questions')}}">公開している問題</a>
+<a class="stretched-link" href="{{url_for('approve.approved_questions')}}">公開している問題</a>
 </div>
 {% else %}
 <p>公開されている問題はありません、</p>
