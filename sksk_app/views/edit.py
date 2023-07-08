@@ -141,10 +141,7 @@ def show_hints():
 
     grade = db.session.get(Grade, grade_id)
     e_group = db.session.get(E_Group, e_group_id)
-    # grade_position = grade.position
 
-    # e_group_id = editor.EditManager.fetchE_Group(grade_id)
-    # e_group_position = db.session.get(E_Group, e_group_id).position
     grades = Grade.query.all()
     e_groups = E_Group.query.filter(E_Group.grade==grade_id)
     styles = Style.query.all()
@@ -908,18 +905,18 @@ def delete_question_done():
 @edit.route('/confirm/hint/j', methods=['POST'])
 @login_required
 def confirm_hint_j():
-    # question_id = request.form['question_id']
-    # japanese_word = request.form['japanese_word']
-    # question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
+    question_id = request.form['question_id']
+    japanese_word = request.form['japanese_word']
+    question_with_hints = editor.QuestionManager.fetch_question_with_components_hints(question_id)
 
-    # japanese_words = Word.query.filter(Word.japanese.like("%" + japanese_word + "%"))
-    # translated_word = api.Papago.ja_to_ko(japanese_word)
+    japanese_words = Word.query.filter(Word.japanese.like("%" + japanese_word + "%"))
+    translated_word = api.Papago.ja_to_ko(japanese_word)
 
-    # words = editor.HintManager.fetch_word(question_id)
-    # hint_existed = editor.HintManager.confirm_j_hint(question_id, japanese_word)
+    words = editor.HintManager.fetch_word(question_id)
+    hint_existed = editor.HintManager.confirm_j_hint(question_id, japanese_word)
 
-    return render_template('edit/confirm_hint_j.html')
-    # return render_template('edit/confirm_hint_j.html', question=question_with_hints, japanese_word=japanese_word, japanese_words=japanese_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
+    # return render_template('edit/confirm_hint_j.html')
+    return render_template('edit/confirm_hint_j.html', question=question_with_hints, japanese_word=japanese_word, japanese_words=japanese_words, translated_word=translated_word, words=words, hint_existed=hint_existed)
 
 
 @edit.route('/confirm/hint/f', methods=['POST'])
