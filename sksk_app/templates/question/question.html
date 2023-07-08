@@ -9,8 +9,8 @@
 <h2>級全体の復習モード</h2>
 {% endif %}
 
-
-
+<p class="attribute"><span class="grade-name">{{attribute.grade}}</span> <span class="element-name"><a href="{{url_for('question.select_element', guest=guest, e=question.element)}}">{{attribute.element}} <br>
+    {{attribute.description}}</a></span></p>
 
 <div class="question">
 <h2>{{no}}問目</h2>
@@ -58,11 +58,11 @@
 </div>
 
 <div class="show_answer">
-<button id="show" type="button" class="button" style="width:300px;">答え合わせ</button>
+    <button id="show" type="button" class="button" style="width:300px;">答え合わせ</button>
 </div>
 
+</div><!--  after_button -->
 
-</div>
 
 
 <script>

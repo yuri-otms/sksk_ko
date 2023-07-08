@@ -648,6 +648,21 @@ section {
   font-weight: bold;
 }
 
+.attribute  {
+  font-size:0.9em;
+  text-align: right;
+}
+.grade-name {
+  color:var(--text);
+  background-color:var(--dark);
+  padding:4px;
+  border-radius: 4px;
+  margin-right:5px;
+}
+.element-name {
+  color:gray;
+}
+
 .img-credits  {
   text-align: center;
   font-size:0.9em;
