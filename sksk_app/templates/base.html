@@ -30,9 +30,6 @@
                 <li class="nav-item">
                 <a class="nav-link" href="{{url_for('pg.about')}}">「サクッと作文」について</a>
                 </li>
-                <li class="nav-item">
-                <a class="nav-link" href="{{url_for('pg.howto')}}">使い方</a>
-                </li>
                 
                 {% if current_user.is_authenticated %}
                     {% if session['edit'] %}
