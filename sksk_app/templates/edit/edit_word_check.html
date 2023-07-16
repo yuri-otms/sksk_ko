@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>単語の編集</h2>
+
+<p>単語を以下のように変更しますか？</p>
+
+<form action="{{url_for('edit.edit_word_execute')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th></th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    <tr>
+        <th>変更前</th>
+        <td>{{word.japanese}}</td>
+        <td>{{word.foreign_l}}</td>
+    </tr>
+    <tr>
+        <th>変更後</th>
+        <td>{{japanese}}</td>
+        <td>{{foreign_l}}</td>
+    </tr>
+</table>
+
+<div class="right">
+    <input type="hidden" name="word_id" value="{{word.id}}">
+    <input type="hidden" name="japanese" value="{{japanese}}">
+    <input type="hidden" name="foreign_l" value="{{foreign_l}}">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">変更</button>
+</div>
+
+{% endblock %}

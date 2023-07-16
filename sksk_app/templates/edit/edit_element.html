@@ -1,0 +1,55 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>項目の編集</h2>
+
+<form action="{{url_for('edit.edit_element_check')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th>級を選択</th>
+        <th>項目グループを選択</th>
+        <th>項目</th>
+        <th>説明</th>
+    </tr>
+    <tr>
+        <td>
+            <select id="grade" onchange="location.href=value">
+                {% for grade in grades %}
+                <option value="{{url_for('edit.edit_element', l=grade.id, e=element.id)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="e_group" onchange="location.href=value">
+                {% for e_group in e_groups %}
+                <option value="{{url_for('edit.edit_element',l=grade.id,g=e_group.id, e=element.id)}}">{{e_group.e_group}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <input type="text" name="element_name" value="{{element.element}}">
+        </td>
+        <td>
+            <input type="text" name="description" value="{{element.description}}">
+        </td>
+    </tr>
+</table>
+
+    <input type="hidden" name="element_id" value="{{element.id}}">
+    <input type="hidden" name="e_group_id" value="{{e_group.id}}">
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">確認</button>
+</div>
+</form>
+
+<script>
+
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+
+</script>
+
+{% endblock %}

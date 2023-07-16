@@ -1,0 +1,155 @@
+{% extends "base1200.html" %}
+
+{% block body %}
+
+<h2>確認依頼詳細</h2>
+
+<div class="button position-relative" style="margin:10px;">
+    <a class="stretched-link" href="{{url_for('req.index')}}">依頼インデックスへ</a>
+</div>
+
+<form>
+<table class="table list">
+    <tr>
+        <th style="background-color:#e6c5cf;">id</th>
+        <td>{{request.id}}</td>
+    </tr>
+    <tr>
+        <th style="background-color:#e6c5cf;">タイトル</th>
+        <td>{{request.title}}</td>
+    </tr>
+    <tr>
+        <th style="background-color:#e6c5cf;">詳細</th>
+        <td>{{request.detail}}</td>
+    </tr>
+    <tr>
+        <th style="background-color:#e6c5cf;">依頼日時</th>
+        <td>{{request.requested_at}}</td>
+    </tr>
+    {% if request.finished_at %}
+    <tr>
+        <th style="background-color:#e6c5cf;">完了日時</th>
+        <td>{{request.finished_at}}</td>
+    </tr>
+    {% endif %}
+</table>
+
+{% if session['edit'] and request.finished_at == None %}
+<div class="right">
+    <input type="hidden" name="request_id" value="{{request.id}}">
+    <button class="add" formaction="{{url_for('req.delete_check_request')}}" formmethod="POST">削除</button>
+</div>
+{% endif %}
+
+<h3>依頼した問題文</h3>
+{% if session['check'] and request.finished_at == None%}
+修正の必要ないものは「確認」にチェックをお願いします。
+{% endif %}
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>級</th>
+        <th>項目</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        {% if session['check']%}
+        <th>確認</th>
+        {% endif %}
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <input type="hidden" name="questions" value="{{question.id}}">
+        <td>{{question.grade}}</td>
+        <td>{{question.element}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        {% if session['check'] and request.finished_at == None%}
+        <td rowspan="2">
+            <input type="checkbox" name="checked" value="{{question.id}}">
+        </td>
+        {% endif %}
+        {% if request.finished_at %}
+        <td rowspan="2">
+            {{question.checked}}
+        </td>
+        {% endif %}
+    </tr>
+    {% if session['check'] and request.finished_at == None%}
+    <tr>
+        <td colspan="5">
+            <h5>コメント </h5>
+            <textarea name="message" cols="50" rows="2"></textarea>
+
+        </td>
+    </tr>
+    {% endif %}
+    {% if request.finished_at %}
+    <tr>
+        <td colspan="5">
+            {% if question.message %}
+            {{question.message}}
+            {% else %}
+            なし
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% if session['check'] and request.finished_at == None %}
+<input type="hidden" name="request_id" value="{{request.id}}">
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add" formaction="{{url_for('req.question_checked')}}" formmethod="POST">確認</button>
+</div>
+</form>
+{% endif %}
+
+
+{% if session['edit'] and rejected_questions and request.request_id == 0 %}
+<div class="right">
+<a class="button" href="{{url_for('req.resubmit_check_request', r=request.id)}}">再提出</a>
+</div>
+{% endif %}
+
+
+<div class="button position-relative" style="margin:10px;">
+    <a class="stretched-link" href="{{url_for('req.index')}}">依頼インデックスへ</a>
+</div>
+
+<script>
+    //チェックボックスを全て選択、全て解除
+    let checkAll = document.getElementById("checkAll");
+    let el = document.getElementsByClassName("checks");
+
+    const funcCheckAll = (bool) => {
+        for (let i = 0; i < el.length; i++) {
+            el[i].checked = bool;
+        }
+    }
+    const funcCheck = () => {
+        let count = 0;
+        for (let i = 0; i < el.length; i++) {
+            if (el[i].checked) {
+                count += 1;
+            }
+        }
+        if (el.length == count) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    };
+    checkAll.addEventListener("click",() => {
+        funcCheckAll(checkAll.checked);
+    }, false)
+
+    for (let i = 0; i < el.length; i++) {
+        el[i].addEventListener("click", funcCheck, false)
+    }
+
+
+</script>
+
+{% endblock %}

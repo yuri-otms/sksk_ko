@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>ユーザーの削除</h2>
+
+<p>以下のユーザーを削除してよろしいですか？</p>
+
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>ユーザー名</th>
+        <th>Email</th>
+        <th>パスワード</th>
+        <th>編集</th>
+        <th>確認</th>
+        <th>承認</th>
+        <th>管理</th>
+    </tr>
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>パスワード</td>
+        <td>
+            {% if user.edit %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.check %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.approve %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+        <td>
+            {% if user.admin %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<div class="right">
+    <form action="{{url_for('admin.delete_user_execute')}}" method="POST">
+        <input type="hidden" name="id" value="{{user.id}}">
+        <button class="back" type="button" onclick="history.back()">戻る</button>
+        <button class="add">削除</button>
+    </form>
+</div>
+
+
+
+{%endblock%}

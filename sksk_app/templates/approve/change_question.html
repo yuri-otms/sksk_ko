@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1>問題文</h1>
+
+{% if question.released %}
+<p>以下の問題を非公開にしますか。</p>
+{% else %}
+<p>以下の問題を公開しますか。</p>
+{% endif %}
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        <th>公開設定</th>
+    </tr>
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        <td>
+            {% if question.released %}
+            ○
+            {% else %}
+            ×
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+
+{% if question.released %}
+<a href="{{url_for('approve.change_question_execute', q=question.id)}}">非公開にする</a>
+{% else %}
+<a href="{{url_for('approve.change_question_execute', q=question.id)}}">公開する</a>
+{% endif %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,356 @@
+{% extends "base1200.html" %}
+{% block body %}
+
+<h2>問題文の編集</h2>
+
+
+<table class="list">
+    <tr>
+        <td>
+            <h4>級の選択</h4>
+            <select name="l" id="grade" onchange="location.href=value" class="select-attribute">
+                {% for grade in grades %}
+                <option value="{{url_for('edit.show_questions', l=grade.id)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select> 
+        </td>
+        <td>
+            <h4>項目グループの選択</h4>
+            <select name="g" id="e_group" onchange="location.href=value" class="select-attribute">
+                {% for e_group in e_groups %}
+                <option value="{{url_for('edit.show_questions', g=e_group.id)}}">{{e_group.e_group}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <form method="GET">
+            <h4>項目の選択</h4>
+            <select name="e" id="element" onchange="location.href=value" class="select-attribute">
+                {% for element in elements %}
+                <option value="{{url_for('edit.show_questions', e=element.id)}}">{{element.element}}</option>
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+</table>
+
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>外国語</th>
+        <th>作成者</th>
+        <th>編集</th>
+        <th>状態</th>
+        <th><label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
+        <th>音声</th>
+    </tr>
+    {% if not questions[0] %}
+    <tr><td colspan="8">問題文はありません</td></tr>
+    {% endif %}
+    
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <td class="td-left">{{question.japanese}}</td>
+        <td class="td-left">{{question.foreign_l}}</td>
+        <td>{{question.created_by}}</td>
+        <td>
+            <a class="action" href="{{url_for('edit.edit_question', q=question.id,e=element.id)}}">編集</a>
+            <a class="action" href="{{url_for('edit.delete_question', id=question.id)}}">削除</a>
+        </td>
+        <td>
+            {% if question.process == 4 %}
+            確認依頼
+            {% elif question.process == 5 %}
+            確認済み
+            {% elif question.process == 6 %}
+            確認却下
+            {% elif question.process == 7 %}
+            再提出
+            {% elif question.process == 8 %}
+            公開
+            {% elif question.process == 9 %}
+            非公開
+
+
+            {% endif %}
+        </td>
+        <td>
+            {% if question.audio %}
+            {% else %}
+            <form>
+            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
+            {% endif %}
+        </td>
+        <td>
+            {% if question.audio %}
+            ○
+            {% else %}
+                {% if question.process == 5 or question.process == 8 %}
+                <a class="action" href="{{url_for('edit.create_audio_file', e= element.id, q=question.id, a=0)}}">作成</a>
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<div class="right">
+    <input type="hidden" name="element_id" value="{{element.id}}">
+    <button class="button" style="text-align:center" formaction="{{url_for('edit.create_audio_files')}}" formmethod="POST">まとめて音声作成</button>
+</div>
+</form>
+
+
+<h2>問題文の登録</h2>
+
+<form action="{{url_for('edit.add_question')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>外国語</th>
+        <th>文体</th>
+        <th>口語</th>
+        <th>시다</th>
+        <th>겠</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td class="td-middle">
+            新規1
+        </td>
+        <td>
+            <input type="text" name="japanese1">
+        </td>
+        <td>
+            <input type="text" name="foreign_l1">
+        </td>
+        <td>
+            <select name="style1">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken1">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida1">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will1">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td colspan="4" rowspan="5">
+            <input type="hidden" name="element_id" value="{{element.id}}">
+            <button class="add" style="width:100px;">作成</button>
+
+        </td>
+    </tr>
+    <tr>
+        <td class="td-middle">
+            新規2
+        </td>
+        <td>
+            <input type="text" name="japanese2">
+        </td>
+        <td>
+            <input type="text" name="foreign_l2">
+        </td>
+        <td>
+            <select name="style2">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken2">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida2">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will2">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-middle">
+            新規3
+        </td>
+        <td>
+            <input type="text" name="japanese3">
+        </td>
+        <td>
+            <input type="text" name="foreign_l3">
+        </td>
+        <td>
+            <select name="style3">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken3">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida3">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will3">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-middle">
+            新規4
+        </td>
+        <td>
+            <input type="text" name="japanese4">
+        </td>
+        <td>
+            <input type="text" name="foreign_l4">
+        </td>
+        <td>
+            <select name="style4">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken4">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida4">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will4">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-middle">
+            新規5
+        </td>
+        <td>
+            <input type="text" name="japanese5">
+        </td>
+        <td>
+            <input type="text" name="foreign_l5">
+        </td>
+        <td>
+            <select name="style5">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="spoken5">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="sida5">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select name="will5">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+    </tr>
+    </form>
+</table>
+</form>
+
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('edit.index')}}">編集トップページ</a>
+</div>
+
+<script>
+    
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
+    let selected_element = '{{element.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+    document.getElementById("element").options[selected_element].selected = true;
+
+    //チェックボックスを全て選択、全て解除
+    let checkAll = document.getElementById("checkAll");
+    let el = document.getElementsByClassName("checks");
+
+    const funcCheckAll = (bool) => {
+        for (let i = 0; i < el.length; i++) {
+            el[i].checked = bool;
+        }
+    }
+    const funcCheck = () => {
+        let count = 0;
+        for (let i = 0; i < el.length; i++) {
+            if (el[i].checked) {
+                count += 1;
+            }
+        }
+        if (el.length == count) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    };
+    checkAll.addEventListener("click",() => {
+        funcCheckAll(checkAll.checked);
+    }, false)
+
+    for (let i = 0; i < el.length; i++) {
+        el[i].addEventListener("click", funcCheck, false)
+    }
+
+
+</script>
+{%endblock%}

@@ -1,0 +1,61 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>項目グループ</h2>
+
+
+<h3>級の選択</h3>
+<select name="grade" id="grade" onchange="location.href=value">
+    {% for grade in grades %}
+    <option value="{{url_for('edit.show_e_groups', l=grade.id)}}#e_group">{{grade.grade}}</option>
+    {% endfor %}
+</select>
+
+<table class="table list">
+    <tr class="title">
+        <th>グループ名</th>
+        <th>説明</th>
+        <th>項番</th>
+        <th>編集</th>
+    </tr>
+    {% for e_group in e_groups %}
+    <tr>
+        <td>{{e_group.e_group}}</td>
+        <td>{{e_group.description}}</td>
+        <td>{{e_group.position}}</td>
+        <td><a class="action" href="{{url_for('edit.edit_e_group', e_group=e_group.id, l=grade.id)}}">編集</a>
+        <a class="action" href="{{url_for('edit.delete_e_group', e_group=e_group.id)}}">削除</a></td>
+        
+    </tr>
+    {% endfor %}
+    <tr>
+        <form action="{{url_for('edit.add_e_group')}}" method="post">
+            <td>
+            <input type="text" name="e_group_name" required>
+            </td>
+            <td>
+            <input type="text" name="description" required>
+            </td>
+            <td>
+            </td>
+            <td>
+            <input type="hidden" name="grade" value="{{grade.id}}">
+            <button class="add" type="submit">追加</button>
+            </td>
+        </form>
+    </tr>
+</table>
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('edit.index')}}">編集トップページ</a>
+</div>
+
+<script>
+
+
+    let selected_grade = '{{grade.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+
+</script>
+
+{% endblock %}

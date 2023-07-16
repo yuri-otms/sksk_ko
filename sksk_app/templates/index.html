@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block body %}
+
+<!-- toppage -->
+
+<img src="{{url_for('static', filename='images/Knowledge-bro.png')}}" width="300px" class="mx-auto d-block">
+
+<div class="img-credits">
+<a href="https://storyset.com/education">Education illustrations by Storyset</a>
+</div>
+
+<div class="toppage-copy">
+作文することで<br>
+文法力を身につける</p>
+</div>
+
+<div class="toppage-demo">
+    デモ版公開中
+</div>
+<div class="toppage-footer mt-0">
+    <strong>注意！</strong>デモ版の韓国語は正しくない可能性があります。
+    <a href="{{url_for('pg.about')}}#demo">詳細</a>
+</div>
+
+
+<h2 class="text-center mt-4 mb-4">問題を解く</h2>
+
+
+
+<div class="text-center">
+
+
+{% if not current_user.is_authenticated %}
+
+<div class="button position-relative">
+    <a class="stretched-link" href="{{url_for('question.select_element', guest=1)}}">スタート</a></p>
+</div>
+
+<div class="toppage-note">
+ログインなしで始められます。
+</div>
+
+<div class="button position-relative mt-4">
+    <a class="stretched-link" href="{{url_for('question.check_login')}}">ログインしてスタート</a>
+</div>
+
+<div class="toppage-note">
+ユーザー登録をすることで、<br>
+記録を残すことができます。
+</div>
+
+{% endif %}
+
+{% if current_user.is_authenticated %}
+
+<div class="button position-relative mt-4">
+    <a class="stretched-link" href="{{url_for('question.check_login')}}">スタート</a>
+</div>
+
+<!-- <div class="toppage-note">
+
+</div> -->
+
+<div class="button position-relative mt-4">
+    <a class="stretched-link" href="{{url_for('question.start_review_grade')}}">間違えた問題の復習</a>
+</div>
+
+<div class="toppage-note">
+最近間違えた問題から<br>
+ランダムに5問解きます。
+</div>
+{% endif %}
+
+
+
+</div>
+
+
+
+{%endblock%}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <title>{{page_title}}{% if page_title%} - {% endif %}サクッと作文 韓国語</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='images/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&family=Noto+Sans+JP&family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
+    <meta name="description" content="外国語作文を口頭、筆記でしながら文法を学べるWEBアプリです。">
+</head>
+<body>
+    <!-- nav -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark p-0">
+        <div class="container">
+          <a class="nav-link" href="{{url_for('pg.toppage')}}"><h1 class="p-3">サクッと作文　韓国語</h1></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.account')}}">{{session["user_name"]}}さん</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('pg.about')}}">「サクッと作文」について</a>
+                    </li>
+                
+                {% if current_user.is_authenticated %}
+                    {% if session['edit'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('edit.index')}}">編集</a>
+                    </li>
+                    {% endif %}
+                    {% if session['admin'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('admin.index')}}">管理</a>
+                    </li>
+                    {% endif %}
+
+                    {% if session['edit'] or session['check'] or session['approve'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('req.index')}}">依頼</a>
+                    </li>
+
+                    {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.logout')}}">ログアウト</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.login')}}">ログイン</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.signup')}}">ユーザー登録</a>
+                </li>
+                {% endif %}
+
+
+
+
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <main>
+        <div class="container wrapper375">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    {%for message in get_flashed_messages() %}
+                    <div class="flash-message mb-1">
+                        {{message}}
+                
+                    </div>
+                    {% endfor %}
+
+
+    {% block body %}
+    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer mt-auto">
+        <div class="text-center">
+            <div class="container">
+
+                <div class="toppage-footer">
+
+                    <a href="{{url_for('pg.terms_of_service')}}">利用規約</a> 
+                    <a href="{{url_for('pg.privacy_policy')}}">プライバシーポリシー</a><br>
+                    <a href="https://forms.gle/qikBdjgnkQ69ytyX6" target="_blank" rel="noopener noreferrer">お問い合わせ</a>
+                   </div>
+                <p class="pt-3">(c){{session['this_year']}} サクッと作文 韓国語</p>
+            </div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery-3.7.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+</body>
+
+</html>

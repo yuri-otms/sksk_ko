@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="about">
+<h2>作文することで<br>
+    文法力を身につける</h2>
+
+
+<h3 class="mt-5 mb-4">「サクッと作文」の特徴</h3>
+
+<ul>
+    <li>ハングル検定に出てくる文法項目1つにつき、5つの作文問題が出題されます。</li>
+    <li><strong>分からない単語</strong>は、クリックすることで<strong>その場でわかる</strong>ので、調べる手間が省けます。</li>
+    <li><strong>ユーザー登録をしなくても</strong>、誰でもその場で問題を解くことができます。</li>
+    <li>ユーザー登録することで、<strong>間違えた問題を簡単に復習</strong>できます。</li>
+    <li>それぞれの解答に<a href="https://cloud.google.com/text-to-speech">Google Text-to-Speech</a>による<strong>合成音声</strong>があるため、発音を確認できます。</li>
+</ul>
+
+
+<h3 class="mt-5 mb-4">おすすめの使い方</h3>
+
+<ul>
+    <li><a name="demo"></a>ハングル検定(<a href="https://hangul.or.jp">公式サイト</a>)を受ける前の各文法項目の復習</li>
+    <li>韓国語を久しぶりに勉強するの時の文法項目の確認</li>
+</ul>
+
+<p>※ 今までに全く韓国語に触れていない方、文法の説明が必要な方にはおすすめしません。</p>
+
+<h3 class="mt-5 mb-4">デモ版の注意点</h3>
+
+<ul>
+    <li>現在出題される問題は、ハングル検定5級（初歩の段階 <a href="https://hangul.or.jp/siken-top/level/">各級レベルと合格ライン | ハングル能力検定協会</a> ）の運営者が作成しているため、<strong>間違った韓国語</strong>になっている可能性があります。</li>
+    <li><strong>デモ版はあくまでも操作確認を行うもの</strong>として考えていただけると幸いです。</li>
+    <li>将来的には韓国語に詳しい方・ネイティブの方にチェックしていだき、修正作業を行った上で正式なリリースを考えています。</li>
+</ul>
+
+<h3 class="mt-5 mb-4">問題の解き方</h3>
+
+<p></p>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/question.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            日本語文が表示されるので、口頭で、もしくはメモアプリ・ノートに韓国語を書きます。<br>
+            日本語文の下には文体（ハムニダ体、ヘヨ体、ヘ体、ハンダ体、ハオ体）、口語、敬語、意志の接尾辞（겠）の有無が表示されます。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/hint.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            問題文の下の「ヒント」から、わからない単語の日本語訳をクリックすると、韓国語が表示されます。
+        </div>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-6">
+        <div class="howto-card">
+            <img class="howto-img" src="{{url_for('static', filename='images/answer_detail.png')}}">
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="howto-card howto-note">
+            「答え合わせ」をクリックすると、解答が表示されます。<br>
+            解答の下の再生ボタンをクリックすると、<a href="https://cloud.google.com/text-to-speech">Google Text-to-Speech</a>による合成音声が流れます。<br>
+            正解・不正解のどちらかをクリックし、成績をつけます。
+        </div>
+    </div>
+</div>
+
+
+<!-- <h3 class="mt-5 mb-4">シンプルな文章を外国語で作文する</h3>
+
+<p>英語を学んでもうすぐ30年、その間にドイツ語、韓国語も学びました。</p>
+<p>どの言語でも、「外国語の力ががついた！」と感じられるのは、日本語の文を外国語の文に訳す時でした。</p>
+<p>和文英訳、などと考えると難しく思えますが、そうではなく、単語も文の構造もシンプルなものを、どんどん作文するのです。</p>
+<p>そんな学習を自動化して、気楽に学習をしたいと考えた時、この「サクッと作文」の作成を思いつきました。</p>
+
+
+<h3 class="mt-5 mb-4">1項目5問ずつ　短時間でサクッと復習</h3>
+
+<p>このアプリは、外国語学習の初心者向けではありません。</p>
+<p>ある程度学習を進めている方（外国語の検定の一番下の級の受験を考えるくらい）が、各文法項目をサクッと復習できるように設計してあります。</p>
+<p>1つの項目につき、問題は5問。これだけできちんと身に付くとは思いません。他にも演習が必要です。ですが、検定試験の過去問を解く前に、各文法項目を復習しておきたい、という時にお使いになれるかと思います。</p>
+<p>また、長く1つの言語から離れた後、もう一度やり直す時、今まで学んだことをざっと学ぶ時にも有用です。</p>
+
+
+<h3 class="mt-5 mb-4">答え合わせは面倒…だけど力がつく</h3>
+
+<p>このアプリでは、外国語の作文をどんどん解いていくことになりますが、自動的に答え合わせができません。</p>
+<p>問題文の日本語を読み、その場で答えを口に出すか、メモアプリ、ノートに書き込んで答えを出します。そしてその答えを、解答の外国語文、もしくは音声（Googleのサービスで作成した人工音声です）によって確認します。</p>
+<p>他の学習アプリでは答えを選択すれば、すぐに自動的に答え合わせができ、スムーズです。ですが、それでは本当に自分で答えを出せた、とは感じられませんでした。</p>
+<p>少し面倒ではありますが、自分の作文した文と解答を見比べることで、より深く文字・単語・文の構造を確認できます。</p>
+
+<div class="mt-5">
+<p>あなたの外国語学習の手助けになれましたら幸いです。</p>
+</div> -->
+
+
+<h3 class="mt-5 mb-4">リンク</h3>
+
+<p><a href="https://github.com/yuri-otms/sksk_ko">GitHub</a></p>
+
+<div class="toppage-footer">
+2023年7月16日
+</div>
+
+</div>
+
+{%endblock%}

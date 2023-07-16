@@ -1,0 +1,38 @@
+{%extends "base375.html" %}
+{% block body %}
+
+<div class="login-page">
+
+    <h2 class="login-header">入力内容確認</h2>
+
+    <p>以下の内容でユーザー登録してもよろしいですか？</p>
+
+    <table class="table">
+        <tr>
+            <th style="background-color:#e6c5cf;">ユーザー名</th>
+        </tr>
+        <tr><td>{{name}}</td></tr>
+        <tr>
+            <th style="background-color:#e6c5cf;">メールアドレス</th>
+        </tr>
+        <tr><td>{{email}}</td></tr>
+        <tr>
+            <th style="background-color:#e6c5cf;">パスワード</th>
+        </tr>
+        <tr>
+            <td>省略</td>
+        </tr>
+    </table>
+
+    <form action="{{url_for('auth.signup')}}" method="post">
+        <input type="hidden" name="name" value="{{name}}">
+        <input type="hidden" name="email" value="{{email}}">
+        <input type="hidden" name="password" value="{{password}}">
+        <button type="button" class="login-back form-control mb-1" onclick="history.back()">戻る</button>
+        <button type="submit" class="login-button form-control">登録</button>
+    </form>
+
+</div>
+
+
+{%endblock%}

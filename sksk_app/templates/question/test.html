@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+
+<p>【latest_answers】 {{latest_answers}} </p>
+
+
+<p>【latest_incorrects】 {{latest_incorrects}}</p>
+
+
+<p>latest_inccorects</p>
+{% for latest_incorrect in latest_incorrects %}
+<p>{{latest_incorrect}}</p>
+{% endfor %}
+
+
+
+{% endblock %}

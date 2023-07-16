@@ -1,0 +1,115 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>問題文の編集</h2>
+
+<form action="{{url_for('edit.edit_question_check')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th>級</th>
+        <th>項目グループ</th>
+        <th>項目</th>
+        <th>文体</th>
+        <th>口語</th>
+        <th>시다</th>
+        <th>겠</th>
+        <th>項番</th>
+    </tr>
+    <tr>
+        <td>
+            <select name="grade" id="grade" onchange="location.href=value">
+                {% for grade in grades %}
+                <option value="{{url_for('edit.edit_question', l=grade.id, q=question.id)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select> 
+        </td>
+        <td>
+            <select name="e_group_id" id="e_group" onchange="location.href=value">
+                {% for e_group in e_groups %}
+                <option value="{{url_for('edit.edit_question',l=grade_id,g=e_group.id, q=question.id)}}">{{e_group.e_group}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="element" id="element">
+                {% for element in elements %}
+                    <option value="{{element.id}}">{{element.element}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="style" id="style">
+                {% for style in styles %}
+                <option value="{{style.id}}">{{style.style}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="spoken" name="spoken">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select id="sida" name="sida">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>
+            <select id="will" name="will">
+                <option value="0">×</option>
+                <option value="1">○</option>
+            </select>
+        </td>
+        <td>{{question.position}}</td>
+    </tr>
+</table>
+<table class="list table">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>外国語</th>
+    </tr>
+    <tr>
+        <td>{{question.id}}</td>
+        <td>
+            <input type="text" name="japanese" value="{{question.japanese}}">    
+            
+        </td>
+        <td>
+            <input type="text" name="foreign_l" value="{{question.foreign_l}}">    
+            
+        </td>
+    </tr>
+</table>
+    <input type="hidden" name="request_id" value="{{request_id}}">
+    <input type="hidden" name="question_id" value="{{question.id}}">
+    <input type="hidden" name="position" value="{{question.position}}">
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">確認</button>
+</div>
+</form>
+
+
+<script>
+    
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
+    let selected_element = '{{element.position}}' - 1;
+    let selected_style = '{{question.style_id}}' -1;
+    let selected_spoken = '{{question.spoken}}';
+    let selected_sida = '{{question.sida}}';
+    let selected_will = '{{question.will}}';
+    document.getElementById("grade").options[selected_grade].selected = true;
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+    document.getElementById("element").options[selected_element].selected = true;
+    document.getElementById("style").options[selected_style].selected = true;
+    document.getElementById("spoken").options[selected_spoken].selected = true;
+    document.getElementById("sida").options[selected_sida].selected = true;
+    document.getElementById("will").options[selected_will].selected = true;
+
+</script>
+
+{% endblock %}

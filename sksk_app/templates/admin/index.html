@@ -1,0 +1,15 @@
+{% extends "base1200.html" %}
+{% block body %}
+
+<h2>管理画面</h2>
+
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('admin.show_records')}}">編集履歴</a>
+</div>
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('admin.show_user')}}">ユーザー編集</a>
+</div>
+
+{%endblock%}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>単語の削除</h2>
+
+<p>以下の単語を削除してもよろしいですか？</p>
+
+<form action="{{url_for('edit.delete_word_execute')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    <tr>
+        <th>{{word.id}}</th>
+        <td>{{word.japanese}}</td>
+        <td>{{word.foreign_l}}</td>
+    </tr>
+</table>
+<div class="right">
+    <input type="hidden" name="word_id" value="{{word.id}}">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">削除</button>
+</div>
+
+</form>
+
+<h2>この単語が使われている問題文</h2>
+
+<p>使われている問題文がある場合、単語を削除すると、ヒントから削除されます。</p>
+
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    {% if not questions[0] %}
+    <tr>
+        <td colspan="3">この単語が登録されている問題文はありません。</td>
+    </tr>
+    {% endif %}
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

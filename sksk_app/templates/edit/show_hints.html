@@ -1,0 +1,107 @@
+{% extends "base1200.html" %}
+{% block body %}
+
+<h2>ヒントの登録</h2>
+
+
+<table class="list">
+    <tr>
+        <td>
+            <h4>級の選択</h4>
+            <select name="l" id="grade" onchange="location.href=value" class="select-attribute">
+                {% for grade in grades %}
+                <option value="{{url_for('edit.show_hints', l=grade.id)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select> 
+        </td>
+        <td>
+            <h4>項目グループの選択</h4>
+            <select name="g" id="e_group" onchange="location.href=value" class="select-attribute">
+                {% for e_group in e_groups %}
+                <option value="{{url_for('edit.show_hints', g=e_group.id)}}">{{e_group.e_group}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <h4>項目の選択</h4>
+            <select name="e" id="element" onchange="location.href=value" class="select-attribute">
+                {% for element in elements %}
+                <option value="{{url_for('edit.show_hints', e=element.id)}}">{{element.element}}</option>
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+</table>
+
+<p class="list"><button type="button" class="add-hint">各単語</button>をクリックすると、ヒントの追加画面に移動します。</p>
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>外国語</th>
+        <th>ヒント</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td rowspan="2" class="td-middle">{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        <td rowspan="2">
+            <div class="hint-words">
+            {%for hint in question['hint'] %}
+                <span class="hint-word">{{hint.japanese}}</span>
+            {% endfor %}
+            </div>
+            <a class="action" href="{{url_for('edit.edit_hint', q=question.id)}}">編集</a>
+        </td>
+    </tr>
+    <tr>
+        
+        <td>
+            <div class="flex">
+            {%for japanese_word in question['japanese_word'] %}
+            <form action="{{url_for('edit.confirm_hint_j')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="japanese_word" value="{{japanese_word}}">
+                <button class="add-hint">{{japanese_word}}</button>
+            </form>
+            {% endfor %}
+            </div>
+        </td>
+        <td>
+            <div class="flex">
+            {%for foreign_word in question['foreign_word'] %}
+            {% if not foreign_word == '.' and not foreign_word == '?' %}
+            <form action="{{url_for('edit.confirm_hint_f')}}" method="POST">
+                <input type="hidden" name="question_id" value="{{question.id}}">
+                <input type="hidden" name="foreign_word" value="{{foreign_word}}">
+                <button class="add-hint">{{foreign_word}}</button>
+            </form>
+            {% else %}
+            {% endif %}
+            {% endfor %}
+            </div>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('edit.index')}}">編集トップページ</a>
+</div>
+
+
+<script>
+    
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
+    let selected_element = '{{element.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+    document.getElementById("element").options[selected_element].selected = true;
+
+
+</script>
+{%endblock%}

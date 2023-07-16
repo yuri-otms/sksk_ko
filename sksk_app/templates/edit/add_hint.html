@@ -1,0 +1,44 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>ヒントの追加</h2>
+
+<p>この単語をヒントに追加しますか？</p>
+
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    <tr>
+        <td>{{word.id}}</td>
+        <td>{{word.japanese}}</td>
+        <td>{{word.foreign_l}}</td>
+    </tr>
+</table>
+
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+    </tr>
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+    </tr>
+</table>
+
+<form action="{{url_for('edit.add_hint_execute')}}" method="POST">
+    <input type="hidden" name="question_id" value="{{question.id}}">
+    <input type="hidden" name="element_id" value="{{question.element}}">
+    <input type="hidden" name="word_id" value="{{word.id}}">
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">追加</button>
+</div>
+</form>
+
+{% endblock %}

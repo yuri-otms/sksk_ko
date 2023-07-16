@@ -1,0 +1,38 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>項目グループの編集</h2>
+
+<p>以下の変更を反映しますか？</p>
+
+<form action="{{url_for('edit.edit_e_group_execute')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th>級</th>
+        <th>項目グループ</th>
+        <th>説明</th>
+    </tr>
+    <tr>
+        <td>{{grade.grade}}</td>
+        <td>{{e_group.e_group}}</td>
+        <td>{{e_group.description}}</td>
+    </tr>
+</table>
+    <input type="hidden" name="e_group_id" value="{{e_group.id}}">
+    <input type="hidden" name="e_group_name" value="{{e_group.e_group}}">
+    <input type="hidden" name="grade_id" value="{{grade.id}}">
+    <input type="hidden" name="description" value="{{e_group.description}}">
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">変更</button>
+</div>
+</form>
+
+<script>
+
+    let selected_grade = '{{grade.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+
+</script>
+
+{% endblock %}

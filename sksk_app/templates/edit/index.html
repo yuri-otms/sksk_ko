@@ -1,0 +1,74 @@
+{% extends "base1200.html" %}
+{% block body %}
+
+<h2>級・項目グループ・項目の編集</h2>
+
+<div class="edit-list">
+    <a class="button" href="{{url_for('edit.show_grades')}}">級の編集</a>
+    <a class="button" href="{{url_for('edit.show_e_groups')}}">項目グループの編集</a>
+    <a class="button" href="{{url_for('edit.show_elements')}}">項目の編集</a>
+</div>
+
+<h2>問題文・ヒントの編集</h2>
+
+<div class="edit-list">
+
+<table>
+    <tr>
+        <td>
+            <h4>級の選択</h4>
+            <select name="l" id="grade" onchange="location.href=value" class="select-attribute">
+                {% for grade in grades %}
+                <option value="{{url_for('edit.index', l=grade.id)}}">{{grade.grade}}</option>
+                {% endfor %}
+            </select> 
+        </td>
+        <td>
+            <h4>項目グループの選択</h4>
+            <select name="g" id="e_group" onchange="location.href=value" class="select-attribute">
+                {% for e_group in e_groups %}
+                <option value="{{url_for('edit.index', g=e_group.id)}}">{{e_group.e_group}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <form method="GET">
+            <h4>項目の選択</h4>
+            <select name="e" id="element" class="select-attribute">
+                {% for element in elements %}
+                <option value="{{element.id}}">{{element.element}}</option>
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <div style="text-align: left;">
+            <button class="button" formaction="{{url_for('edit.show_questions')}}">問題文の編集<br>
+            </button>
+            <button class="button" formaction="{{url_for('edit.show_hints')}}">ヒントの編集<br>
+            </button>
+            </div>
+
+        </td>
+    </tr>
+</table>
+</form>
+
+<h2>単語の編集</h2>
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('edit.show_words')}}">単語の一覧</a>
+</div>
+
+
+<script>
+
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+
+</script>
+
+{%endblock%}

@@ -1,0 +1,44 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>級の編集</h2>
+
+<table class="list table">
+    <tr class="title">
+        <th>級</th>
+        <th>説明</th>
+        <th>項番</th>
+        <th>編集</th>
+    </tr>
+    {% for grade in grades %}
+    <tr>
+        <td>{{grade.grade}}</td>
+        <td>{{grade.description}}</td>
+        <td>{{grade.position}}</td>
+        <td><a class="action" href="{{url_for('edit.edit_grade', grade=grade.id)}}">編集</a>
+        <a class="action" href="{{url_for('edit.delete_grade', grade=grade.id)}}">削除</a></td>
+        
+    </tr>
+    {% endfor %}
+    <tr>
+        <form action="{{url_for('edit.add_grade')}}" method="post">
+            <td>
+            <input type="text" name="grade" required>
+            </td>
+            <td>
+            <input type="text" name="description" required>
+            </td>
+            <td>
+            </td>
+            <td>
+            <button class="add" type="submit">追加</button>
+            </td>
+        </form>
+    </tr>
+</table>
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('edit.index')}}">編集トップページ</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>項目の編集</h2>
+
+<table>
+    <tr>
+        <td>
+
+<h3>級の選択</h3>
+
+<select name="grade" id="grade" onchange="location.href=value">
+    {% for grade in grades %}
+    <option value="{{url_for('edit.show_elements', l=grade.id)}}#element">{{grade.grade}}</option>
+    {% endfor %}
+</select>
+
+        </td>
+        <td>
+
+<h3>項目グループの選択</h3>
+
+<select name="e_group_id" id="e_group" onchange="location.href=value">
+    {% for e_group in e_groups %}
+    <option value="{{url_for('edit.show_elements',l=grade.id,g=e_group.id)}}#element">{{e_group.e_group}}</option>
+    {% endfor %}
+</select>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table list">
+    <tr class="title">
+        <th>項目</th>
+        <th>説明</th>
+        <th>項番</th>
+        <th>編集</th>
+    </tr>
+    {% for element in elements %}
+    <tr>
+        <td>{{element.element}}</td>
+        <td>{{element.description}}</td>
+        <td>{{element.position}}</td>
+        <td><a class="action" href="{{url_for('edit.edit_element', e=element.id)}}">編集</a>
+            <a class="action" href="{{url_for('edit.delete_element', element_id=element.id)}}">削除</a>
+        </td>
+        
+    </tr>
+    {% endfor %}
+    <tr>
+        <form action="{{url_for('edit.add_element')}}" method="post">
+            <td>
+            <input type="text" name="element_name" required>
+            </td>
+            <td>
+            <input type="text" name="description" required>
+            </td>
+            <td>
+            </td>
+            <td>
+            <input type="hidden" name="e_group_id" value="{{e_group.id}}">
+            <button class="add" type="submit">追加</button>
+            </td>
+        </form>
+    </tr>
+</table>
+
+<div class="button text-center position-relative" style="margin:5px;">
+    <a class="stretched-link" href="{{url_for('edit.index')}}">編集トップページ</a>
+</div>
+
+<script>
+
+
+    let selected_grade = '{{grade.position}}' - 1;
+    let selected_e_group = '{{e_group.position}}' - 1;
+    document.getElementById("grade").options[selected_grade].selected = true;
+
+    document.getElementById("e_group").options[selected_e_group].selected = true;
+
+</script>
+
+{%endblock%}
+

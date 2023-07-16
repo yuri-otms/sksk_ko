@@ -1,0 +1,26 @@
+{%extends "base1200.html" %}
+{% block body %}
+
+<h2>級の削除</h2>
+
+<p>以下の級を削除してよろしいですか？</p>
+
+<form action="{{url_for('edit.delete_grade_execute')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th>級</th>
+        <th>説明</th>
+    </tr>
+    <tr>
+        <td>{{grade.grade}}</td>
+        <td>{{grade.description}}</td>
+    </tr>
+</table>
+<input type="hidden" name="grade_id" value="{{grade.id}}">
+<div class="right">
+    <button class="back" type="button" onclick="history.back()">戻る</button>
+    <button class="add">削除</button>
+</div>
+</form>
+
+{% endblock %}

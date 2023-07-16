@@ -1,0 +1,93 @@
+{% extends "base1200.html" %}
+
+{% block body %}
+
+<h2>未公開の問題</h2>
+
+<div class="button position-relative" style="margin:10px;">
+    <a class="stretched-link" href="{{url_for('req.index')}}">依頼インデックスへ</a>
+</div>
+
+<form action="{{url_for('approve.release_questions')}}" method="POST">
+<table class="table list">
+    <tr class="title">
+        <th>id</th>
+        <th>級</th>
+        <th>項目</th>
+        <th>日本語</th>
+        <th>韓国語</th>
+        <th>音声</th>
+        <th>公開<br>
+        <label><input type="checkbox" id="checkAll" name="question">全て選択</label></th>
+    </tr>
+    {% if not questions[0] %}
+    <tr>
+        <td colspan="7">現在、確認済みの未公開の問題文はありません。
+        </td>
+    </tr>
+    {% endif %}
+    {% for question in questions %}
+    <tr>
+        <td>{{question.id}}</td>
+        <td>{{question.grade}}</td>
+        <td>{{question.element}}</td>
+        <td>{{question.japanese}}</td>
+        <td>{{question.foreign_l}}</td>
+        <td>{% if not question.audio %}
+            <a class="action" href="{{url_for('edit.create_audio_file', e=question.element_id, q=question.id, a=1)}}">作成</a>
+            {% else %}
+            ○
+            {% endif %}
+        </td>
+        <td>
+            {% if question.audio %}
+            <input type="checkbox" class="checks" name="question" value="{{question.id}}">
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<div class="right">
+    <button class="add">公開する</button>
+</div>
+</form>
+
+<div class="button position-relative" style="margin:10px;">
+    <a class="stretched-link" href="{{url_for('req.index')}}">依頼インデックスへ</a>
+</div>
+
+<script>
+    //チェックボックスを全て選択、全て解除
+    let checkAll = document.getElementById("checkAll");
+    let el = document.getElementsByClassName("checks");
+
+    const funcCheckAll = (bool) => {
+        for (let i = 0; i < el.length; i++) {
+            el[i].checked = bool;
+        }
+    }
+    const funcCheck = () => {
+        let count = 0;
+        for (let i = 0; i < el.length; i++) {
+            if (el[i].checked) {
+                count += 1;
+            }
+        }
+        if (el.length == count) {
+            checkAll.checked = true;
+        } else {
+            checkAll.checked = false;
+        }
+    };
+    checkAll.addEventListener("click",() => {
+        funcCheckAll(checkAll.checked);
+    }, false)
+
+    for (let i = 0; i < el.length; i++) {
+        el[i].addEventListener("click", funcCheck, false)
+    }
+
+
+</script>
+
+{% endblock %}
