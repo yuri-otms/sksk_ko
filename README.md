@@ -4,13 +4,37 @@ URL
 https://ko.sksk.fun/
 
 ## 使用技術
-- Python
-- Flask
-- MySQL
-- HTML/CSS
-- JavaScript/jQuery
-- Bootstrap
-- Docker/Docker Compose
-- nginx
-- さくらのVPS
+- [Python](https://www.python.org/) 3.9.16
+- [Flask](https://flask.palletsprojects.com/en/2.3.x/) =2.2.3
+- [MySQL](https://www.mysql.com/) 8.0
+- HTML/CSS/JavaScript
+- [jQuery](https://jquery.com/) 3.7.8
+- [Bootstrap](https://getbootstrap.com/) 5.2.3
+- [Docker](https://www.docker.com/) 23.0.3/[Docker Compose](https://docs.docker.com/compose/) 1.29.2
+- [Gunicorn](https://gunicorn.org/) 20.1.0
+- [nginx](https://www.nginx.com/) 1.23
+- [さくらのVPS](https://vps.sakura.ad.jp/)
 
+## 機能一覧
+
+### 問題出題機能
+- 文法項目の選択
+- 単語のヒント表示
+- 音声再生
+
+### 認証機能
+- ユーザー登録
+- ログイン・ログアウト
+- アカウント情報の変更
+- パスワード再設定
+- アカウント削除
+
+### 問題編集機能
+- 問題の属性（級・グループ・項目）編集
+- 問題作成・編集・削除
+- ヒント（単語）の作成・編集・削除
+
+### 管理機能
+- ユーザー編集（名前編集・パスワード再設定・削除）
+- ユーザーへの権限（問題編集・確認依頼・公開設定・管理）付与・削除
+- 編集履歴の表示
