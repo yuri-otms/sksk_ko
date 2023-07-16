@@ -3,6 +3,9 @@
 URL
 https://ko.sksk.fun/
 
+## アプリの概要
+簡単な日本語を韓国語作文することで韓国語を学習するアプリケーションです。
+
 ## 使用技術
 - [Python](https://www.python.org/) 3.9.16
 - [Flask](https://flask.palletsprojects.com/en/2.3.x/) =2.2.3
