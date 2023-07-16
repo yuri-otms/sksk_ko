@@ -5,6 +5,8 @@ https://ko.sksk.fun/
 
 ## アプリの概要
 簡単な日本語を韓国語作文することで韓国語を学習するアプリケーションです。
+![sksk_ko_問題を解く](https://github.com/yuri-otms/sksks_ko/assets/75471760/0fe99c6e-052c-42a2-ab8c-98b8a6064f99)
+
 
 ## 使用技術
 - [Python](https://www.python.org/) 3.9.16
