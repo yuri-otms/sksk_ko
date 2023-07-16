@@ -5,7 +5,7 @@ https://ko.sksk.fun/
 
 ## アプリの概要
 簡単な日本語を韓国語作文することで韓国語を学習するアプリケーションです。
-![sksk_ko_問題を解く](https://github.com/yuri-otms/sksks_ko/assets/75471760/0fe99c6e-052c-42a2-ab8c-98b8a6064f99)
+![sksk_ko_問題を解く](https://github.com/yuri-otms/sksks_ko/assets/75471760/565cabcf-54ab-4b0a-a2fd-724bb5598439)
 
 
 ## 使用技術
@@ -45,8 +45,9 @@ https://ko.sksk.fun/
 - 編集履歴の表示
 
 ## インフラ構成図
-![sksk_koインフラ構成図](https://github.com/yuri-otms/sksks_ko/assets/75471760/9097db79-a73a-4887-8a4a-122da8becd6a)
+![sksk_koインフラ構成図](https://github.com/yuri-otms/sksks_ko/assets/75471760/f839f158-e91f-401c-a73d-a33d89437ff6)
 
 ## ER図
-![sksk_ko_er](https://github.com/yuri-otms/sksks_ko/assets/75471760/44223a44-3f4f-423f-bd77-568b82952398)
+![sksk_ko_er](https://github.com/yuri-otms/sksks_ko/assets/75471760/6727546a-6898-4436-a013-6e7fb4222c4a)
+
 
