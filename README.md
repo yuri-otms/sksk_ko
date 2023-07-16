@@ -44,3 +44,6 @@ https://ko.sksk.fun/
 
 ## インフラ構成図
 ![インフラ構成図](https://github.com/yuri-otms/sksks_ko/assets/75471760/ecb21964-3e6c-470d-90b0-2b53d7caef1f)
+
+## ER図
+
