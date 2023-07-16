@@ -5,12 +5,13 @@ sksk_app/test_config.py
 sksk_app/config.py
 __pycache__/
 sksk_app/google.json
-sksk_app/credentials.json
 sksk_app/credentials_webapp.json
-sksk_app/credentials_webapp_old.json
+sksk_app/app.ini
+sksk_app/code1.py
 sksk_app/token.py
 sksk_app/token.json
 sksk_app/test_translation.py
+sksk_app/test_gmail_send.py
 sksk_app/test_text_to_speech.py
 sksk_app/test_gmail.py
 sksk_app/static/audio
