@@ -10,7 +10,7 @@ https://ko.sksk.fun/
 
 ## 使用技術
 - [Python](https://www.python.org/) 3.9.16
-- [Flask](https://flask.palletsprojects.com/en/2.3.x/) =2.2.3
+- [Flask](https://flask.palletsprojects.com/en/2.3.x/) 2.2.3
 - [MySQL](https://www.mysql.com/) 8.0
 - HTML/CSS/JavaScript
 - [jQuery](https://jquery.com/) 3.7.8
