@@ -1,12 +1,13 @@
+name: sksk_ko
 services:
 
   nginx:
     container_name: sksk_ko_nginx
     build: ./nginx
     environment:
-      VIRTUAL_HOST: ko.sksk.fun
-      LETSENCRYPT_HOST: ko.sksk.fun
-      LETSENCRYPT_EMAIL: skskapp.info@gmail.com
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     depends_on:
       - python
 
@@ -22,24 +23,6 @@ services:
     external_links:
       - yuru_mysql
     
-
-  # mysql:
-  #   container_name: sksk_ko_mysql
-  #   build: 
-  #     context: ./mysql
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-  #     MYSQL_DATABASE: $MYSQL_DATABASE
-  #     MYSQL_USER: $MYSQL_USER
-  #     MYSQL_PASSWORD: $MYSQL_PASSWORD
-  #     TZ: 'Asia/Tokyo'
-  #   volumes:
-  #     - ./mysql:/mysql
-    # ports:
-    #   - 13306:3306
-    #   - 13060:33060
-  
 networks:
   default:
     external: true
