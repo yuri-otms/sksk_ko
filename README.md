@@ -1,7 +1,8 @@
 # 韓国語学習アプリ「サクッと作文　韓国語」
 ![toppage](https://github.com/yuri-otms/sksks_ko/assets/75471760/657f1e02-6572-40a9-946e-ed5c192c2bfe)
 URL
-https://ko.sksk.fun/
+ko.sksk.fun
+(2025/11/30 閉鎖予定)
 
 ## アプリの概要
 簡単な日本語を韓国語作文することで韓国語を学習するアプリケーションです。
