@@ -24,6 +24,22 @@ services:
     external_links:
       - yuru_mysql
 
+  mysql:
+    container_name: sksk_ko_mysql
+    build: 
+      context: ./mysql
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./mysql:/mysql
+    ports:
+      - "23306:3306"
+
 networks:
   default:
     external: true
