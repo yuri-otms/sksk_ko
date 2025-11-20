@@ -2,27 +2,25 @@ name: sksk_ko
 services:
 
   nginx:
+    image: nginx:1.25
     container_name: sksk_ko_nginx
-    build: ./nginx
-    environment:
-      VIRTUAL_HOST: ${VIRTUAL_HOST}
-      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      CERT_NAME: default
-    depends_on:
-      - python
-
-  python:
-    container_name: sksk_ko_python
-    build: ./python
     volumes:
-      - ../../sksk_ko:/sksk
-    command: gunicorn 'sksk_app:create_app()' -b 0.0.0.0:5000 --reload
-    tty: true
+      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+  web:
+    container_name: sksk_ko_python
+    build:
+      context: ..
+      dockerfile: docker/python/Dockerfile
+    restart: always
+    volumes:
+      - ../sksk_app:/app
     expose:
-      - 5000
-    external_links:
-      - yuru_mysql
+      - 8000
 
   mysql:
     container_name: sksk_ko_mysql
@@ -39,8 +37,3 @@ services:
       - ./mysql:/mysql
     ports:
       - "23306:3306"
-
-networks:
-  default:
-    external: true
-    name: sakura-network
