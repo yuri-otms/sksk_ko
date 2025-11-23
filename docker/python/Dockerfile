@@ -33,4 +33,5 @@ RUN cd /usr/src/handic/handic-mecab-20230109_src && \
     make && make install || true
 
 COPY sksk_app /app/sksk_app
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app", "--reload"]
+# CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app", "--reload"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=8000", "--debug"]
