@@ -4,10 +4,10 @@ services:
   nginx:
     image: nginx:1.25
     container_name: sksk_ko_nginx
+    ports:
+      - "8081:80"
     volumes:
       - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "80:80"
     depends_on:
       - web
 
@@ -20,18 +20,18 @@ services:
     volumes:
       - ../sksk_app:/app
     expose:
-      - 8000
+      - "8000"
 
   mysql:
     container_name: sksk_ko_mysql
-    build: 
+    build:
       context: ./mysql
       dockerfile: Dockerfile
     environment:
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE: $MYSQL_DATABASE
-      MYSQL_USER: $MYSQL_USER
-      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: 'Asia/Tokyo'
     volumes:
       - ./mysql:/mysql
