@@ -1,7 +1,7 @@
 FROM python:3.12
 
 WORKDIR /app
-ENV FLASK_APP=app
+ENV FLASK_APP=sksk_app
 ENV MECABRC=/usr/local/etc/mecabrc
 ENV PYTHONPATH=/app
 
@@ -34,4 +34,4 @@ RUN cd /usr/src/handic/handic-mecab-20230109_src && \
 
 COPY sksk_app /app/sksk_app
 # CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app", "--reload"]
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8000", "--debug"]
+CMD ["flask", "--app", "wsgi" ,"run", "--host=0.0.0.0", "--port=8000", "--debug"]
