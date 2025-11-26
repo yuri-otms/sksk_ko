@@ -14,11 +14,10 @@ services:
   web:
     container_name: sksk_ko_python
     build:
-      context: ..
-      dockerfile: docker/python/Dockerfile
+      dockerfile: ./app/Dockerfile
     restart: always
     volumes:
-      - ../sksk_app:/app
+      - .:/workspace
     expose:
       - "8000"
 

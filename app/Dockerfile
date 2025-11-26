@@ -1,9 +1,9 @@
 FROM python:3.12
 
-WORKDIR /app
-ENV FLASK_APP=sksk_app
+WORKDIR /workspace/app
+ENV FLASK_APP=app
 ENV MECABRC=/usr/local/etc/mecabrc
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/workspace/app
 
 
 RUN apt-get update && apt-get install -y \
@@ -19,11 +19,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN cp /etc/mecabrc /usr/local/etc/ || true
 
-COPY docker/python/requirements.txt /tmp/requirements.txt
+COPY ./app/requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip setuptools wheel \
     && pip install --no-cache-dir -r /tmp/requirements.txt
 
-COPY docker/python/handic-mecab-20230109_src.tar.gz /usr/src/handic/handic-mecab.tar.gz
+COPY ./app/handic-mecab-20230109_src.tar.gz /usr/src/handic/handic-mecab.tar.gz
 RUN mkdir -p /usr/src/handic && \
     cd /usr/src/handic && \
     tar zxvf handic-mecab.tar.gz
@@ -32,6 +32,6 @@ RUN cd /usr/src/handic/handic-mecab-20230109_src && \
     ./configure --with-dicdir="/usr/src/dict/handic" && \
     make && make install || true
 
-COPY sksk_app /app/sksk_app
-# CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app", "--reload"]
+
+# CMD ["gunicorn", "-b", "0.0.0.0:8000", "wsgi:app", "--reload"]
 CMD ["flask", "--app", "wsgi" ,"run", "--host=0.0.0.0", "--port=8000", "--debug"]
