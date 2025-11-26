@@ -1,15 +1,12 @@
 .DS_Store
 .vscode
+.env
 .pytest_cache
 app/test_config.py
 app/config.py
 __pycache__/
 app/google.json
-app/credentials_webapp.json
 app/credentials.json
-app/app.ini
-app/code1.py
-app/token.py
 app/token.json
 app/static/audio
 docker/.env
