@@ -5,10 +5,10 @@ from flask_login import login_required
 from sqlalchemy import func
 import glob
 
-from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Style, Question, Hint, Word, User
-import sksk_app.utils.edit as editor
-import sksk_app.utils.api as api
+from app import db
+from app.models import Grade, E_Group, Element, Style, Question, Hint, Word, User
+import app.utils.edit as editor
+import app.utils.api as api
 
 edit = Blueprint('edit', __name__, url_prefix='/edit')
 

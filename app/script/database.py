@@ -2,10 +2,10 @@
 from flask import Flask
 from flask import Blueprint
 
-from sksk_app import db
-from sksk_app.models import User, Grade, Process, Level
-import sksk_app.utils.user as user_setting
-import sksk_app.utils.edit as editor
+from app import db
+from app.models import User, Grade, Process, Level
+import app.utils.user as user_setting
+import app.utils.edit as editor
 
 app = Flask(__name__)
 

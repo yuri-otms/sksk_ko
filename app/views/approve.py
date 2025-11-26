@@ -4,10 +4,10 @@ from flask import Blueprint, redirect, url_for, render_template, \
 from flask_login import login_required
 from sqlalchemy import or_
 
-from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Question
-import sksk_app.utils.approve as approval
-import sksk_app.utils.edit as editor
+from app import db
+from app.models import Grade, E_Group, Element, Question
+import app.utils.approve as approval
+import app.utils.edit as editor
 
 approve = Blueprint('approve', __name__, url_prefix='/approve')
 

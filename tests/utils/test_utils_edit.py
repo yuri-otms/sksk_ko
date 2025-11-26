@@ -1,6 +1,6 @@
-from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint
-import sksk_app.utils.edit as editor
+from app import db
+from app.models import Grade, E_Group, Element, Question, Word, Hint
+import app.utils.edit as editor
 
 # gradeManager
 def test_add_grade(app):

@@ -21,22 +21,22 @@ def create_app(test_config=None):
 
     from script.database import qtdb
     app.register_blueprint(qtdb)
-    from sksk_app.views.pages import pg
+    from app.views.pages import pg
     app.register_blueprint(pg)
-    from sksk_app.views.auth import auth
+    from app.views.auth import auth
     app.register_blueprint(auth)
-    from sksk_app.views.edit import edit
+    from app.views.edit import edit
     app.register_blueprint(edit)
-    from sksk_app.views.approve import approve
+    from app.views.approve import approve
     app.register_blueprint(approve)
-    from sksk_app.views.admin import admin
+    from app.views.admin import admin
     app.register_blueprint(admin)
-    from sksk_app.views.question import question
+    from app.views.question import question
     app.register_blueprint(question)
-    from sksk_app.views.request import req
+    from app.views.request import req
     app.register_blueprint(req)
 
-    from sksk_app.models import User
+    from app.models import User
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

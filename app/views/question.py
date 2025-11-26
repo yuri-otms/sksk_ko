@@ -4,10 +4,10 @@ from datetime import datetime
 from flask import Blueprint, redirect, url_for, render_template, session, request, flash
 from flask_login import login_required, current_user
 from sqlalchemy import not_, func
-from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Question, Score
-import sksk_app.utils.edit as editor
-import sksk_app.utils.user as user_setting
+from app import db
+from app.models import Grade, E_Group, Element, Question, Score
+import app.utils.edit as editor
+import app.utils.user as user_setting
 
 question = Blueprint('question', __name__, url_prefix='/question')
 

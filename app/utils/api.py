@@ -3,9 +3,9 @@ import json
 from google.cloud import texttospeech
 import os
 
-import sksk_app.config as config
-from sksk_app import db
-from sksk_app.models import Question
+import app.config as config
+from app import db
+from app.models import Question
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build

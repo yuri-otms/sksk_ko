@@ -1,6 +1,6 @@
-from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Question
-import sksk_app.utils.approve as approval
+from app import db
+from app.models import Grade, E_Group, Element, Question
+import app.utils.approve as approval
 
 def test_change_question_settings(app):
     user = 1

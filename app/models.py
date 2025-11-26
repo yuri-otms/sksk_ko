@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Boolean
 from flask_login import UserMixin
 from flask import current_app
 
-from sksk_app import db
+from app import db
 
 class User(UserMixin, db.Model):
     __tablename__ = 'user'

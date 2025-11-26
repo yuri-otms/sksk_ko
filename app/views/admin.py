@@ -3,10 +3,10 @@ from flask import Blueprint, redirect, url_for, render_template, \
     request, flash, session
 from flask_login import login_required
 from sqlalchemy import not_, or_
-from sksk_app import db
-from sksk_app.models import User, Process,Record
+from app import db
+from app.models import User, Process,Record
 
-import sksk_app.utils.user as user_setting
+import app.utils.user as user_setting
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 

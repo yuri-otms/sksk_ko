@@ -1,6 +1,6 @@
-from sksk_app import db
-from sksk_app.models import User, Process, Score
-import sksk_app.utils.user as user_setting
+from app import db
+from app.models import User, Process, Score
+import app.utils.user as user_setting
 
 TEST_NAME = 'test99'
 TEST_EMAIL = 'test99@test.com'

@@ -1,9 +1,9 @@
 import pytest
 
-from sksk_app import create_app, db
-from sksk_app.models import User, Grade
-import sksk_app.utils.user as user_setting
-import sksk_app.utils.edit as editor
+from app import create_app, db
+from app.models import User, Grade
+import app.utils.user as user_setting
+import app.utils.edit as editor
 
 @pytest.fixture()
 def app():

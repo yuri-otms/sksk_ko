@@ -6,9 +6,9 @@ import glob
 import MeCab
 # from konlpy.tag import Okt
 
-from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record, Score
-import sksk_app.utils.k2jamo as k2jamo
+from app import db
+from app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record, Score
+import app.utils.k2jamo as k2jamo
 
 class GradeManager:
     def add_grade(grade, description):

@@ -1,8 +1,8 @@
 from flask import session
 from sqlalchemy import func
 
-from sksk_app import db
-from sksk_app.models import Grade
+from app import db
+from app.models import Grade
 
 def test_show(client, app, auth):
     auth.login()

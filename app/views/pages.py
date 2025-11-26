@@ -1,8 +1,8 @@
 from flask import Blueprint, redirect, url_for, render_template, session, request, flash
 from datetime import datetime
 
-from sksk_app.models import Grade
-import sksk_app.utils.api as api
+from app.models import Grade
+import app.utils.api as api
 
 pg = Blueprint('pg', __name__)
 

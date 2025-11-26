@@ -3,10 +3,10 @@ from flask_login import login_required
 from datetime import datetime
 from sqlalchemy import func, or_
 
-from sksk_app import db
-from sksk_app.models import Grade, E_Group, Element,Question, Question_Request,Requested_Question, Record
-import sksk_app.utils.edit as editor
-from sksk_app.utils.request import RequestManager
+from app import db
+from app.models import Grade, E_Group, Element,Question, Question_Request,Requested_Question, Record
+import app.utils.edit as editor
+from app.utils.request import RequestManager
 
 
 req = Blueprint('req', __name__, url_prefix='/request')

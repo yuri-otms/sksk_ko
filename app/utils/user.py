@@ -3,8 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from flask_login import login_user
 
-from sksk_app import db
-from sksk_app.models import User, Process, Score, Grade, E_Group, Element, Question, Privilege
+from app import db
+from app.models import User, Process, Score, Grade, E_Group, Element, Question, Privilege
 
 
 class LoginManager:

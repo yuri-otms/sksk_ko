@@ -5,9 +5,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from sqlalchemy import func
 
-from sksk_app import db
-from sksk_app.models import User, Score, Question
-import sksk_app.utils.user as user_setting
+from app import db
+from app.models import User, Score, Question
+import app.utils.user as user_setting
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 

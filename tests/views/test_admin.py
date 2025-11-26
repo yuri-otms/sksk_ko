@@ -1,7 +1,7 @@
 from flask import session
 
-from sksk_app import db
-from sksk_app.models import User, Grade
+from app import db
+from app.models import User, Grade
 
 def test_index(client):
     assert client.get('/').status_code == 200
