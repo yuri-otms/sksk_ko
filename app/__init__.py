@@ -1,13 +1,11 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
 from database import init_db, db
 from models.user import User
 import os
 
 def create_app(test_config=None):
-    load_dotenv()
     app = Flask(__name__)
     init_db(app)
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -18,9 +16,6 @@ def create_app(test_config=None):
     #     app.config.from_pyfile('test_config.py', silent=True)
     
     # app.config['SECRET_KEY'] = config.SECRET_KEY
-
-    # from models import db
-    # db.init_app(app) 
 
     # from script.database import qtdb
     # app.register_blueprint(qtdb)
@@ -50,6 +45,3 @@ def create_app(test_config=None):
         return db.session.get(User, int(user_id))
 
     return app
-
-if __name__ == '__main__':
-    create_app().run(debug=True, use_reloader=True, use_debugger=True)

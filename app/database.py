@@ -7,10 +7,10 @@ db = SQLAlchemy()
 
 def init_db(app: Flask):
 
-    DB_USER = os.getenv("DB_USER")
-    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_USER = os.getenv("MYSQL_USER")
+    DB_PASSWORD = os.getenv("MYSQL_PASSWORD")
     DB_HOST = os.getenv("DB_HOST", "localhost")
-    DB_NAME = os.getenv("DB_NAME")
+    DB_NAME = os.getenv("MYSQL_DATABASE")
 
 
     app.config["SQLALCHEMY_DATABASE_URI"] = (

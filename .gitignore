@@ -1,13 +1,12 @@
 .DS_Store
 .vscode
-.env
+.env.prod
+.env.dev
 .pytest_cache
 app/test_config.py
 app/config.py
 __pycache__/
 app/google.json
 app/credentials.json
-app/token.json
 app/static/audio
-docker/.env
-docker/.env.production
+app/.env

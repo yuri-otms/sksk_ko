@@ -77,20 +77,3 @@ class GoogleCloud:
             out.write(response.audio_content)
 
 
-    def send_email(sender, to, subject, message_body):
-
-        scopes = ['https://www.googleapis.com/auth/gmail.send']
-        creds = Credentials.from_authorized_user_file('sksk_app/token.json', scopes)
-        service = build('gmail', 'v1', credentials=creds)
-
-        message = MIMEText(message_body)
-        message['To'] = to
-        message['From'] = sender
-        message['Subject'] = subject
-        raw = {'raw': message_base64_encode(message)}
-
-        service.users().messages().send(
-            userId='me',
-            body=raw
-        ).execute()
-
