@@ -1,22 +1,21 @@
-# from flask import current_app
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from dotenv import load_dotenv
+import os
 
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import scoped_session, sessionmaker
-# from sqlalchemy.ext.declarative import declarative_base
+db = SQLAlchemy()
 
-# engine = create_engine('mysql+mysqlconnector://{user}:{password}@{host}:23306/{db_name}?charset=utf8'.format(**{
-#     'user': 'sksk_ko',
-#     'password': 'Ka83hH36',
-#     'host': '127.0.0.1',
-#     'db_name': 'sksk_ko'
-# }))
-# db_session = scoped_session(sessionmaker(autocommit=False,
-#                                          autoflush=False,
-#                                          bind=engine))
+def init_db(app: Flask):
 
-# Base = declarative_base()
-# Base.query = db_session.query_property()
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_NAME = os.getenv("DB_NAME")
 
-# def init_db():
-#     import sksk_app.models
-#     Base.metadata.create_all(bind=engine)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}?charset=utf8mb4"
+    )
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    db.init_app(app)
