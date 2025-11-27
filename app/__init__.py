@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from database import init_db, db
+from models.user import User
 import os
 
 def create_app(test_config=None):
@@ -23,7 +24,7 @@ def create_app(test_config=None):
 
     # from script.database import qtdb
     # app.register_blueprint(qtdb)
-    from app.views.pages import pg
+    from views.pages import pg
     app.register_blueprint(pg)
     from app.views.auth import auth
     app.register_blueprint(auth)
@@ -38,7 +39,6 @@ def create_app(test_config=None):
     from app.views.request import req
     app.register_blueprint(req)
 
-    from app.models import User
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

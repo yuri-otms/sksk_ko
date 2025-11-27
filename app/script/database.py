@@ -3,7 +3,7 @@ from flask import Flask
 from flask import Blueprint
 
 from app import db
-from app.models import User, Grade, Process, Level
+from models import User, Grade, Process, Level
 import app.utils.user as user_setting
 import app.utils.edit as editor
 

@@ -4,7 +4,14 @@ from datetime import datetime
 from flask_login import login_user
 
 from app import db
-from app.models import User, Process, Score, Grade, E_Group, Element, Question, Privilege
+from models.user import User
+from models.process import Process
+from models.score import Score
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.question import Question
+from models.privilege import Privilege
 
 
 class LoginManager:

@@ -1,7 +1,10 @@
 from flask import session
 
 from app import db
-from app.models import User, Grade
+from models.user import User
+from models import db
+from models.user import User
+from models.grade import Grade
 
 def test_index(client):
     assert client.get('/').status_code == 200

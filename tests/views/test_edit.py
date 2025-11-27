@@ -2,7 +2,7 @@ from flask import session
 from sqlalchemy import func
 
 from app import db
-from app.models import Grade
+from models.grade import Grade
 
 def test_show(client, app, auth):
     auth.login()

@@ -5,7 +5,11 @@ from flask import Blueprint, redirect, url_for, render_template, session, reques
 from flask_login import login_required, current_user
 from sqlalchemy import not_, func
 from app import db
-from app.models import Grade, E_Group, Element, Question, Score
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.question import Question
+from models.score import Score
 import app.utils.edit as editor
 import app.utils.user as user_setting
 

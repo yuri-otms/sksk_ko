@@ -3,7 +3,17 @@ from sqlalchemy import func, or_
 from datetime import datetime
 
 from app import db
-from app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record, Score, Requested_Question, Question_Request
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.question import Question
+from models.word import Word
+from models.hint import Hint
+from models.style import Style
+from models.record import Record
+from models.score import Score
+from models.requested_question import Requested_Question
+from models.question_request import Question_Request
 
 class RequestManager:
 

@@ -5,7 +5,7 @@ import os
 
 import app.config as config
 from app import db
-from app.models import Question
+from models.question import Question
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build

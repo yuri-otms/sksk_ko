@@ -6,7 +6,14 @@ from sqlalchemy import func
 import glob
 
 from app import db
-from app.models import Grade, E_Group, Element, Style, Question, Hint, Word, User
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.style import Style
+from models.question import Question
+from models.hint import Hint
+from models.word import Word
+from models.user import User
 import app.utils.edit as editor
 import app.utils.api as api
 

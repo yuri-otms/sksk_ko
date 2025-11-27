@@ -7,7 +7,15 @@ import MeCab
 # from konlpy.tag import Okt
 
 from app import db
-from app.models import Grade, E_Group, Element, Question, Word, Hint, Style, Record, Score
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.question import Question
+from models.word import Word
+from models.hint import Hint
+from models.style import Style
+from models.record import Record
+from models.score import Score
 import app.utils.k2jamo as k2jamo
 
 class GradeManager:

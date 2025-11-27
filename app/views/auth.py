@@ -6,7 +6,9 @@ from datetime import datetime
 from sqlalchemy import func
 
 from app import db
-from app.models import User, Score, Question
+from models.user import User
+from models.score import Score
+from models.question import Question
 import app.utils.user as user_setting
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')

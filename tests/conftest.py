@@ -1,7 +1,8 @@
 import pytest
 
 from app import create_app, db
-from app.models import User, Grade
+from models.user import User
+from models.grade import Grade
 import app.utils.user as user_setting
 import app.utils.edit as editor
 

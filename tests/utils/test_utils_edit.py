@@ -1,5 +1,11 @@
 from app import db
-from app.models import Grade, E_Group, Element, Question, Word, Hint
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.question import Question
+from models.word import Word
+from models.hint import Hint
+
 import app.utils.edit as editor
 
 # gradeManager

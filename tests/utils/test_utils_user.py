@@ -1,5 +1,7 @@
 from app import db
-from app.models import User, Process, Score
+from models.user import User
+from models.process import Process
+from models.score import Score
 import app.utils.user as user_setting
 
 TEST_NAME = 'test99'

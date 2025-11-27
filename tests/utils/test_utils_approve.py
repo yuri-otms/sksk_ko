@@ -1,5 +1,9 @@
 from app import db
-from app.models import Grade, E_Group, Element, Question
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.question import Question
+
 import app.utils.approve as approval
 
 def test_change_question_settings(app):

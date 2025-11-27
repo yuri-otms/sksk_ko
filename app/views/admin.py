@@ -4,7 +4,9 @@ from flask import Blueprint, redirect, url_for, render_template, \
 from flask_login import login_required
 from sqlalchemy import not_, or_
 from app import db
-from app.models import User, Process,Record
+from models.user import User
+from models.process import Process
+from models.record import Record
 
 import app.utils.user as user_setting
 

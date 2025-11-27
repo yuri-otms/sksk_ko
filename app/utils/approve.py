@@ -2,7 +2,10 @@ from flask import session
 from datetime import datetime
 
 from app import db
-from app.models import Grade, E_Group, Element, Question
+from models.grade import Grade
+from models.e_group import E_Group
+from models.element import Element
+from models.question import Question
 import app.utils.edit as editor
 
 class ReleaseManager:
