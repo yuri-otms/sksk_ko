@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, session, reques
 from datetime import datetime
 
 from app.models import Grade
-import app.utils.api as api
+# import app.utils.api as api
 
 pg = Blueprint('pg', __name__)
 
