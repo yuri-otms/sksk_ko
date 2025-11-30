@@ -1,4 +1,4 @@
-import sksk_app.utils.api as api
+import app.utils.api as api
 
 def test_ja_to_ko(app):
     japanese = '母は公務員です。'
