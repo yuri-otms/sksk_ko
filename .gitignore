@@ -10,3 +10,4 @@ app/google.json
 app/credentials.json
 app/static/audio
 app/.env
+mysql/data

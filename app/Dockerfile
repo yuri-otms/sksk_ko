@@ -1,6 +1,6 @@
 FROM python:3.12
 
-WORKDIR /workspace/app
+WORKDIR /workspace
 ENV FLASK_APP=app
 ENV MECABRC=/usr/local/etc/mecabrc
 ENV PYTHONPATH=/workspace/app
@@ -23,6 +23,8 @@ COPY ./app/requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip setuptools wheel \
     && pip install --no-cache-dir -r /tmp/requirements.txt
 
+COPY ./app /workspace/app
+
 COPY ./app/handic-mecab-20230109_src.tar.gz /usr/src/handic/handic-mecab.tar.gz
 RUN mkdir -p /usr/src/handic && \
     cd /usr/src/handic && \
@@ -33,5 +35,4 @@ RUN cd /usr/src/handic/handic-mecab-20230109_src && \
     make && make install || true
 
 
-# CMD ["gunicorn", "-b", "0.0.0.0:8000", "wsgi:app", "--reload"]
-CMD ["flask", "--app", "wsgi" ,"run", "--host=0.0.0.0", "--port=8000", "--debug"]
+WORKDIR /workspace

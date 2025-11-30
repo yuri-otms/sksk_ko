@@ -1,15 +1,5 @@
 services:
 
-  nginx:
-    image: nginx:1.25
-    container_name: sksk_ko_nginx
-    ports:
-      - "8081:80"
-    volumes:
-      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - web
-
   web:
     container_name: sksk_ko_python
     build:
@@ -19,5 +9,5 @@ services:
     volumes:
       - .:/workspace
     ports:
-      - "8000:8000"
-    command: gunicorn -b 0.0.0.0:8000 wsgi:app --workers 4
+      - "9001:8000"
+    command: gunicorn -b 0.0.0.0:8000 wsgi:app
