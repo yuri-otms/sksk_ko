@@ -23,8 +23,6 @@ COPY ./app/requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip setuptools wheel \
     && pip install --no-cache-dir -r /tmp/requirements.txt
 
-COPY ./app /workspace/app
-
 COPY ./app/handic-mecab-20230109_src.tar.gz /usr/src/handic/handic-mecab.tar.gz
 RUN mkdir -p /usr/src/handic && \
     cd /usr/src/handic && \
