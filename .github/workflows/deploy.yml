@@ -16,7 +16,7 @@ jobs:
       - name: rsync deployments
         uses: burnett01/rsync-deployments@7.1.0
         with:
-          switches: -avzr --delete --exclude="__pycache__" --exclude="*.pyc" --exclude 'static/audio/'
+          switches: -avzr --delete --exclude="__pycache__" --exclude="*.pyc" --exclude="static/audio/"
           path: ${{ secrets.VPS_LINK_SOURCE}}
           remote_path: ${{ secrets.VPS_LINK_TARGET}}
           remote_host: ${{ secrets.VPS_HOST }}
