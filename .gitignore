@@ -4,7 +4,6 @@
 .env.dev
 .pytest_cache
 app/test_config.py
-app/config.py
 __pycache__/
 app/google.json
 app/credentials.json
