@@ -17,10 +17,6 @@ def load_logged_in_user():
 def toppage():
     return render_template("index.html")
 
-@pg.route('/test')
-def testpage():
-    return render_template("test.html")
-
 @pg.route('/about')
 def about():
     page_title = '「サクッと作文」について'
