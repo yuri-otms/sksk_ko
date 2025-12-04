@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: リポジトリのチェックアウト
         uses: actions/checkout@v3
-        
+
       - name: rsync deployments
         uses: burnett01/rsync-deployments@7.1.0
         with:
@@ -21,4 +21,14 @@ jobs:
           remote_path: ${{ secrets.VPS_LINK_TARGET}}
           remote_host: ${{ secrets.VPS_HOST }}
           remote_user: ${{ secrets.VPS_USERNAME }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY}}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: SSH commands
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/sksk_ko
+            docker compose -f compose_prod.yaml restart
