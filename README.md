@@ -3,6 +3,7 @@
 URL
 https://ko.skskfun.com
 (2025/11/30 ko.sksk.funよりドメイン変更)
+
 ## 機能・仕様詳細
 [【個人開発】韓国語の文法を復習するアプリ「サクッと作文　韓国語」のデモ版をリリースしました #Flask - Qiita](https://qiita.com/yuri_t/items/747a4369bc25c5561139)
 
