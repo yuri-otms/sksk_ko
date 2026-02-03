@@ -46,7 +46,7 @@ https://ko.skskfun.com
 - 編集履歴の表示
 
 ## インフラ構成図
-![sksk_koインフラ構成図](https://github.com/yuri-otms/sksks_ko/assets/75471760/f839f158-e91f-401c-a73d-a33d89437ff6)
+<img width="1385" height="749" alt="sksk_ko_インフラ構成図" src="https://github.com/user-attachments/assets/a55d6919-6f0e-42c2-bd3b-0a0e6dd5f4e2" />
 
 ## ER図
 ![sksk_ko_er](https://github.com/yuri-otms/sksks_ko/assets/75471760/6727546a-6898-4436-a013-6e7fb4222c4a)
